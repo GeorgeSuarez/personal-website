@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>George Suarez | Software Developer</title>
+        <style>
+            @import url("https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+        </style>
+        <script defer="defer" src="./javascript.js"></script>
+        <link rel="stylesheet" href="./styles/style.css" />
+    </head>
+    <body>
+        <!-- Content Goes Here -->
+        <div class="home" id="home">
+            <canvas
+                class="background"
+                width="1361"
+                height="965"
+                style="display: block"
+            ></canvas>
+            <div class="heading">
+                <div class="heading_line-1">
+                    Hello, I'm
+                    <span>George</span>.
+                </div>
+                <div class="heading_line-2">I'm a software developer.</div>
+                <a class="heading_link" href="#about">
+                    <div class="heading-cta">View my work</div>
+                </a>
+            </div>
+        </div>
+        <!-- Navigation Bar Section -->
+        <nav class="nav-bar">
+            <ul class="navigation">
+                <li class="navigation-item navigation-item--active" id="nav-home">
+                    <a href="#home">Home</a>
+                </li>
+                <li id="nav-about" class="navigation-item">
+                    <a href="#about">About</a>
+                </li>
+                <li id="nav-projects" class="navigation-item">
+                    <a href="#projects">Projects</a>
+                </li>
+                <li id="nav-contact" class="navigation-item">
+                    <a href="#contact">Contact</a>
+                </li>
+            </ul>
+        </nav>
+        <div class="main-bg">
+            <div class="canvas">
+                <canvas
+                    class="canvas-2"
+                    width="1940"
+                    height="965"
+                    style="display: block"
+                ></canvas>
+            </div>
+        </div>
+        <!-- About Me -->
+        <section id="about" class="about">
+            <h2 class="about-heading section-heading">About</h2>
+            <div class="about-content">
+                <div class="profile">
+                    <div class="profile-picture">
+                        <p>
+                            <img src="images/user-profile-pic.png" alt="" />
+                        </p>
+                    </div>
+                    <p class="profile-blurb">
+                        Lorem Ipsum is simply dummy text of the printing and
+                        typesetting industry. Lorem Ipsum has been the
+                        industry's standard dummy text ever since the 1500s,
+                        when an unknown printer took a galley of type and
+                        scrambled it to make a type specimen book. It has
+                        survived not only five centuries, but also the leap into
+                        electronic typesetting, remaining essentially unchanged.
+                        It was popularised in the 1960s with the release of
+                        Letraset sheets containing Lorem Ipsum passages, and
+                        more recently with desktop publishing software like
+                        Aldus PageMaker including versions of Lorem Ipsum.
+                    </p>
+                </div>
+                <div class="skills">
+                    <div class="skills-row">
+                        <div class="skills-item skills-item-html">
+                            <img src="images/html.png" alt="" />
+                            <div class="skills-item-name">HTML</div>
+                        </div>
+                        <div class="skills-item skills-item-cpp">
+                            <img src="images/cpp.png" alt="" />
+                            <div class="skills-item-name">C++</div>
+                        </div>
+                        <div class="skills-item skills-item-js">
+                            <img src="images/javascript.png" alt="" />
+                            <div class="skills-item-name">JavaScript</div>
+                        </div>
+                    </div>
+                    <div class="skills-row">
+                        <div class="skills-item skills-item-html">
+                            <img src="images/java.png" alt="" />
+                            <div class="skills-item-name">Java</div>
+                        </div>
+                        <div class="skills-item skills-item-html">
+                            <img src="images/nodejs.png" alt="" />
+                            <div class="skills-item-name">NodeJS</div>
+                        </div>
+
+                        <div class="skills-item skills-item-cpp">
+                            <img src="images/python.png" alt="" />
+                            <div class="skills-item-name">Python</div>
+                        </div>
+                        <div class="skills-item skills-item-js">
+                            <img src="images/git.png" alt="" />
+                            <div class="skills-item-name">Git</div>
+                        </div>
+                    </div>
+                    <div class="skills-row">
+                        <div class="skills-item skills-item-html">
+                            <img src="images/reactjs.png" alt="" />
+                            <div class="skills-item-name">React</div>
+                        </div>
+                        <div class="skills-item skills-item-cpp">
+                            <img src="images/csharp.png" alt="" />
+                            <div class="skills-item-name">C#</div>
+                        </div>
+                        <div class="skills-item skills-item-js">
+                            <img src="images/css.png" alt="" />
+                            <div class="skills-item-name">CSS</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects -->
+        <section class="projects" id="projects">
+            <h2 class="project-heading section-heading">Projects</h2>
+            <h2>SoonTM</h3>
+        </section>
+        <!-- Contact section -->
+        <section class="contact">
+            <p>Want to find more about me? Let's talk.</p>
+            <form action="./submitted.html">
+                <input
+                    type="text"
+                    name="name"
+                    id="name"
+                    placeholder="Name"
+                    required
+                /><br />
+                <input
+                    type="email"
+                    name="email"
+                    id="email"
+                    placeholder="Email"
+                    required
+                /><br />
+                <input
+                    type="text"
+                    name="message"
+                    id="message"
+                    placeholder="Message"
+                    required
+                /><br />
+                <button class="submit-btn" type="submit">Submit</button>
+            </form>
+        </section>
+
+        <!-- Particles.js script  -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/particlesjs/2.2.2/particles.min.js"></script>
+    </body>
+</html>

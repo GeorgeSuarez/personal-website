@@ -1,2 +1,3 @@
 # GeorgeSuarez.github.io
-Personal website
+
+Personal website located here: https://GeorgeSuarez.github.io/#home
