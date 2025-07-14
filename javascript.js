@@ -9,7 +9,7 @@ window.onload = function () {
       {
         breakpoint: 800,
         options: {
-          color: "#FAF00DD",
+          color: "#FA00DD",
           maxParticles: 150,
           connectParticles: false,
         },
