@@ -1,5 +1,5 @@
 // Loading particle effects
-window.onLoad = function () {
+window.onload = function () {
   Particles.init({
     selector: ".background",
     color: ["#FAFAFA", "#FF0011"],
