@@ -1,0 +1,331 @@
+/* ==========================================================================
+   Media Queries - Responsive Design
+   ========================================================================== */
+
+/* ==========================================================================
+   Base Font Size Adjustments
+   ========================================================================== */
+
+/* Large Desktop */
+@media (max-width: 1500px) {
+  html {
+    font-size: 57.25%;
+  }
+
+  .about {
+    width: 1100px;
+  }
+
+  .projects {
+    width: 1100px;
+  }
+
+  .heading-cta,
+  .heading-cta::before,
+  .heading-cta::after {
+    width: auto;
+  }
+
+  .skills-item {
+    height: 90px;
+    width: 145px;
+  }
+
+  .skills-item img {
+    height: 55px;
+  }
+}
+
+/* Medium Desktop */
+@media (max-width: 1200px) {
+  html {
+    font-size: 43.75%;
+  }
+
+  .about,
+  .projects {
+    width: auto;
+  }
+
+  .navigation {
+    margin-right: var(--spacing-md);
+  }
+
+  .section-heading {
+    margin-bottom: 10rem;
+  }
+
+  .heading-cta::before,
+  .heading-cta::after {
+    width: 24rem;
+    border: 2px solid transparent;
+  }
+
+  .skills-item {
+    border-width: 2px;
+  }
+
+  .skills-item-name {
+    font-size: 1.4rem;
+  }
+
+  .projects-container {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--spacing-md);
+  }
+}
+
+/* Large Tablet */
+@media (max-width: 1301px) {
+  .profile {
+    margin-bottom: var(--spacing-lg);
+  }
+}
+
+@media (max-width: 1300px) {
+  .about-content {
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-lg);
+  }
+
+  .skills {
+    max-width: 100%;
+  }
+}
+
+/* Medium Tablet */
+@media (max-width: 1000px) {
+  .section-heading {
+    margin-top: var(--spacing-xl);
+  }
+
+  .profile {
+    margin-bottom: var(--spacing-md);
+  }
+
+  .profile-picture {
+    width: 150px;
+    height: 150px;
+  }
+
+  .profile-title {
+    font-size: 2rem;
+  }
+
+  .profile-highlights {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+
+  .highlight-item {
+    flex-direction: row;
+    gap: var(--spacing-xs);
+  }
+
+  .skills-item {
+    height: 80px;
+    width: 130px;
+  }
+
+  .skills-item img {
+    height: 50px;
+  }
+
+  .skills-row {
+    gap: 10px;
+  }
+}
+
+/* Small Tablet */
+@media (max-width: 770px) {
+  html {
+    font-size: 50%;
+  }
+}
+
+/* Large Mobile */
+@media (max-width: 700px) {
+  .nav-bar {
+    justify-content: center;
+  }
+
+  .navigation {
+    margin-right: 0;
+  }
+
+  .heading_line-1,
+  .heading_line-2 {
+    font-size: 5em;
+    text-align: center;
+    margin-left: 4rem;
+    margin-right: 4rem;
+  }
+
+  .heading-cta {
+    margin-top: 1.8rem;
+  }
+}
+
+/* Medium Mobile */
+@media (max-width: 615px) {
+  html {
+    font-size: 57.25%;
+  }
+}
+
+@media (max-width: 600px) {
+  .profile-picture {
+    width: 120px;
+    height: 120px;
+  }
+
+  .profile-title {
+    font-size: 1.8rem;
+  }
+
+  .profile-blurb {
+    font-size: 1.4rem;
+  }
+
+  .skills-heading {
+    font-size: 2.2rem;
+  }
+
+  .category-title {
+    font-size: 1.6rem;
+  }
+
+  .skills-item {
+    height: 70px;
+    width: 115px;
+  }
+
+  .skills-item img {
+    height: 45px;
+  }
+
+  .skills-row {
+    gap: 8px;
+  }
+
+  .skills-category {
+    padding: var(--spacing-sm);
+  }
+
+  .projects-container {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-sm);
+  }
+
+  .project-image {
+    height: 180px;
+  }
+
+  .project-title {
+    font-size: 2rem;
+  }
+
+  .project-description {
+    font-size: 1.4rem;
+  }
+
+  .project-links {
+    flex-direction: column;
+    gap: var(--spacing-xs);
+  }
+
+  .project-link {
+    justify-content: center;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 550px) {
+  .heading_line-1,
+  .heading_line-2 {
+    font-size: 5rem;
+  }
+
+  .heading-cta {
+    padding: 0.8rem 2rem;
+  }
+}
+
+@media (max-width: 500px) {
+  .skills-item {
+    height: 60px;
+    width: 100px;
+  }
+
+  .skills-item img {
+    height: 35px;
+  }
+}
+
+@media (max-width: 410px) {
+  .profile-highlights {
+    flex-direction: column;
+    gap: var(--spacing-xs);
+  }
+
+  .highlight-item {
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .skills-item {
+    height: 50px;
+    width: 80px;
+  }
+
+  .skills-item img {
+    height: 26px;
+  }
+
+  .skills-row {
+    gap: 5px;
+    margin-bottom: 10px;
+  }
+
+  .project-content {
+    padding: var(--spacing-sm);
+  }
+
+  .project-title {
+    font-size: 1.8rem;
+  }
+
+  .project-description {
+    font-size: 1.3rem;
+  }
+
+  .tech-tag {
+    font-size: 1rem;
+    padding: 0.3rem 0.6rem;
+  }
+}
+
+/* Extra Small Mobile */
+@media (max-width: 350px) {
+  html {
+    font-size: 35%;
+  }
+}
+
+@media (max-width: 340px) {
+  .skills-item {
+    height: 45px;
+    width: 70px;
+  }
+}
+
+@media (max-width: 300px) {
+  .skills-row {
+    gap: 3px;
+  }
+
+  .skills-category {
+    padding: 10px;
+  }
+}

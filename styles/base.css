@@ -1,0 +1,112 @@
+/* ==========================================================================
+   CSS Custom Properties (Variables)
+   ========================================================================== */
+
+:root {
+  --color-primary: #ff4d5a;
+  --color-bg-dark: #1a1a1a;
+  --color-bg-semi-dark: rgba(40, 40, 40, 0.95);
+  --color-bg-transparent: rgba(26, 26, 26, 0.25);
+  --color-bg-transparent-dark: rgba(26, 26, 26, 0.6);
+  --color-text-light: #fafafa;
+  --color-white: #ffffff;
+  --color-black: #000000;
+
+  --font-family-main: 'Space Mono', serif;
+  --font-size-base: 62.5%;
+
+  --spacing-xs: 1rem;
+  --spacing-sm: 2rem;
+  --spacing-md: 3rem;
+  --spacing-lg: 5rem;
+  --spacing-xl: 6rem;
+  --spacing-xxl: 9rem;
+
+  --border-radius-sm: 2px;
+  --border-radius-md: 3px;
+  --border-radius-lg: 10px;
+
+  --shadow-nav: 0 4px 4px rgba(0, 0, 0, 0.3);
+  --gradient-border:
+    linear-gradient(var(--color-bg-dark), var(--color-bg-dark)),
+    radial-gradient(circle at top left, #51a2e9, var(--color-primary));
+}
+
+/* ==========================================================================
+   Base Styles & Reset
+   ========================================================================== */
+
+*,
+::before,
+::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+  font-size: var(--font-size-base);
+}
+
+body {
+  min-height: 100vh;
+  background-color: var(--color-bg-dark);
+  color: var(--color-text-light);
+  font-family: var(--font-family-main);
+  overflow-x: hidden;
+}
+
+/* ==========================================================================
+   Typography & Links
+   ========================================================================== */
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+li {
+  list-style: none;
+}
+
+/* ==========================================================================
+   Utility Classes
+   ========================================================================== */
+
+.section-heading {
+  position: relative;
+  font-size: 5.5rem;
+  font-weight: 700;
+  margin-top: var(--spacing-xxl);
+  margin-bottom: 13rem;
+  z-index: 9999;
+}
+
+/* ==========================================================================
+   Image Styles
+   ========================================================================== */
+
+a img {
+  height: 70px;
+  width: 70px;
+}
+
+p img {
+  height: 153px;
+  width: 153px;
+}
+
+section > p {
+  text-justify: center;
+  padding: 1%;
+}
+
+/* ==========================================================================
+   Legacy Support (maintaining compatibility)
+   ========================================================================== */
+
+element {
+  display: block;
+}
