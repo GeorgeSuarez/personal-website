@@ -1,0 +1,43 @@
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+
+.footer {
+  margin-top: 4rem;
+  text-align: center;
+  z-index: 10;
+  padding-bottom: 0;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--spacing-lg);
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-sm);
+}
+
+.footer-link {
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+.footer-link:hover {
+  transform: scale(1.1);
+}
+
+.footer-icon {
+  width: 40px;
+  height: 40px;
+  filter: brightness(0) invert(1); /* Make logos white */
+}
+
+.footer-copyright {
+  text-align: center;
+  color: var(--color-text-light);
+  font-size: 1.5rem;
+  margin: var(--spacing-sm) 0 0;
+  font-family: 'Space Mono', monospace;
+}

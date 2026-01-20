@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="./styles/about.css" />
     <link rel="stylesheet" href="./styles/projects.css" />
     <link rel="stylesheet" href="./styles/contact.css" />
+    <link rel="stylesheet" href="./styles/footer.css" />
     <link rel="stylesheet" href="./styles/responsive.css" />
   </head>
   <body>
@@ -75,15 +76,14 @@
             </p>
           </div>
           <p class="profile-blurb">
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text
-            ever since the 1500s, when an unknown printer took a galley of type
-            and scrambled it to make a type specimen book. It has survived not
-            only five centuries, but also the leap into electronic typesetting,
-            remaining essentially unchanged. It was popularised in the 1960s
-            with the release of Letraset sheets containing Lorem Ipsum passages,
-            and more recently with desktop publishing software like Aldus
-            PageMaker including versions of Lorem Ipsum.
+            I am a passionate software developer with several years of
+            experience specializing in mobile application development. My
+            expertise lies in building innovative iOS applications using Swift
+            and modern development practices. I have a strong foundation in
+            creating user-friendly, efficient mobile solutions across various
+            platforms including C#, Swift, and JavaScript. I am continuously
+            expanding my technical skills and delivering high-quality software
+            solutions.
           </p>
         </div>
         <div class="skills">
@@ -133,6 +133,10 @@
               <img src="images/css.png" alt="" />
               <div class="skills-item-name">CSS</div>
             </div>
+            <div class="skills-item skills-item-html">
+              <img src="images/swift-logo.svg" alt="" />
+              <div class="skills-item-name">Swift</div>
+            </div>
           </div>
         </div>
       </div>
@@ -180,7 +184,7 @@
         </div>
 
         <!-- Project Card 2 -->
-        <div class="project-card project-card--mytodoapp">
+        <div class="project-card">
           <div class="project-image">
             <img src="images/MyTodoAppLogo.png" alt="MyTodoApp" />
             <div class="project-overlay">
@@ -254,8 +258,6 @@
             </div>
           </div>
         </div>
-
-
       </div>
     </section>
     <!-- Contact section -->
@@ -283,9 +285,39 @@
           placeholder="Message"
           required
           rows="5"
-        ></textarea><br />
+        ></textarea
+        ><br />
         <button class="submit-btn" type="submit">Submit</button>
       </form>
+
+      <!-- Footer -->
+      <footer class="footer">
+        <div class="footer-content">
+          <a
+            href="https://github.com/GeorgeSuarez"
+            class="footer-link"
+            target="_blank"
+          >
+            <img
+              src="images/github-mark-white.svg"
+              alt="GitHub"
+              class="footer-icon"
+            />
+          </a>
+          <a
+            href="https://linkedin.com/in/george-suarez"
+            class="footer-link"
+            target="_blank"
+          >
+            <img
+              src="images/linkedin-white.png"
+              alt="LinkedIn"
+              class="footer-icon"
+            />
+          </a>
+        </div>
+        <div class="footer-copyright">© 2026 George Suarez</div>
+      </footer>
     </section>
 
     <!-- Particles.js script  -->

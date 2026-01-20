@@ -30,7 +30,9 @@
   overflow: hidden;
   transition: all 0.3s ease;
   position: relative;
-  height: fit-content;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
 }
 
 .project-card:hover {
@@ -105,6 +107,9 @@
 
 .project-content {
   padding: var(--spacing-md);
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .project-title {
@@ -129,6 +134,7 @@
 .project-links {
   display: flex;
   justify-content: center;
+  margin-top: auto;
 }
 
 .project-link {
@@ -201,9 +207,4 @@
 
 .project-link:hover svg {
   transform: translateX(3px);
-}
-
-/* Specific styles for MyTodoApp card */
-.project-card--mytodoapp .project-image img {
-  object-fit: cover;
 }

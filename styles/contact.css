@@ -6,7 +6,7 @@
   text-align: center;
   color: var(--color-text-light);
   background-color: var(--color-bg-transparent);
-  padding: 5%;
+  padding: 2%;
   font-weight: 700;
   font-style: normal;
   position: relative;
@@ -30,16 +30,27 @@
 }
 
 .submit-btn {
-  margin-top: 16px;
-  background-color: var(--color-white);
-  border: 1px solid var(--color-black);
-  font-size: 16px;
-  width: 100px;
-  transition-duration: 0.4s;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 16px auto 0;
+  padding: 1rem 4rem;
+  width: 27rem;
+  height: 5rem;
+  background-color: var(--color-bg-transparent-dark);
+  border: 2px solid var(--color-text-light);
+  border-radius: var(--border-radius-sm);
+  color: var(--color-primary);
+  font-size: 2.4rem;
+  font-weight: 500;
+  font-family: 'Space Mono', monospace;
   cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .submit-btn:hover {
-  background-color: var(--color-black);
+  background-color: var(--color-primary);
   color: var(--color-white);
+  border-color: var(--color-primary);
 }
