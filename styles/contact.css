@@ -1,0 +1,56 @@
+/* ==========================================================================
+   Contact Section
+   ========================================================================== */
+
+.contact {
+  text-align: center;
+  color: var(--color-text-light);
+  background-color: var(--color-bg-transparent);
+  padding: 2%;
+  font-weight: 700;
+  font-style: normal;
+  position: relative;
+  z-index: 10;
+}
+
+.contact p {
+  font-size: 18px;
+}
+
+/* ==========================================================================
+   Contact Form
+   ========================================================================== */
+
+#name,
+#email,
+#message {
+  padding: 16px;
+  margin-top: 10px;
+  width: 500px;
+}
+
+.submit-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 16px auto 0;
+  padding: 1rem 4rem;
+  width: 27rem;
+  height: 5rem;
+  background-color: var(--color-bg-transparent-dark);
+  border: 2px solid var(--color-text-light);
+  border-radius: var(--border-radius-sm);
+  color: var(--color-primary);
+  font-size: 2.4rem;
+  font-weight: 500;
+  font-family: 'Space Mono', monospace;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.submit-btn:hover {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  border-color: var(--color-primary);
+}

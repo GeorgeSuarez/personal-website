@@ -1,0 +1,40 @@
+{
+  "name": "personal-website",
+  "version": "1.0.0",
+  "description": "Personal website located here: https://GeorgeSuarez.github.io/personal-website/#home",
+  "main": "javascript.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "serve": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GeorgeSuarez/personal-website.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GeorgeSuarez/personal-website/issues"
+  },
+  "homepage": "https://github.com/GeorgeSuarez/personal-website#readme",
+  "prettier": {
+    "semi": true,
+    "singleQuote": true,
+    "tabWidth": 2
+  },
+  "devDependencies": {
+    "eslint": "^9.39.2",
+    "express": "^4.21.2",
+    "prettier": "^3.8.0"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "nodemailer": "^7.0.12"
+  }
+}

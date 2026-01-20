@@ -1,0 +1,210 @@
+/* ==========================================================================
+   Projects Section
+   ========================================================================== */
+
+.projects {
+  width: 1300px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-sm);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.projects-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: var(--spacing-lg);
+  width: 100%;
+  max-width: 1200px;
+}
+
+/* ==========================================================================
+   Project Cards
+   ========================================================================== */
+
+.project-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 77, 90, 0.2);
+  border-radius: var(--border-radius-lg);
+  overflow: hidden;
+  transition: all 0.3s ease;
+  position: relative;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+}
+
+.project-card:hover {
+  transform: translateY(-10px);
+  border-color: rgba(255, 77, 90, 0.6);
+  box-shadow: 0 20px 40px rgba(255, 77, 90, 0.2);
+}
+
+/* ==========================================================================
+   Project Image & Overlay
+   ========================================================================== */
+
+.project-image {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+}
+
+.project-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.project-card:hover .project-image img {
+  transform: scale(1.1);
+}
+
+.project-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(26, 26, 26, 0.8) 0%,
+    rgba(255, 77, 90, 0.8) 100%
+  );
+  display: flex;
+  align-items: flex-end;
+  padding: var(--spacing-sm);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.project-card:hover .project-overlay {
+  opacity: 1;
+}
+
+.project-tech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+.tech-tag {
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--color-bg-dark);
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* ==========================================================================
+   Project Content
+   ========================================================================== */
+
+.project-content {
+  padding: var(--spacing-md);
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.project-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: var(--spacing-sm);
+  line-height: 1.2;
+}
+
+.project-description {
+  font-size: 1.5rem;
+  line-height: 1.6;
+  color: rgba(250, 250, 250, 0.85);
+  margin-bottom: var(--spacing-md);
+}
+
+/* ==========================================================================
+   Project Links
+   ========================================================================== */
+
+.project-links {
+  display: flex;
+  justify-content: center;
+  margin-top: auto;
+}
+
+.project-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  padding: 1rem 1.6rem;
+  border-radius: var(--border-radius-md);
+  font-size: 1.4rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+
+.project-link::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+.project-link:hover::before {
+  left: 100%;
+}
+
+.project-link--demo {
+  background: var(--color-primary);
+  color: var(--color-white);
+  border-color: var(--color-primary);
+}
+
+.project-link--demo:hover {
+  background: transparent;
+  color: var(--color-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(255, 77, 90, 0.3);
+}
+
+.project-link--code {
+  background: transparent;
+  color: var(--color-text-light);
+  border-color: rgba(250, 250, 250, 0.3);
+}
+
+.project-link--code:hover {
+  background: var(--color-text-light);
+  color: var(--color-bg-dark);
+  border-color: var(--color-text-light);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(250, 250, 250, 0.2);
+}
+
+.project-link svg {
+  transition: transform 0.3s ease;
+}
+
+.project-link:hover svg {
+  transform: translateX(3px);
+}
