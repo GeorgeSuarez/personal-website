@@ -20,7 +20,8 @@ function AppRouter() {
 }
 
 export default function App() {
-  const [loadingComplete, setLoadingComplete] = useState(false);
+  const isHome = window.location.pathname === "/";
+  const [loadingComplete, setLoadingComplete] = useState(!isHome);
 
   return (
     <>
