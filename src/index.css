@@ -144,6 +144,16 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes progressFill {
+  from { width: 0%; }
+  to { width: 100%; }
+}
+
 ::selection {
   background-color: #fcee0a;
   color: #0a0a0f;

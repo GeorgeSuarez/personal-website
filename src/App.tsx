@@ -1,9 +1,11 @@
+import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import LoadingScreen from "./components/LoadingScreen";
 import Hero from "./components/Hero";
 import Projects from "./components/Projects";
 import Skills from "./components/Skills";
 
-export default function App() {
+function AppRouter() {
   return (
     <BrowserRouter>
       <Routes>
@@ -12,5 +14,24 @@ export default function App() {
         <Route path="/skills" element={<Skills />} />
       </Routes>
     </BrowserRouter>
+  );
+}
+
+export default function App() {
+  const [loadingComplete, setLoadingComplete] = useState(false);
+
+  return (
+    <>
+      {!loadingComplete && (
+        <LoadingScreen onComplete={() => setLoadingComplete(true)} />
+      )}
+      <div
+        className={`transition-opacity duration-500 ${
+          loadingComplete ? "opacity-100" : "opacity-0"
+        }`}
+      >
+        <AppRouter />
+      </div>
+    </>
   );
 }
