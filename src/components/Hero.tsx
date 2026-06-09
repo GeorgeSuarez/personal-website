@@ -16,6 +16,7 @@ const menuItems: MenuItem[] = [
   },
   { label: "Projects", href: "/projects", external: false },
   { label: "Skills", href: "/skills", external: false },
+  { label: "Resume", href: "/resume", external: false },
   {
     label: "Contact Me",
     href: "mailto:georgesuarezdev@gmail.com",
@@ -139,7 +140,7 @@ export default function Hero() {
                         className="text-[#00f0ff] text-lg opacity-50 group-hover:opacity-100 transition-opacity"
                         style={{ fontFamily: "'Share Tech Mono', monospace" }}
                       >
-                        {index + 1}
+                        0{index + 1}
                       </span>
                       <span className="text-gray-300 text-lg sm:text-xl tracking-[0.2em] uppercase group-hover:text-[#fcee0a] group-hover:translate-x-2 transition-all duration-300">
                         {item.label}
@@ -178,7 +179,7 @@ export default function Hero() {
 
             {/* Status Text */}
             <p
-              className="text-[#00f0ff]/40 text-[10px] tracking-[0.4em] uppercase mt-8"
+              className="text-[#00f0ff]/40 text-[16px] tracking-[0.4em] uppercase mt-8"
               style={{ fontFamily: "'Share Tech Mono', monospace" }}
             >
               System Online // v2.0.77
