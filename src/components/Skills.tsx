@@ -1,5 +1,3 @@
-import { Link } from "react-router-dom";
-
 interface SkillNode {
   name: string;
   level: number;
@@ -139,59 +137,36 @@ function SkillNodeComponent({ node }: { node: SkillNode }) {
 
 export default function Skills() {
   return (
-    <div className="min-h-screen bg-[#0a0a0f] flex flex-col items-center px-4 sm:px-6 py-16 text-center relative overflow-hidden">
-      {/* Subtle grid */}
-      <div
-        className="absolute inset-0 opacity-10 pointer-events-none"
+    <div className="text-center">
+      {/* Header */}
+      <div className="w-16 h-[1px] bg-[#fcee0a] mb-8 mx-auto opacity-60" />
+
+      <h1
+        className="text-[#fcee0a] text-4xl sm:text-5xl font-black tracking-[0.15em] uppercase mb-4"
         style={{
-          backgroundImage:
-            "linear-gradient(rgba(0, 240, 255, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 240, 255, 0.1) 1px, transparent 1px)",
-          backgroundSize: "50px 50px",
+          fontFamily: "'Orbitron', sans-serif",
+          textShadow: "0 0 20px rgba(252, 238, 10, 0.3)",
         }}
-      />
+      >
+        Skills
+      </h1>
 
-      <div className="relative z-10 w-full max-w-6xl">
-        {/* Header */}
-        <div className="w-16 h-[1px] bg-[#fcee0a] mb-8 mx-auto opacity-60" />
+      <p
+        className="text-[#00f0ff]/60 text-xs tracking-[0.4em] uppercase mb-16"
+        style={{ fontFamily: "'Share Tech Mono', monospace" }}
+      >
+        Neural skill tree //{" "}
+        {skillTree.reduce((acc, cat) => acc + (cat.children?.length || 0), 0)}{" "}
+        protocols loaded
+      </p>
 
-        <h1
-          className="text-[#fcee0a] text-4xl sm:text-5xl font-black tracking-[0.15em] uppercase mb-4"
-          style={{
-            fontFamily: "'Orbitron', sans-serif",
-            textShadow: "0 0 20px rgba(252, 238, 10, 0.3)",
-          }}
-        >
-          Skills
-        </h1>
-
-        <p
-          className="text-[#00f0ff]/60 text-xs tracking-[0.4em] uppercase mb-16"
-          style={{ fontFamily: "'Share Tech Mono', monospace" }}
-        >
-          Neural skill tree //{" "}
-          {skillTree.reduce((acc, cat) => acc + (cat.children?.length || 0), 0)}{" "}
-          protocols loaded
-        </p>
-
-        {/* Skill Tree */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10">
-          {skillTree.map((category, index) => (
-            <div key={index} className="flex flex-col items-center">
-              <SkillNodeComponent node={category} />
-            </div>
-          ))}
-        </div>
-
-        {/* Back Link */}
-        <div className="mt-16">
-          <Link
-            to="/"
-            className="inline-block text-[#00f0ff] text-lg tracking-[0.4em] uppercase border border-[#00f0ff]/30 px-6 py-3 hover:bg-[#00f0ff]/10 hover:border-[#00f0ff] transition-all duration-300"
-            style={{ fontFamily: "'Share Tech Mono', monospace" }}
-          >
-            &lt; Return to Mainframe
-          </Link>
-        </div>
+      {/* Skill Tree */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10">
+        {skillTree.map((category, index) => (
+          <div key={index} className="flex flex-col items-center">
+            <SkillNodeComponent node={category} />
+          </div>
+        ))}
       </div>
     </div>
   );

@@ -1,5 +1,3 @@
-import { Link } from "react-router-dom";
-
 interface Experience {
   company: string;
   role: string;
@@ -61,253 +59,205 @@ const projects: Project[] = [
 
 export default function Resume() {
   return (
-    <div className="min-h-screen bg-[#0a0a0f] flex flex-col items-center px-4 sm:px-6 py-12 text-center relative overflow-hidden">
-      {/* Subtle grid */}
-      <div
-        className="absolute inset-0 opacity-10 pointer-events-none"
+    <div className="text-center">
+      {/* Header */}
+      <div className="w-16 h-[1px] bg-[#fcee0a] mb-8 mx-auto opacity-60" />
+
+      <h1
+        className="text-[#fcee0a] text-4xl sm:text-5xl font-black tracking-[0.15em] uppercase mb-4"
         style={{
-          backgroundImage:
-            "linear-gradient(rgba(0, 240, 255, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 240, 255, 0.1) 1px, transparent 1px)",
-          backgroundSize: "50px 50px",
+          fontFamily: "'Orbitron', sans-serif",
+          textShadow: "0 0 20px rgba(252, 238, 10, 0.3)",
         }}
-      />
+      >
+        Resume
+      </h1>
 
-      <div className="relative z-10 w-full max-w-3xl">
-        {/* Header */}
-        <div className="w-16 h-[1px] bg-[#fcee0a] mb-8 mx-auto opacity-60" />
+      <p
+        className="text-[#00f0ff]/60 text-base tracking-[0.4em] uppercase mb-12"
+        style={{ fontFamily: "'Share Tech Mono', monospace" }}
+      >
+        Personnel file // George Suarez
+      </p>
 
-        <h1
-          className="text-[#fcee0a] text-4xl sm:text-5xl font-black tracking-[0.15em] uppercase mb-4"
-          style={{
-            fontFamily: "'Orbitron', sans-serif",
-            textShadow: "0 0 20px rgba(252, 238, 10, 0.3)",
-          }}
-        >
-          Resume
-        </h1>
+      {/* Terminal Content */}
+      <div className="p-6 sm:p-8 text-left">
+        {/* Contact info */}
+        <div className="mb-8 pb-4 border-b border-[#00f0ff]/10">
+          <p
+            className="text-[#00f0ff]/60 text-xs tracking-wider"
+            style={{ fontFamily: "'Share Tech Mono', monospace" }}
+          ></p>
+        </div>
 
-        <p
-          className="text-[#00f0ff]/60 text-base tracking-[0.4em] uppercase mb-12"
-          style={{ fontFamily: "'Share Tech Mono', monospace" }}
-        >
-          Personnel file // George Suarez
-        </p>
-
-        {/* Terminal Window */}
-        <div className="relative border border-[#00f0ff]/30 bg-[#0a0a0f]/90 backdrop-blur-sm shadow-[0_0_30px_rgba(0,240,255,0.1)]">
-          {/* Corner decorations */}
-          <div className="absolute -top-1 -left-1 w-4 h-4 border-t-2 border-l-2 border-[#fcee0a]" />
-          <div className="absolute -top-1 -right-1 w-4 h-4 border-t-2 border-r-2 border-[#fcee0a]" />
-          <div className="absolute -bottom-1 -left-1 w-4 h-4 border-b-2 border-l-2 border-[#fcee0a]" />
-          <div className="absolute -bottom-1 -right-1 w-4 h-4 border-b-2 border-r-2 border-[#fcee0a]" />
-
-          {/* Title Bar */}
-          <div className="flex items-center justify-between px-4 py-3 border-b border-[#00f0ff]/20 bg-[#0a0a0f]/50">
-            <div className="flex items-center gap-2">
-              <span className="w-3 h-3 rounded-full bg-[#ff0055]/80" />
-              <span className="w-3 h-3 rounded-full bg-[#fcee0a]/80" />
-              <span className="w-3 h-3 rounded-full bg-[#00f0ff]/80" />
-            </div>
-            <span
-              className="text-[#00f0ff]/60 text-[14px] tracking-[0.3em] uppercase"
-              style={{ fontFamily: "'Share Tech Mono', monospace" }}
+        {/* Education */}
+        <div className="mb-8">
+          <div className="flex items-center gap-2 mb-4">
+            <div className="w-2 h-2 bg-[#fcee0a]" />
+            <h2
+              className="text-[#fcee0a] text-xl tracking-[0.3em] uppercase"
+              style={{ fontFamily: "'Orbitron', sans-serif" }}
             >
-              resume.dat
-            </span>
-            <div className="w-[52px]" />
+              Education
+            </h2>
           </div>
-
-          {/* Terminal Content */}
-          <div className="p-6 sm:p-8 text-left">
-            {/* Contact info */}
-            <div className="mb-8 pb-4 border-b border-[#00f0ff]/10">
-              <p
-                className="text-[#00f0ff]/60 text-xs tracking-wider"
-                style={{ fontFamily: "'Share Tech Mono', monospace" }}
-              ></p>
-            </div>
-
-            {/* Education */}
-            <div className="mb-8">
-              <div className="flex items-center gap-2 mb-4">
-                <div className="w-2 h-2 bg-[#fcee0a]" />
-                <h2
-                  className="text-[#fcee0a] text-xl tracking-[0.3em] uppercase"
-                  style={{ fontFamily: "'Orbitron', sans-serif" }}
-                >
-                  Education
-                </h2>
-              </div>
-              <div className="space-y-4">
-                {education.map((edu, index) => (
-                  <div
-                    key={index}
-                    className="flex flex-col sm:flex-row sm:items-start sm:justify-between pl-4 border-l border-[#00f0ff]/20"
-                  >
-                    <div>
-                      <h3
-                        className="text-[#00f0ff] text-lg font-bold tracking-[0.1em]"
-                        style={{ fontFamily: "'Share Tech Mono', monospace" }}
-                      >
-                        {edu.school}, San Bernardino, California
-                      </h3>
-                      <p
-                        className="text-gray-300 text-base italic tracking-wide mt-0.5"
-                        style={{ fontFamily: "'Share Tech Mono', monospace" }}
-                      >
-                        {edu.degree}, {edu.period}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Work Experience */}
-            <div className="mb-8">
-              <div className="flex items-center gap-2 mb-4">
-                <div className="w-2 h-2 bg-[#fcee0a]" />
-                <h2
-                  className="text-[#fcee0a] text-xl tracking-[0.3em] uppercase"
-                  style={{ fontFamily: "'Orbitron', sans-serif" }}
-                >
-                  Work Experience
-                </h2>
-              </div>
-              <div className="space-y-6">
-                {experience.map((exp, index) => (
-                  <div
-                    key={index}
-                    className="relative pl-4 border-l border-[#00f0ff]/20"
-                  >
-                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-1">
-                      <h3
-                        className="text-[#00f0ff] text-lg font-bold tracking-[0.1em]"
-                        style={{ fontFamily: "'Share Tech Mono', monospace" }}
-                      >
-                        {exp.company}
-                      </h3>
-                    </div>
-                    <p
-                      className="text-gray-400 text-base italic tracking-wide mb-2"
-                      style={{ fontFamily: "'Share Tech Mono', monospace" }}
-                    >
-                      {exp.role}, {exp.period}
-                    </p>
-                    <ul className="space-y-1">
-                      {exp.bullets.map((bullet, bIndex) => (
-                        <li
-                          key={bIndex}
-                          className="text-gray-300 text-base leading-relaxed flex items-start gap-2"
-                          style={{ fontFamily: "'Share Tech Mono', monospace" }}
-                        >
-                          <span className="text-[#00f0ff]/40 mt-0.5">&gt;</span>
-                          {bullet}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Projects */}
-            <div className="mb-8">
-              <div className="flex items-center gap-2 mb-4">
-                <div className="w-2 h-2 bg-[#fcee0a]" />
-                <h2
-                  className="text-[#fcee0a] text-xl tracking-[0.3em] uppercase"
-                  style={{ fontFamily: "'Orbitron', sans-serif" }}
-                >
-                  Projects
-                </h2>
-              </div>
-              <div className="space-y-6">
-                {projects.map((proj, index) => (
-                  <div
-                    key={index}
-                    className="relative pl-4 border-l border-[#00f0ff]/20"
-                  >
-                    <h3
-                      className="text-[#00f0ff] text-xl font-bold tracking-[0.1em] mb-2"
-                      style={{ fontFamily: "'Share Tech Mono', monospace" }}
-                    >
-                      {proj.name}
-                    </h3>
-                    <ul className="space-y-1">
-                      {proj.bullets.map((bullet, bIndex) => (
-                        <li
-                          key={bIndex}
-                          className="text-gray-300 text-base leading-relaxed flex items-start gap-2"
-                          style={{ fontFamily: "'Share Tech Mono', monospace" }}
-                        >
-                          <span className="text-[#00f0ff]/40 mt-0.5">&gt;</span>
-                          {bullet}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Skills */}
-            <div className="mb-6">
-              <div className="flex items-center gap-2 mb-4">
-                <div className="w-2 h-2 bg-[#fcee0a]" />
-                <h2
-                  className="text-[#fcee0a] text-xl tracking-[0.3em] uppercase"
-                  style={{ fontFamily: "'Orbitron', sans-serif" }}
-                >
-                  Skills
-                </h2>
-              </div>
-              <div className="pl-4 border-l border-[#00f0ff]/20 space-y-3">
-                <p
-                  className="text-gray-300 text-base leading-relaxed"
-                  style={{ fontFamily: "'Share Tech Mono', monospace" }}
-                >
-                  <span className="text-[#00f0ff]">Technical Skills:</span> C++,
-                  C#, Swift, Java {""}
-                  JavaScript, TypeScript, React.js, Node.js, Python, HTML/CSS
-                </p>
-                <p
-                  className="text-gray-300 text-base leading-relaxed"
-                  style={{ fontFamily: "'Share Tech Mono', monospace" }}
-                >
-                  <span className="text-[#00f0ff]">Certificates:</span>{" "}
-                  Full-stack Development Certificate from Fullstack Academy
-                </p>
-              </div>
-            </div>
-
-            {/* Prompt */}
-            <div className="w-full flex items-center gap-2 mt-6 pt-4 border-t border-[#00f0ff]/10">
-              <span
-                className="text-[#00f0ff] text-xs"
-                style={{ fontFamily: "'Share Tech Mono', monospace" }}
+          <div className="space-y-4">
+            {education.map((edu, index) => (
+              <div
+                key={index}
+                className="flex flex-col sm:flex-row sm:items-start sm:justify-between pl-4 border-l border-[#00f0ff]/20"
               >
-                $
-              </span>
-              <span
-                className="text-[#00f0ff]/40 text-sm tracking-wider"
-                style={{ fontFamily: "'Share Tech Mono', monospace" }}
-              >
-                <span className="animate-pulse">_</span>
-              </span>
-            </div>
+                <div>
+                  <h3
+                    className="text-[#00f0ff] text-lg font-bold tracking-[0.1em]"
+                    style={{ fontFamily: "'Share Tech Mono', monospace" }}
+                  >
+                    {edu.school}, San Bernardino, California
+                  </h3>
+                  <p
+                    className="text-gray-300 text-base italic tracking-wide mt-0.5"
+                    style={{ fontFamily: "'Share Tech Mono', monospace" }}
+                  >
+                    {edu.degree}, {edu.period}
+                  </p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
 
-        {/* Back Link */}
-        <div className="mt-12">
-          <Link
-            to="/"
-            className="inline-block text-[#00f0ff] text-lg tracking-[0.4em] uppercase border border-[#00f0ff]/30 px-6 py-3 hover:bg-[#00f0ff]/10 hover:border-[#00f0ff] transition-all duration-300"
+        {/* Work Experience */}
+        <div className="mb-8">
+          <div className="flex items-center gap-2 mb-4">
+            <div className="w-2 h-2 bg-[#fcee0a]" />
+            <h2
+              className="text-[#fcee0a] text-xl tracking-[0.3em] uppercase"
+              style={{ fontFamily: "'Orbitron', sans-serif" }}
+            >
+              Work Experience
+            </h2>
+          </div>
+          <div className="space-y-6">
+            {experience.map((exp, index) => (
+              <div
+                key={index}
+                className="relative pl-4 border-l border-[#00f0ff]/20"
+              >
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-1">
+                  <h3
+                    className="text-[#00f0ff] text-lg font-bold tracking-[0.1em]"
+                    style={{ fontFamily: "'Share Tech Mono', monospace" }}
+                  >
+                    {exp.company}
+                  </h3>
+                </div>
+                <p
+                  className="text-gray-400 text-base italic tracking-wide mb-2"
+                  style={{ fontFamily: "'Share Tech Mono', monospace" }}
+                >
+                  {exp.role}, {exp.period}
+                </p>
+                <ul className="space-y-1">
+                  {exp.bullets.map((bullet, bIndex) => (
+                    <li
+                      key={bIndex}
+                      className="text-gray-300 text-base leading-relaxed flex items-start gap-2"
+                      style={{ fontFamily: "'Share Tech Mono', monospace" }}
+                    >
+                      <span className="text-[#00f0ff]/40 mt-0.5">&gt;</span>
+                      {bullet}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Projects */}
+        <div className="mb-8">
+          <div className="flex items-center gap-2 mb-4">
+            <div className="w-2 h-2 bg-[#fcee0a]" />
+            <h2
+              className="text-[#fcee0a] text-xl tracking-[0.3em] uppercase"
+              style={{ fontFamily: "'Orbitron', sans-serif" }}
+            >
+              Projects
+            </h2>
+          </div>
+          <div className="space-y-6">
+            {projects.map((proj, index) => (
+              <div
+                key={index}
+                className="relative pl-4 border-l border-[#00f0ff]/20"
+              >
+                <h3
+                  className="text-[#00f0ff] text-xl font-bold tracking-[0.1em] mb-2"
+                  style={{ fontFamily: "'Share Tech Mono', monospace" }}
+                >
+                  {proj.name}
+                </h3>
+                <ul className="space-y-1">
+                  {proj.bullets.map((bullet, bIndex) => (
+                    <li
+                      key={bIndex}
+                      className="text-gray-300 text-base leading-relaxed flex items-start gap-2"
+                      style={{ fontFamily: "'Share Tech Mono', monospace" }}
+                    >
+                      <span className="text-[#00f0ff]/40 mt-0.5">&gt;</span>
+                      {bullet}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Skills */}
+        <div className="mb-6">
+          <div className="flex items-center gap-2 mb-4">
+            <div className="w-2 h-2 bg-[#fcee0a]" />
+            <h2
+              className="text-[#fcee0a] text-xl tracking-[0.3em] uppercase"
+              style={{ fontFamily: "'Orbitron', sans-serif" }}
+            >
+              Skills
+            </h2>
+          </div>
+          <div className="pl-4 border-l border-[#00f0ff]/20 space-y-3">
+            <p
+              className="text-gray-300 text-base leading-relaxed"
+              style={{ fontFamily: "'Share Tech Mono', monospace" }}
+            >
+              <span className="text-[#00f0ff]">Technical Skills:</span> C++,
+              C#, Swift, Java {""}
+              JavaScript, TypeScript, React.js, Node.js, Python, HTML/CSS
+            </p>
+            <p
+              className="text-gray-300 text-base leading-relaxed"
+              style={{ fontFamily: "'Share Tech Mono', monospace" }}
+            >
+              <span className="text-[#00f0ff]">Certificates:</span>{" "}
+              Full-stack Development Certificate from Fullstack Academy
+            </p>
+          </div>
+        </div>
+
+        {/* Prompt */}
+        <div className="w-full flex items-center gap-2 mt-6 pt-4 border-t border-[#00f0ff]/10">
+          <span
+            className="text-[#00f0ff] text-xs"
             style={{ fontFamily: "'Share Tech Mono', monospace" }}
           >
-            &lt; Return to Mainframe
-          </Link>
+            $
+          </span>
+          <span
+            className="text-[#00f0ff]/40 text-sm tracking-wider"
+            style={{ fontFamily: "'Share Tech Mono', monospace" }}
+          >
+            <span className="animate-pulse">_</span>
+          </span>
         </div>
       </div>
     </div>

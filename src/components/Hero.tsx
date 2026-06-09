@@ -1,10 +1,14 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import TerminalOverlay from "./TerminalOverlay";
+import Projects from "./Projects";
+import Skills from "./Skills";
+import Resume from "./Resume";
 
 interface MenuItem {
   label: string;
   href: string;
   external: boolean;
+  overlay?: "projects" | "skills" | "resume";
 }
 
 const menuItems: MenuItem[] = [
@@ -14,9 +18,9 @@ const menuItems: MenuItem[] = [
     href: "https://linkedin.com/in/george-suarez",
     external: true,
   },
-  { label: "Projects", href: "/projects", external: false },
-  { label: "Skills", href: "/skills", external: false },
-  { label: "Resume", href: "/resume", external: false },
+  { label: "Projects", href: "#", external: false, overlay: "projects" },
+  { label: "Skills", href: "#", external: false, overlay: "skills" },
+  { label: "Resume", href: "#", external: false, overlay: "resume" },
   {
     label: "Contact Me",
     href: "mailto:georgesuarezdev@gmail.com",
@@ -26,6 +30,9 @@ const menuItems: MenuItem[] = [
 
 export default function Hero() {
   const [isGlitching, setIsGlitching] = useState(false);
+  const [activeOverlay, setActiveOverlay] = useState<
+    null | "projects" | "skills" | "resume"
+  >(null);
 
   useEffect(() => {
     const triggerGlitch = () => {
@@ -161,12 +168,14 @@ export default function Hero() {
                           {content}
                         </a>
                       ) : (
-                        <Link
-                          to={item.href}
-                          className="block py-1 hover:outline-none focus:outline-none"
+                        <button
+                          onClick={() =>
+                            item.overlay && setActiveOverlay(item.overlay)
+                          }
+                          className="block py-1 hover:outline-none focus:outline-none text-left cursor-pointer"
                         >
                           {content}
-                        </Link>
+                        </button>
                       )}
                     </div>
                   );
@@ -203,6 +212,32 @@ export default function Hero() {
           </div>
         </div>
       </div>
+
+      {/* Overlays */}
+      {activeOverlay === "projects" && (
+        <TerminalOverlay
+          title="projects.dat"
+          onClose={() => setActiveOverlay(null)}
+        >
+          <Projects />
+        </TerminalOverlay>
+      )}
+      {activeOverlay === "skills" && (
+        <TerminalOverlay
+          title="skills.dat"
+          onClose={() => setActiveOverlay(null)}
+        >
+          <Skills />
+        </TerminalOverlay>
+      )}
+      {activeOverlay === "resume" && (
+        <TerminalOverlay
+          title="resume.dat"
+          onClose={() => setActiveOverlay(null)}
+        >
+          <Resume />
+        </TerminalOverlay>
+      )}
     </div>
   );
 }
