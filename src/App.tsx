@@ -1,8 +1,10 @@
 import { useState } from "react";
+import { Routes, Route } from "react-router-dom";
 import LoadingScreen from "./components/LoadingScreen";
 import Hero from "./components/Hero";
+import NotFound from "./components/NotFound";
 
-export default function App() {
+function Home() {
   const [loadingComplete, setLoadingComplete] = useState(false);
 
   return (
@@ -18,5 +20,14 @@ export default function App() {
         <Hero />
       </div>
     </>
+  );
+}
+
+export default function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="*" element={<NotFound />} />
+    </Routes>
   );
 }

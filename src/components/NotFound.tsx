@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export default function NotFound() {
   return (
     <div className="min-h-screen bg-[#0a0a0f] flex flex-col items-center justify-center px-6 text-center relative overflow-hidden">
@@ -45,13 +47,13 @@ export default function NotFound() {
         {/* Decorative Divider */}
         <div className="w-16 h-[1px] bg-[#00f0ff]/30 mb-12 mx-auto" />
 
-        <a
-          href="/"
+        <Link
+          to="/"
           className="inline-block text-[#00f0ff] text-lg tracking-[0.4em] uppercase border border-[#00f0ff]/30 px-6 py-3 hover:bg-[#00f0ff]/10 hover:border-[#00f0ff] transition-all duration-300"
           style={{ fontFamily: "'Share Tech Mono', monospace" }}
         >
           &lt; Return to Mainframe
-        </a>
+        </Link>
       </div>
     </div>
   );
