@@ -164,11 +164,6 @@ body {
   to { opacity: 1; }
 }
 
-@keyframes cornerGlow {
-  0%, 100% { opacity: 0.6; }
-  50% { opacity: 1; }
-}
-
 ::selection {
   background-color: #fcee0a;
   color: #0a0a0f;

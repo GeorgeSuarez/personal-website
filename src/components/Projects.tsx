@@ -2,7 +2,7 @@ export default function Projects() {
   return (
     <div className="text-center">
       {/* Header */}
-      <div className="w-16 h-[1px] bg-[#fcee0a] mb-8 mx-auto opacity-60" />
+      <div className="w-16 h-px bg-[#fcee0a] mb-8 mx-auto opacity-60" />
 
       <h1
         className="text-[#fcee0a] text-4xl sm:text-5xl font-black tracking-[0.15em] uppercase mb-4"
@@ -15,7 +15,7 @@ export default function Projects() {
       </h1>
 
       <p
-        className="text-[#00f0ff]/60 text-xs tracking-[0.4em] uppercase mb-16"
+        className="text-[#00f0ff]/60 text-xl tracking-[0.2em] uppercase mb-16"
         style={{ fontFamily: "'Share Tech Mono', monospace" }}
       >
         Archived builds // 1 entry found
@@ -52,7 +52,7 @@ export default function Projects() {
 
         {/* Title */}
         <h2
-          className="text-[#fcee0a] text-2xl sm:text-3xl tracking-[0.1em] uppercase mb-2 group-hover:text-[#00f0ff] transition-colors duration-300"
+          className="text-[#fcee0a] text-2xl sm:text-3xl tracking-widest uppercase mb-2 group-hover:text-[#00f0ff] transition-colors duration-300"
           style={{ fontFamily: "'Orbitron', sans-serif" }}
         >
           LFGuild
@@ -60,7 +60,7 @@ export default function Projects() {
 
         {/* Platform badge */}
         <p
-          className="text-[#00f0ff]/60 text-lg tracking-[0.3em] uppercase mb-6"
+          className="text-[#00f0ff]/60 text-xl tracking-[0.2em] uppercase mb-6"
           style={{ fontFamily: "'Share Tech Mono', monospace" }}
         >
           iOS Application // Swift
@@ -71,10 +71,10 @@ export default function Projects() {
           className="text-gray-300 text-lg leading-relaxed mb-8"
           style={{ fontFamily: "'Share Tech Mono', monospace" }}
         >
-          An iOS app that helps players match with guilds that suit their
-          needs. Built with Swift and native iOS frameworks to create a
-          seamless guild discovery and recruitment experience for the popular
-          MMO World of Warcraft.
+          An iOS app that helps players match with guilds that suit their needs.
+          Built with Swift and native iOS frameworks to create a seamless guild
+          discovery and recruitment experience for the popular MMO World of
+          Warcraft.
         </p>
 
         {/* Tech stack */}

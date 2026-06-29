@@ -74,7 +74,7 @@ export default function Resume() {
       </h1>
 
       <p
-        className="text-[#00f0ff]/60 text-base tracking-[0.4em] uppercase mb-12"
+        className="text-[#00f0ff]/60 text-lg tracking-[0.2em] uppercase mb-12"
         style={{ fontFamily: "'Share Tech Mono', monospace" }}
       >
         Personnel file // George Suarez
@@ -82,20 +82,12 @@ export default function Resume() {
 
       {/* Terminal Content */}
       <div className="p-6 sm:p-8 text-left">
-        {/* Contact info */}
-        <div className="mb-8 pb-4 border-b border-[#00f0ff]/10">
-          <p
-            className="text-[#00f0ff]/60 text-xs tracking-wider"
-            style={{ fontFamily: "'Share Tech Mono', monospace" }}
-          ></p>
-        </div>
-
         {/* Education */}
         <div className="mb-8">
           <div className="flex items-center gap-2 mb-4">
             <div className="w-2 h-2 bg-[#fcee0a]" />
             <h2
-              className="text-[#fcee0a] text-xl tracking-[0.3em] uppercase"
+              className="text-[#fcee0a] text-xl tracking-[0.2em] uppercase"
               style={{ fontFamily: "'Orbitron', sans-serif" }}
             >
               Education
@@ -109,13 +101,13 @@ export default function Resume() {
               >
                 <div>
                   <h3
-                    className="text-[#00f0ff] text-lg font-bold tracking-[0.1em]"
+                    className="text-[#00f0ff] text-lg font-bold"
                     style={{ fontFamily: "'Share Tech Mono', monospace" }}
                   >
                     {edu.school}, San Bernardino, California
                   </h3>
                   <p
-                    className="text-gray-300 text-base italic tracking-wide mt-0.5"
+                    className="text-gray-300 text-base italic mt-0.5"
                     style={{ fontFamily: "'Share Tech Mono', monospace" }}
                   >
                     {edu.degree}, {edu.period}
@@ -131,7 +123,7 @@ export default function Resume() {
           <div className="flex items-center gap-2 mb-4">
             <div className="w-2 h-2 bg-[#fcee0a]" />
             <h2
-              className="text-[#fcee0a] text-xl tracking-[0.3em] uppercase"
+              className="text-[#fcee0a] text-xl tracking-[0.2em] uppercase"
               style={{ fontFamily: "'Orbitron', sans-serif" }}
             >
               Work Experience
@@ -145,7 +137,7 @@ export default function Resume() {
               >
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-1">
                   <h3
-                    className="text-[#00f0ff] text-lg font-bold tracking-[0.1em]"
+                    className="text-[#00f0ff] text-lg font-bold"
                     style={{ fontFamily: "'Share Tech Mono', monospace" }}
                   >
                     {exp.company}
@@ -179,7 +171,7 @@ export default function Resume() {
           <div className="flex items-center gap-2 mb-4">
             <div className="w-2 h-2 bg-[#fcee0a]" />
             <h2
-              className="text-[#fcee0a] text-xl tracking-[0.3em] uppercase"
+              className="text-[#fcee0a] text-xl tracking-[0.2em] uppercase"
               style={{ fontFamily: "'Orbitron', sans-serif" }}
             >
               Projects
@@ -192,7 +184,7 @@ export default function Resume() {
                 className="relative pl-4 border-l border-[#00f0ff]/20"
               >
                 <h3
-                  className="text-[#00f0ff] text-xl font-bold tracking-[0.1em] mb-2"
+                  className="text-[#00f0ff] text-xl font-bold mb-2"
                   style={{ fontFamily: "'Share Tech Mono', monospace" }}
                 >
                   {proj.name}
@@ -219,7 +211,7 @@ export default function Resume() {
           <div className="flex items-center gap-2 mb-4">
             <div className="w-2 h-2 bg-[#fcee0a]" />
             <h2
-              className="text-[#fcee0a] text-xl tracking-[0.3em] uppercase"
+              className="text-[#fcee0a] text-xl tracking-[0.2em] uppercase"
               style={{ fontFamily: "'Orbitron', sans-serif" }}
             >
               Skills
@@ -230,34 +222,18 @@ export default function Resume() {
               className="text-gray-300 text-base leading-relaxed"
               style={{ fontFamily: "'Share Tech Mono', monospace" }}
             >
-              <span className="text-[#00f0ff]">Technical Skills:</span> C++,
-              C#, Swift, Java {""}
+              <span className="text-[#00f0ff] text-lg">Technical Skills:</span>{" "}
+              C++, C#, Swift, Java {""}
               JavaScript, TypeScript, React.js, Node.js, Python, HTML/CSS
             </p>
             <p
               className="text-gray-300 text-base leading-relaxed"
               style={{ fontFamily: "'Share Tech Mono', monospace" }}
             >
-              <span className="text-[#00f0ff]">Certificates:</span>{" "}
+              <span className="text-[#00f0ff] text-lg">Certificates:</span>{" "}
               Full-stack Development Certificate from Fullstack Academy
             </p>
           </div>
-        </div>
-
-        {/* Prompt */}
-        <div className="w-full flex items-center gap-2 mt-6 pt-4 border-t border-[#00f0ff]/10">
-          <span
-            className="text-[#00f0ff] text-xs"
-            style={{ fontFamily: "'Share Tech Mono', monospace" }}
-          >
-            $
-          </span>
-          <span
-            className="text-[#00f0ff]/40 text-sm tracking-wider"
-            style={{ fontFamily: "'Share Tech Mono', monospace" }}
-          >
-            <span className="animate-pulse">_</span>
-          </span>
         </div>
       </div>
     </div>

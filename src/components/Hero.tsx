@@ -33,6 +33,7 @@ export default function Hero() {
   const [activeOverlay, setActiveOverlay] = useState<
     null | "projects" | "skills" | "resume"
   >(null);
+  const [selectedIndex, setSelectedIndex] = useState(0);
 
   useEffect(() => {
     const triggerGlitch = () => {
@@ -44,6 +45,53 @@ export default function Hero() {
     const interval = setInterval(triggerGlitch, 15000);
     return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    const activateItem = (item: MenuItem) => {
+      if (item.external) {
+        if (item.href.startsWith("mailto:")) {
+          window.location.href = item.href;
+        } else {
+          window.open(item.href, "_blank", "noopener,noreferrer");
+        }
+      } else if (item.overlay) {
+        setActiveOverlay(item.overlay);
+      }
+    };
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (activeOverlay) {
+        if (e.key === "Escape") {
+          setActiveOverlay(null);
+        }
+        return;
+      }
+
+      if (e.key === "ArrowUp" || e.key === "ArrowDown") {
+        e.preventDefault();
+        setSelectedIndex((prev) => {
+          const delta = e.key === "ArrowUp" ? -1 : 1;
+          return (prev + delta + menuItems.length) % menuItems.length;
+        });
+        return;
+      }
+
+      if (e.key === "Enter") {
+        e.preventDefault();
+        activateItem(menuItems[selectedIndex]);
+        return;
+      }
+
+      const index = parseInt(e.key, 10) - 1;
+      if (index < 0 || index >= menuItems.length) return;
+
+      setSelectedIndex(index);
+      activateItem(menuItems[index]);
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [activeOverlay, selectedIndex]);
 
   return (
     <div className="relative min-h-screen bg-[#0a0a0f] overflow-hidden flex items-center justify-center p-4 sm:p-8">
@@ -64,12 +112,6 @@ export default function Hero() {
       <div className="relative z-10 w-full max-w-3xl">
         {/* Terminal Frame */}
         <div className="relative border border-[#00f0ff]/30 bg-[#0a0a0f]/90 backdrop-blur-sm shadow-[0_0_30px_rgba(0,240,255,0.1)]">
-          {/* Corner decorations */}
-          <div className="absolute -top-1 -left-1 w-4 h-4 border-t-2 border-l-2 border-[#fcee0a]" />
-          <div className="absolute -top-1 -right-1 w-4 h-4 border-t-2 border-r-2 border-[#fcee0a]" />
-          <div className="absolute -bottom-1 -left-1 w-4 h-4 border-b-2 border-l-2 border-[#fcee0a]" />
-          <div className="absolute -bottom-1 -right-1 w-4 h-4 border-b-2 border-r-2 border-[#fcee0a]" />
-
           {/* Title Bar */}
           <div className="flex items-center justify-between px-4 py-3 border-b border-[#00f0ff]/20 bg-[#0a0a0f]/50">
             <div className="flex items-center gap-2">
@@ -78,14 +120,13 @@ export default function Hero() {
               <span className="w-3 h-3 rounded-full bg-[#00f0ff]/80" />
             </div>
             <span
-              className="text-[#00f0ff]/60 text-[10px] tracking-[0.3em] uppercase"
+              className="text-[#00f0ff]/60 text-[16px] tracking-[0.2em] uppercase"
               style={{ fontFamily: "'Share Tech Mono', monospace" }}
             >
               root@netrunner:~$
             </span>
-            <div className="w-[52px]" />
+            <div className="w-13" />
           </div>
-
           {/* Terminal Content */}
           <div className="p-8 sm:p-12 flex flex-col items-center justify-center text-center">
             {/* Prompt Line */}
@@ -97,7 +138,7 @@ export default function Hero() {
                 $
               </span>
               <span
-                className="text-[#00f0ff]/40 text-xs tracking-wider"
+                className="text-[#00f0ff]/40 text-sm tracking-wider"
                 style={{ fontFamily: "'Share Tech Mono', monospace" }}
               >
                 ./init_portfolio.sh
@@ -105,7 +146,7 @@ export default function Hero() {
             </div>
 
             {/* Decorative Top Line */}
-            <div className="w-24 h-[1px] bg-[#fcee0a] mb-8 opacity-60" />
+            <div className="w-24 h-px bg-[#fcee0a] mb-8 opacity-60" />
 
             {/* Name */}
             <h1
@@ -125,7 +166,7 @@ export default function Hero() {
 
             {/* Subtitle */}
             <p
-              className="text-[#00f0ff] text-lg sm:text-lg tracking-[0.6em] uppercase mb-16 opacity-80"
+              className="inline-block text-black text-lg sm:text-2xl tracking-[0.4em] uppercase mb-16 bg-[#00f0ff] px-4 py-1"
               style={{ fontFamily: "'Share Tech Mono', monospace" }}
             >
               Software Engineer
@@ -133,31 +174,34 @@ export default function Hero() {
 
             {/* Menu Container with Frame */}
             <div className="relative p-8 sm:p-12 w-full max-w-md">
-              {/* Corner decorations */}
-              <div className="absolute top-0 left-0 w-6 h-6 border-t-2 border-l-2 border-[#fcee0a]" />
-              <div className="absolute top-0 right-0 w-6 h-6 border-t-2 border-r-2 border-[#fcee0a]" />
-              <div className="absolute bottom-0 left-0 w-6 h-6 border-b-2 border-l-2 border-[#fcee0a]" />
-              <div className="absolute bottom-0 right-0 w-6 h-6 border-b-2 border-r-2 border-[#fcee0a]" />
-
               <nav className="flex flex-col gap-5 sm:gap-6 items-start">
                 {menuItems.map((item, index) => {
+                  const isSelected = index === selectedIndex;
                   const content = (
                     <span className="group flex items-center gap-4 transition-all duration-300">
                       <span
-                        className="text-[#00f0ff] text-lg opacity-50 group-hover:opacity-100 transition-opacity"
+                        className={`text-[#00f0ff] text-lg transition-opacity ${isSelected ? "opacity-100" : "opacity-50 group-hover:opacity-100"}`}
                         style={{ fontFamily: "'Share Tech Mono', monospace" }}
                       >
                         0{index + 1}
                       </span>
-                      <span className="text-gray-300 text-lg sm:text-xl tracking-[0.2em] uppercase group-hover:text-[#fcee0a] group-hover:translate-x-2 transition-all duration-300">
+                      <span
+                        className={`text-lg sm:text-xl tracking-[0.2em] uppercase transition-all duration-300 ${isSelected ? "text-[#fcee0a] translate-x-2" : "text-gray-300 group-hover:text-[#fcee0a] group-hover:translate-x-2"}`}
+                      >
                         {item.label}
                       </span>
-                      <span className="h-[1px] w-0 bg-[#fcee0a] group-hover:w-12 transition-all duration-300 opacity-0 group-hover:opacity-100" />
+                      <span
+                        className={`h-px transition-all duration-300 ${isSelected ? "w-12 bg-[#fcee0a] opacity-100" : "w-0 bg-[#fcee0a] opacity-0 group-hover:w-12 group-hover:opacity-100"}`}
+                      />
                     </span>
                   );
 
                   return (
-                    <div key={item.label} className="relative">
+                    <div
+                      key={item.label}
+                      className="relative"
+                      onMouseEnter={() => setSelectedIndex(index)}
+                    >
                       {item.external ? (
                         <a
                           href={item.href}
@@ -184,31 +228,7 @@ export default function Hero() {
             </div>
 
             {/* Decorative Bottom Line */}
-            <div className="w-24 h-[1px] bg-[#fcee0a] mt-12 opacity-60" />
-
-            {/* Status Text */}
-            <p
-              className="text-[#00f0ff]/40 text-[16px] tracking-[0.4em] uppercase mt-8"
-              style={{ fontFamily: "'Share Tech Mono', monospace" }}
-            >
-              System Online // v2.0.77
-            </p>
-
-            {/* Prompt Line */}
-            <div className="w-full flex items-center gap-2 mt-8 text-left">
-              <span
-                className="text-[#00f0ff] text-xs"
-                style={{ fontFamily: "'Share Tech Mono', monospace" }}
-              >
-                $
-              </span>
-              <span
-                className="text-[#00f0ff]/40 text-xs tracking-wider"
-                style={{ fontFamily: "'Share Tech Mono', monospace" }}
-              >
-                <span className="animate-pulse">_</span>
-              </span>
-            </div>
+            <div className="w-24 h-px bg-[#fcee0a] mt-12 opacity-60" />
           </div>
         </div>
       </div>

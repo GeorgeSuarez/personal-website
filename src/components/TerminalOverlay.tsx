@@ -55,40 +55,6 @@ export default function TerminalOverlay({
             : "0 0 20px rgba(0, 240, 255, 0.05)",
         }}
       >
-        {/* Corner decorations - always visible */}
-        <div
-          className="absolute -top-1 -left-1 w-4 h-4 border-t-2 border-l-2 border-[#fcee0a]"
-          style={{
-            animation: expanded
-              ? "cornerGlow 2s ease-in-out infinite"
-              : "none",
-          }}
-        />
-        <div
-          className="absolute -top-1 -right-1 w-4 h-4 border-t-2 border-r-2 border-[#fcee0a]"
-          style={{
-            animation: expanded
-              ? "cornerGlow 2s ease-in-out infinite 0.5s"
-              : "none",
-          }}
-        />
-        <div
-          className="absolute -bottom-1 -left-1 w-4 h-4 border-b-2 border-l-2 border-[#fcee0a]"
-          style={{
-            animation: expanded
-              ? "cornerGlow 2s ease-in-out infinite 1s"
-              : "none",
-          }}
-        />
-        <div
-          className="absolute -bottom-1 -right-1 w-4 h-4 border-b-2 border-r-2 border-[#fcee0a]"
-          style={{
-            animation: expanded
-              ? "cornerGlow 2s ease-in-out infinite 1.5s"
-              : "none",
-          }}
-        />
-
         {/* Title Bar - always visible */}
         <div className="flex items-center justify-between px-4 py-3 border-b border-[#00f0ff]/20 bg-[#0a0a0f]/50 sticky top-0 z-10">
           <div className="flex items-center gap-2">
@@ -97,7 +63,7 @@ export default function TerminalOverlay({
             <span className="w-3 h-3 rounded-full bg-[#00f0ff]/80" />
           </div>
           <span
-            className="text-[#00f0ff]/60 text-[10px] tracking-[0.3em] uppercase"
+            className="text-[#00f0ff]/60 text-[16px] tracking-[0.2em] uppercase"
             style={{ fontFamily: "'Share Tech Mono', monospace" }}
           >
             {title}

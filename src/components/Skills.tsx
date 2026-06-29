@@ -14,13 +14,10 @@ const skills: Skill[] = [
   { name: "C#", category: "Languages", icon: "csharp" },
   { name: "React", category: "Frameworks", icon: "react" },
   { name: "Node.js", category: "Frameworks", icon: "nodejs" },
-  { name: "Express", category: "Frameworks", icon: "express" },
   { name: "Tailwind CSS", category: "Frameworks", icon: "tailwindcss" },
   { name: "Vite", category: "Frameworks", icon: "vitejs" },
   { name: "Git", category: "Tools", icon: "git" },
-  { name: "Docker", category: "Tools", icon: "docker" },
   { name: "Linux", category: "Tools", icon: "linux" },
-  { name: "PostgreSQL", category: "Databases", icon: "postgresql" },
   { name: "SQLite", category: "Databases", icon: "sqlite" },
 ];
 
@@ -145,7 +142,7 @@ function CategoryHeader({ category }: { category: Skill["category"] }) {
         {category}
       </h2>
       <span
-        className="text-[10px] tracking-[0.2em] uppercase opacity-40"
+        className="text-[12px] tracking-[0.2em] uppercase opacity-40"
         style={{
           fontFamily: "'Share Tech Mono', monospace",
           color: config.color,
@@ -178,7 +175,7 @@ export default function Skills() {
       </h1>
 
       <p
-        className="text-[#00f0ff]/60 text-xs tracking-[0.4em] uppercase mb-16"
+        className="text-[#00f0ff]/60 text-lg tracking-[0.2em] uppercase mb-16"
         style={{ fontFamily: "'Share Tech Mono', monospace" }}
       >
         Neural skill grid // {skills.length} protocols loaded

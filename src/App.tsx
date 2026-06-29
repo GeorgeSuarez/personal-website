@@ -1,17 +1,17 @@
 import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
-import LoadingScreen from "./components/LoadingScreen";
+// import LoadingScreen from "./components/LoadingScreen";
 import Hero from "./components/Hero";
 import NotFound from "./components/NotFound";
 
 function Home() {
-  const [loadingComplete, setLoadingComplete] = useState(false);
+  const [loadingComplete] = useState(true);
 
   return (
     <>
-      {!loadingComplete && (
+      {/* {!loadingComplete && (
         <LoadingScreen onComplete={() => setLoadingComplete(true)} />
-      )}
+      )} */}
       <div
         className={`transition-opacity duration-500 ${
           loadingComplete ? "opacity-100" : "opacity-0"
