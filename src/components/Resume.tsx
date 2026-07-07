@@ -55,6 +55,13 @@ const projects: Project[] = [
       "Developed real-time chat functionality with unread message tracking and conversation management.",
     ],
   },
+  {
+    name: "Rusty Vault",
+    bullets: [
+      "Developed a terminal user interface(TUI) in Rust which manages passwords and API credentials.",
+      "Implemented an encryption algorithm with AES-256-GCM that encrypts passwords and API credentials before writing to a local SQLite database.",
+    ],
+  },
 ];
 
 export default function Resume() {
