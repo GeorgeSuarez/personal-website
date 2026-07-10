@@ -26,6 +26,15 @@ const projects: Project[] = [
     url: "https://github.com/GeorgeSuarez/RustyVault",
     tags: ["Rust", "Ratatui", "SQLite"],
   },
+  {
+    id: "03",
+    title: "Cheevo Dash",
+    platform: "Web App // TypeScript",
+    description:
+      "A dashboard that displays metrics about your Steam achievements. Built with Next.js, React, Tailwind, and shadcn/UI.",
+    url: "https://github.com/GeorgeSuarez/CheevoDash",
+    tags: ["TypeScript", "NextJS", "ReactJS", "TailWind CSS"],
+  },
 ];
 
 function ProjectCard({ project }: { project: Project }) {
