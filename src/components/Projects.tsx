@@ -3,7 +3,6 @@ interface Project {
   title: string;
   platform: string;
   description: string;
-  status: string;
   url: string;
   tags: string[];
 }
@@ -15,7 +14,6 @@ const projects: Project[] = [
     platform: "iOS Application // Swift",
     description:
       "An iOS app that helps players match with guilds that suit their needs. Built with Swift and native iOS frameworks to create a seamless guild discovery and recruitment experience for the popular MMO World of Warcraft.",
-    status: "Active",
     url: "https://github.com/GeorgeSuarez/LFGuild",
     tags: ["Swift", "iOS", "UIKit", "Xcode"],
   },
@@ -25,7 +23,6 @@ const projects: Project[] = [
     platform: "Rust Crate // Rust",
     description:
       "An TUI application that manages your passwords and api credentials. Built with Rust and Ratatui.",
-    status: "Active",
     url: "https://github.com/GeorgeSuarez/RustyVault",
     tags: ["Rust", "Ratatui", "SQLite"],
   },
@@ -52,12 +49,6 @@ function ProjectCard({ project }: { project: Project }) {
           style={{ fontFamily: "'Share Tech Mono', monospace" }}
         >
           ID:{project.id}
-        </span>
-        <span
-          className="text-[14px] tracking-[0.2em] uppercase px-3 py-1 border text-[#fcee0a] border-[#fcee0a]/30 bg-[#fcee0a]/5"
-          style={{ fontFamily: "'Share Tech Mono', monospace" }}
-        >
-          {project.status}
         </span>
       </div>
 
