@@ -12,15 +12,21 @@ interface MenuItem {
 }
 
 const menuItems: MenuItem[] = [
+  { label: "Projects", href: "#", external: false, overlay: "projects" },
+  { label: "Skills", href: "#", external: false, overlay: "skills" },
+  {
+    label: "Resume",
+    href: "https://docs.google.com/document/d/1dc6JMnq39HdQFgQT9z8GoSA6DrW2nYucwzqWWfyX8tE/export?format=pdf",
+    external: true,
+    overlay: "resume",
+  },
   { label: "GitHub", href: "https://github.com/georgesuarez", external: true },
   {
     label: "LinkedIn",
     href: "https://linkedin.com/in/george-suarez",
     external: true,
   },
-  { label: "Projects", href: "#", external: false, overlay: "projects" },
-  { label: "Skills", href: "#", external: false, overlay: "skills" },
-  { label: "Resume", href: "#", external: false, overlay: "resume" },
+
   {
     label: "Contact Me",
     href: "mailto:georgesuarezdev@gmail.com",
@@ -251,13 +257,16 @@ export default function Hero() {
         </TerminalOverlay>
       )}
       {activeOverlay === "resume" && (
+        <a href="https://docs.google.com/document/d/1dc6JMnq39HdQFgQT9z8GoSA6DrW2nYucwzqWWfyX8tE/export?format=pdf"></a>
+      )}
+      {/* activeOverlay === "resume" && (
         <TerminalOverlay
           title="resume.dat"
           onClose={() => setActiveOverlay(null)}
         >
           <Resume />
         </TerminalOverlay>
-      )}
+      ) */}
     </div>
   );
 }
