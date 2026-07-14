@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import TerminalOverlay from "./TerminalOverlay";
 import Projects from "./Projects";
 import Skills from "./Skills";
-import Resume from "./Resume";
+// import Resume from "./Resume";
 
 interface MenuItem {
   label: string;
