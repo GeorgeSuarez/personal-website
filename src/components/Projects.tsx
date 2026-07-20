@@ -19,6 +19,15 @@ const projects: Project[] = [
   },
   {
     id: "02",
+    title: "Subby",
+    platform: "React Native // TypeScript",
+    description:
+      "An React Native project that lets you track and manage your subscriptions from whatever it may be.",
+    url: "https://github.com/GeorgeSuarez/Subby",
+    tags: ["React Native", "SQLite", "iOS", "Android", "Expo"],
+  },
+  {
+    id: "03",
     title: "Rusty Vault",
     platform: "Rust Crate // Rust",
     description:
@@ -27,7 +36,7 @@ const projects: Project[] = [
     tags: ["Rust", "Ratatui", "SQLite"],
   },
   {
-    id: "03",
+    id: "04",
     title: "Cheevo Dash",
     platform: "Web App // TypeScript",
     description:
