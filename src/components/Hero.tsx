@@ -16,7 +16,7 @@ const menuItems: MenuItem[] = [
   { label: "Skills", href: "#", external: false, overlay: "skills" },
   {
     label: "Resume",
-    href: "https://docs.google.com/document/d/1dc6JMnq39HdQFgQT9z8GoSA6DrW2nYucwzqWWfyX8tE/export?format=pdf",
+    href: "https://docs.google.com/document/d/1UhSLU710_8HHWU7tvZG9tbA83dd_0L8IwUvfGo5BnXI/export?format=pdf",
     external: true,
     overlay: "resume",
   },
@@ -26,7 +26,6 @@ const menuItems: MenuItem[] = [
     href: "https://linkedin.com/in/george-suarez",
     external: true,
   },
-
   {
     label: "Contact Me",
     href: "mailto:georgesuarezdev@gmail.com",
