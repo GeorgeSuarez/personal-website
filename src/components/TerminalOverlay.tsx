@@ -16,12 +16,10 @@ export default function TerminalOverlay({
   const [contentVisible, setContentVisible] = useState(false);
 
   useEffect(() => {
-    // Start expansion after a small delay
     const expandTimer = setTimeout(() => {
       setExpanded(true);
     }, 300);
 
-    // Show content after window is mostly expanded
     const contentTimer = setTimeout(() => {
       setContentVisible(true);
     }, 1000);
@@ -37,11 +35,11 @@ export default function TerminalOverlay({
       className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 sm:p-8"
       onClick={onClose}
       style={{
-        animation: "terminalBackdrop 0.3s ease-out forwards",
+        animation: "terminal-backdrop 0.3s ease-out forwards",
       }}
     >
       <div
-        className="relative border border-[#00f0ff]/30 bg-[#0a0a0f]/95 backdrop-blur-sm shadow-[0_0_30px_rgba(0,240,255,0.1)]"
+        className="relative border border-cyan/30 bg-background/95 backdrop-blur-sm shadow-[0_0_30px_rgba(0,240,255,0.1)]"
         onClick={(e) => e.stopPropagation()}
         style={{
           maxWidth: expanded ? "56rem" : "320px",
@@ -55,29 +53,23 @@ export default function TerminalOverlay({
             : "0 0 20px rgba(0, 240, 255, 0.05)",
         }}
       >
-        {/* Title Bar - always visible */}
-        <div className="flex items-center justify-between px-4 py-3 border-b border-[#00f0ff]/20 bg-[#0a0a0f]/50 sticky top-0 z-10">
+        <div className="flex items-center justify-between px-4 py-3 border-b border-cyan/20 bg-background/50 sticky top-0 z-10">
           <div className="flex items-center gap-2">
-            <span className="w-3 h-3 rounded-full bg-[#ff0055]/80" />
-            <span className="w-3 h-3 rounded-full bg-[#fcee0a]/80" />
-            <span className="w-3 h-3 rounded-full bg-[#00f0ff]/80" />
+            <span className="w-3 h-3 rounded-full bg-magenta/80" />
+            <span className="w-3 h-3 rounded-full bg-yellow/80" />
+            <span className="w-3 h-3 rounded-full bg-cyan/80" />
           </div>
-          <span
-            className="text-[#00f0ff]/60 text-[16px] tracking-[0.2em] uppercase"
-            style={{ fontFamily: "'Share Tech Mono', monospace" }}
-          >
+          <span className="text-cyan/60 text-[16px] tracking-[0.2em] uppercase font-mono">
             {title}
           </span>
           <button
             onClick={onClose}
-            className="text-[#00f0ff]/60 hover:text-[#ff0055] text-xs tracking-wider uppercase transition-colors"
-            style={{ fontFamily: "'Share Tech Mono', monospace" }}
+            className="text-cyan/60 hover:text-magenta text-xs tracking-wider uppercase transition-colors font-mono"
           >
             [x]
           </button>
         </div>
 
-        {/* Compact prompt - visible when not expanded */}
         <div
           className="px-4 py-3"
           style={{
@@ -88,26 +80,19 @@ export default function TerminalOverlay({
           }}
         >
           <div className="flex items-center gap-2">
-            <span
-              className="text-[#00f0ff] text-xs"
-              style={{ fontFamily: "'Share Tech Mono', monospace" }}
-            >
+            <span className="text-cyan text-xs font-mono">
               root@netrunner:~$
             </span>
-            <span
-              className="text-gray-300 text-xs tracking-wider"
-              style={{ fontFamily: "'Share Tech Mono', monospace" }}
-            >
+            <span className="text-muted text-xs tracking-wider font-mono">
               open {title}
             </span>
             <span
-              className="inline-block w-2 h-3 bg-[#00f0ff] animate-pulse"
+              className="inline-block w-2 h-3 bg-cyan animate-pulse"
               style={{ marginLeft: "2px" }}
             />
           </div>
         </div>
 
-        {/* Full Content - fades in after expansion */}
         <div
           style={{
             opacity: contentVisible ? 1 : 0,

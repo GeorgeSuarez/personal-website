@@ -5,7 +5,7 @@ interface LoadingScreenProps {
 }
 
 const COMMAND = "./init_portfolio.sh";
-const TYPING_SPEED = 80; // ms per character
+const TYPING_SPEED = 80;
 const OUTPUT_LINES = [
   "> Initializing neural link...",
   "> Loading protocols...",
@@ -22,7 +22,6 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
   const [isComplete, setIsComplete] = useState(false);
   const [isFadingOut, setIsFadingOut] = useState(false);
 
-  // Typing animation
   useEffect(() => {
     if (displayedCommand.length < COMMAND.length) {
       const timeout = setTimeout(() => {
@@ -30,7 +29,6 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
       }, TYPING_SPEED);
       return () => clearTimeout(timeout);
     } else {
-      // Command fully typed - wait then show output
       const timeout = setTimeout(() => {
         setShowOutput(true);
       }, 400);
@@ -38,7 +36,6 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
     }
   }, [displayedCommand]);
 
-  // Cursor blink when not typing
   useEffect(() => {
     if (displayedCommand.length === COMMAND.length && !isFadingOut) {
       const interval = setInterval(() => {
@@ -48,7 +45,6 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
     }
   }, [displayedCommand, isFadingOut]);
 
-  // Output lines animation
   useEffect(() => {
     if (!showOutput) return;
 
@@ -58,7 +54,6 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
       }, 400);
       return () => clearTimeout(timeout);
     } else {
-      // All output shown - start fade out
       const timeout = setTimeout(() => {
         setIsComplete(true);
         setIsFadingOut(true);
@@ -67,7 +62,6 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
     }
   }, [showOutput, outputIndex]);
 
-  // Fade out complete - trigger onComplete
   useEffect(() => {
     if (isFadingOut) {
       const timeout = setTimeout(() => {
@@ -79,11 +73,10 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
 
   return (
     <div
-      className={`fixed inset-0 z-50 bg-[#0a0a0f] flex items-center justify-center p-4 transition-opacity duration-500 ${
+      className={`fixed inset-0 z-50 bg-background flex items-center justify-center p-4 transition-opacity duration-500 ${
         isFadingOut ? "opacity-0" : "opacity-100"
       }`}
     >
-      {/* Background grid */}
       <div
         className="absolute inset-0 opacity-10 pointer-events-none"
         style={{
@@ -93,71 +86,47 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
         }}
       />
 
-      {/* Terminal Window */}
       <div className="relative z-10 w-full max-w-2xl">
-        <div className="relative border border-[#00f0ff]/30 bg-[#0a0a0f]/95 backdrop-blur-sm shadow-[0_0_30px_rgba(0,240,255,0.1)]">
-          {/* Corner decorations */}
-          <div className="absolute -top-1 -left-1 w-4 h-4 border-t-2 border-l-2 border-[#fcee0a]" />
-          <div className="absolute -top-1 -right-1 w-4 h-4 border-t-2 border-r-2 border-[#fcee0a]" />
-          <div className="absolute -bottom-1 -left-1 w-4 h-4 border-b-2 border-l-2 border-[#fcee0a]" />
-          <div className="absolute -bottom-1 -right-1 w-4 h-4 border-b-2 border-r-2 border-[#fcee0a]" />
+        <div className="relative border border-cyan/30 bg-background/95 backdrop-blur-sm shadow-[0_0_30px_rgba(0,240,255,0.1)]">
+          <div className="absolute -top-1 -left-1 w-4 h-4 border-t-2 border-l-2 border-yellow" />
+          <div className="absolute -top-1 -right-1 w-4 h-4 border-t-2 border-r-2 border-yellow" />
+          <div className="absolute -bottom-1 -left-1 w-4 h-4 border-b-2 border-l-2 border-yellow" />
+          <div className="absolute -bottom-1 -right-1 w-4 h-4 border-b-2 border-r-2 border-yellow" />
 
-          {/* Title Bar */}
-          <div className="flex items-center justify-between px-4 py-3 border-b border-[#00f0ff]/20 bg-[#0a0a0f]/50">
+          <div className="flex items-center justify-between px-4 py-3 border-b border-cyan/20 bg-background/50">
             <div className="flex items-center gap-2">
-              <span className="w-3 h-3 rounded-full bg-[#ff0055]/80" />
-              <span className="w-3 h-3 rounded-full bg-[#fcee0a]/80" />
-              <span className="w-3 h-3 rounded-full bg-[#00f0ff]/80" />
+              <span className="w-3 h-3 rounded-full bg-magenta/80" />
+              <span className="w-3 h-3 rounded-full bg-yellow/80" />
+              <span className="w-3 h-3 rounded-full bg-cyan/80" />
             </div>
-            <span
-              className="text-[#00f0ff]/60 text-[10px] tracking-[0.3em] uppercase"
-              style={{ fontFamily: "'Share Tech Mono', monospace" }}
-            >
+            <span className="text-cyan/60 text-[10px] tracking-[0.3em] uppercase font-mono">
               boot_sequence.exe
             </span>
             <div className="w-[52px]" />
           </div>
 
-          {/* Terminal Content */}
           <div className="p-6 sm:p-8 min-h-[300px]">
-            {/* Previous boot messages */}
             <div className="mb-4 space-y-1">
-              <p
-                className="text-[#00f0ff]/30 text-xs"
-                style={{ fontFamily: "'Share Tech Mono', monospace" }}
-              >
+              <p className="text-cyan/30 text-xs font-mono">
                 BIOS v4.2.77 initialized
               </p>
-              <p
-                className="text-[#00f0ff]/30 text-xs"
-                style={{ fontFamily: "'Share Tech Mono', monospace" }}
-              >
+              <p className="text-cyan/30 text-xs font-mono">
                 Memory check: 64TB OK
               </p>
-              <p
-                className="text-[#00f0ff]/30 text-xs"
-                style={{ fontFamily: "'Share Tech Mono', monospace" }}
-              >
+              <p className="text-cyan/30 text-xs font-mono">
                 Neural interface detected
               </p>
             </div>
 
-            {/* Command line */}
             <div className="flex items-start gap-2 mb-4">
-              <span
-                className="text-[#00f0ff] text-sm"
-                style={{ fontFamily: "'Share Tech Mono', monospace" }}
-              >
+              <span className="text-cyan text-sm font-mono">
                 root@netrunner:~$
               </span>
-              <span
-                className="text-gray-200 text-sm"
-                style={{ fontFamily: "'Share Tech Mono', monospace" }}
-              >
+              <span className="text-foreground text-sm font-mono">
                 {displayedCommand}
                 {!isComplete && (
                   <span
-                    className={`inline-block w-2 h-4 ml-0.5 align-middle bg-[#00f0ff] ${
+                    className={`inline-block w-2 h-4 ml-0.5 align-middle bg-cyan ${
                       cursorVisible ? "opacity-100" : "opacity-0"
                     }`}
                   />
@@ -165,21 +134,16 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
               </span>
             </div>
 
-            {/* Output lines */}
             {showOutput && (
               <div className="space-y-2 pl-0">
                 {OUTPUT_LINES.slice(0, outputIndex).map((line, index) => (
                   <p
                     key={index}
-                    className={`text-sm ${
+                    className={`text-sm animate-fade-in ${
                       index === OUTPUT_LINES.length - 1
-                        ? "text-[#fcee0a]"
-                        : "text-[#00f0ff]/70"
-                    }`}
-                    style={{
-                      fontFamily: "'Share Tech Mono', monospace",
-                      animation: "fadeIn 0.3s ease-out",
-                    }}
+                        ? "text-yellow"
+                        : "text-cyan/70"
+                    } font-mono`}
                   >
                     {line}
                   </p>
@@ -187,14 +151,13 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
               </div>
             )}
 
-            {/* Progress bar when complete */}
             {isComplete && (
               <div className="mt-6">
-                <div className="w-full h-[2px] bg-[#00f0ff]/10 overflow-hidden">
+                <div className="w-full h-px bg-cyan/10 overflow-hidden">
                   <div
-                    className="h-full bg-[#00f0ff] shadow-[0_0_10px_rgba(0,240,255,0.5)]"
+                    className="h-full bg-cyan shadow-[0_0_10px_rgba(0,240,255,0.5)]"
                     style={{
-                      animation: "progressFill 0.5s ease-out forwards",
+                      animation: "progress-fill 0.5s ease-out forwards",
                     }}
                   />
                 </div>

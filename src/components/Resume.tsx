@@ -67,36 +67,25 @@ const projects: Project[] = [
 export default function Resume() {
   return (
     <div className="text-center">
-      {/* Header */}
-      <div className="w-16 h-[1px] bg-[#fcee0a] mb-8 mx-auto opacity-60" />
+      <div className="w-16 h-px bg-yellow mb-8 mx-auto opacity-60" />
 
-      <h1
-        className="text-[#fcee0a] text-4xl sm:text-5xl font-black tracking-[0.15em] uppercase mb-4"
+      <h1 className="text-yellow text-4xl sm:text-5xl font-black tracking-[0.15em] uppercase mb-4 font-display"
         style={{
-          fontFamily: "'Orbitron', sans-serif",
           textShadow: "0 0 20px rgba(252, 238, 10, 0.3)",
         }}
       >
         Resume
       </h1>
 
-      <p
-        className="text-[#00f0ff]/60 text-lg tracking-[0.2em] uppercase mb-12"
-        style={{ fontFamily: "'Share Tech Mono', monospace" }}
-      >
+      <p className="text-cyan/60 text-lg tracking-[0.2em] uppercase mb-12 font-mono">
         Personnel file // George Suarez
       </p>
 
-      {/* Terminal Content */}
       <div className="p-6 sm:p-8 text-left">
-        {/* Education */}
         <div className="mb-8">
           <div className="flex items-center gap-2 mb-4">
-            <div className="w-2 h-2 bg-[#fcee0a]" />
-            <h2
-              className="text-[#fcee0a] text-xl tracking-[0.2em] uppercase"
-              style={{ fontFamily: "'Orbitron', sans-serif" }}
-            >
+            <div className="w-2 h-2 bg-yellow" />
+            <h2 className="text-yellow text-xl tracking-[0.2em] uppercase font-display">
               Education
             </h2>
           </div>
@@ -104,19 +93,13 @@ export default function Resume() {
             {education.map((edu, index) => (
               <div
                 key={index}
-                className="flex flex-col sm:flex-row sm:items-start sm:justify-between pl-4 border-l border-[#00f0ff]/20"
+                className="flex flex-col sm:flex-row sm:items-start sm:justify-between pl-4 border-l border-cyan/20"
               >
                 <div>
-                  <h3
-                    className="text-[#00f0ff] text-lg font-bold"
-                    style={{ fontFamily: "'Share Tech Mono', monospace" }}
-                  >
+                  <h3 className="text-cyan text-lg font-bold font-mono">
                     {edu.school}, San Bernardino, California
                   </h3>
-                  <p
-                    className="text-gray-300 text-base italic mt-0.5"
-                    style={{ fontFamily: "'Share Tech Mono', monospace" }}
-                  >
+                  <p className="text-muted text-base italic mt-0.5 font-mono">
                     {edu.degree}, {edu.period}
                   </p>
                 </div>
@@ -125,14 +108,10 @@ export default function Resume() {
           </div>
         </div>
 
-        {/* Work Experience */}
         <div className="mb-8">
           <div className="flex items-center gap-2 mb-4">
-            <div className="w-2 h-2 bg-[#fcee0a]" />
-            <h2
-              className="text-[#fcee0a] text-xl tracking-[0.2em] uppercase"
-              style={{ fontFamily: "'Orbitron', sans-serif" }}
-            >
+            <div className="w-2 h-2 bg-yellow" />
+            <h2 className="text-yellow text-xl tracking-[0.2em] uppercase font-display">
               Work Experience
             </h2>
           </div>
@@ -140,30 +119,23 @@ export default function Resume() {
             {experience.map((exp, index) => (
               <div
                 key={index}
-                className="relative pl-4 border-l border-[#00f0ff]/20"
+                className="relative pl-4 border-l border-cyan/20"
               >
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-1">
-                  <h3
-                    className="text-[#00f0ff] text-lg font-bold"
-                    style={{ fontFamily: "'Share Tech Mono', monospace" }}
-                  >
+                  <h3 className="text-cyan text-lg font-bold font-mono">
                     {exp.company}
                   </h3>
                 </div>
-                <p
-                  className="text-gray-400 text-base italic tracking-wide mb-2"
-                  style={{ fontFamily: "'Share Tech Mono', monospace" }}
-                >
+                <p className="text-muted text-base italic tracking-wide mb-2 font-mono">
                   {exp.role}, {exp.period}
                 </p>
                 <ul className="space-y-1">
                   {exp.bullets.map((bullet, bIndex) => (
                     <li
                       key={bIndex}
-                      className="text-gray-300 text-base leading-relaxed flex items-start gap-2"
-                      style={{ fontFamily: "'Share Tech Mono', monospace" }}
+                      className="text-muted text-base leading-relaxed flex items-start gap-2 font-mono"
                     >
-                      <span className="text-[#00f0ff]/40 mt-0.5">&gt;</span>
+                      <span className="text-cyan/40 mt-0.5">&gt;</span>
                       {bullet}
                     </li>
                   ))}
@@ -173,14 +145,10 @@ export default function Resume() {
           </div>
         </div>
 
-        {/* Projects */}
         <div className="mb-8">
           <div className="flex items-center gap-2 mb-4">
-            <div className="w-2 h-2 bg-[#fcee0a]" />
-            <h2
-              className="text-[#fcee0a] text-xl tracking-[0.2em] uppercase"
-              style={{ fontFamily: "'Orbitron', sans-serif" }}
-            >
+            <div className="w-2 h-2 bg-yellow" />
+            <h2 className="text-yellow text-xl tracking-[0.2em] uppercase font-display">
               Projects
             </h2>
           </div>
@@ -188,22 +156,18 @@ export default function Resume() {
             {projects.map((proj, index) => (
               <div
                 key={index}
-                className="relative pl-4 border-l border-[#00f0ff]/20"
+                className="relative pl-4 border-l border-cyan/20"
               >
-                <h3
-                  className="text-[#00f0ff] text-xl font-bold mb-2"
-                  style={{ fontFamily: "'Share Tech Mono', monospace" }}
-                >
+                <h3 className="text-cyan text-xl font-bold mb-2 font-mono">
                   {proj.name}
                 </h3>
                 <ul className="space-y-1">
                   {proj.bullets.map((bullet, bIndex) => (
                     <li
                       key={bIndex}
-                      className="text-gray-300 text-base leading-relaxed flex items-start gap-2"
-                      style={{ fontFamily: "'Share Tech Mono', monospace" }}
+                      className="text-muted text-base leading-relaxed flex items-start gap-2 font-mono"
                     >
-                      <span className="text-[#00f0ff]/40 mt-0.5">&gt;</span>
+                      <span className="text-cyan/40 mt-0.5">&gt;</span>
                       {bullet}
                     </li>
                   ))}
@@ -213,31 +177,21 @@ export default function Resume() {
           </div>
         </div>
 
-        {/* Skills */}
         <div className="mb-6">
           <div className="flex items-center gap-2 mb-4">
-            <div className="w-2 h-2 bg-[#fcee0a]" />
-            <h2
-              className="text-[#fcee0a] text-xl tracking-[0.2em] uppercase"
-              style={{ fontFamily: "'Orbitron', sans-serif" }}
-            >
+            <div className="w-2 h-2 bg-yellow" />
+            <h2 className="text-yellow text-xl tracking-[0.2em] uppercase font-display">
               Skills
             </h2>
           </div>
-          <div className="pl-4 border-l border-[#00f0ff]/20 space-y-3">
-            <p
-              className="text-gray-300 text-base leading-relaxed"
-              style={{ fontFamily: "'Share Tech Mono', monospace" }}
-            >
-              <span className="text-[#00f0ff] text-lg">Technical Skills:</span>{" "}
-              C++, C#, Swift, Java {""}
+          <div className="pl-4 border-l border-cyan/20 space-y-3">
+            <p className="text-muted text-base leading-relaxed font-mono">
+              <span className="text-cyan text-lg">Technical Skills:</span>{" "}
+              C++, C#, Swift, Java {" "}
               JavaScript, TypeScript, React.js, Node.js, Python, HTML/CSS
             </p>
-            <p
-              className="text-gray-300 text-base leading-relaxed"
-              style={{ fontFamily: "'Share Tech Mono', monospace" }}
-            >
-              <span className="text-[#00f0ff] text-lg">Certificates:</span>{" "}
+            <p className="text-muted text-base leading-relaxed font-mono">
+              <span className="text-cyan text-lg">Certificates:</span>{" "}
               Full-stack Development Certificate from Fullstack Academy
             </p>
           </div>

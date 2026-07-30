@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import TerminalOverlay from "./TerminalOverlay";
 import Projects from "./Projects";
 import Skills from "./Skills";
-// import Resume from "./Resume";
 
 interface MenuItem {
   label: string;
@@ -98,9 +97,16 @@ export default function Hero() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [activeOverlay, selectedIndex]);
 
+  const openResume = () => {
+    window.open(
+      "https://docs.google.com/document/d/1UhSLU710_8HHWU7tvZG9tbA83dd_0L8IwUvfGo5BnXI/export?format=pdf",
+      "_blank",
+      "noopener,noreferrer"
+    );
+  };
+
   return (
-    <div className="relative min-h-screen bg-[#0a0a0f] overflow-hidden flex items-center justify-center p-4 sm:p-8">
-      {/* Animated Grid Background */}
+    <div className="relative min-h-screen bg-background overflow-hidden flex items-center justify-center p-4 sm:p-8">
       <div
         className="absolute inset-0 opacity-20 pointer-events-none"
         style={{
@@ -110,55 +116,35 @@ export default function Hero() {
         }}
       />
 
-      {/* Vignette */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,#0a0a0f_80%)] pointer-events-none" />
 
-      {/* Terminal Window */}
       <div className="relative z-10 w-full max-w-3xl">
-        {/* Terminal Frame */}
-        <div className="relative border border-[#00f0ff]/30 bg-[#0a0a0f]/90 backdrop-blur-sm shadow-[0_0_30px_rgba(0,240,255,0.1)]">
-          {/* Title Bar */}
-          <div className="flex items-center justify-between px-4 py-3 border-b border-[#00f0ff]/20 bg-[#0a0a0f]/50">
+        <div className="relative border border-cyan/30 bg-background/90 backdrop-blur-sm shadow-[0_0_30px_rgba(0,240,255,0.1)]">
+          <div className="flex items-center justify-between px-4 py-3 border-b border-cyan/20 bg-background/50">
             <div className="flex items-center gap-2">
-              <span className="w-3 h-3 rounded-full bg-[#ff0055]/80" />
-              <span className="w-3 h-3 rounded-full bg-[#fcee0a]/80" />
-              <span className="w-3 h-3 rounded-full bg-[#00f0ff]/80" />
+              <span className="w-3 h-3 rounded-full bg-magenta/80" />
+              <span className="w-3 h-3 rounded-full bg-yellow/80" />
+              <span className="w-3 h-3 rounded-full bg-cyan/80" />
             </div>
-            <span
-              className="text-[#00f0ff]/60 text-[16px] tracking-[0.2em] uppercase"
-              style={{ fontFamily: "'Share Tech Mono', monospace" }}
-            >
+            <span className="text-cyan/60 text-[16px] tracking-[0.2em] uppercase font-mono">
               root@netrunner:~$
             </span>
             <div className="w-13" />
           </div>
-          {/* Terminal Content */}
           <div className="p-8 sm:p-12 flex flex-col items-center justify-center text-center">
-            {/* Prompt Line */}
             <div className="w-full flex items-center gap-2 mb-8 text-left">
-              <span
-                className="text-[#00f0ff] text-xs"
-                style={{ fontFamily: "'Share Tech Mono', monospace" }}
-              >
-                $
-              </span>
-              <span
-                className="text-[#00f0ff]/40 text-sm tracking-wider"
-                style={{ fontFamily: "'Share Tech Mono', monospace" }}
-              >
+              <span className="text-cyan text-xs font-mono">$</span>
+              <span className="text-cyan/40 text-sm tracking-wider font-mono">
                 ./init_portfolio.sh
               </span>
             </div>
 
-            {/* Decorative Top Line */}
-            <div className="w-24 h-px bg-[#fcee0a] mb-8 opacity-60" />
+            <div className="w-24 h-px bg-yellow mb-8 opacity-60" />
 
-            {/* Name */}
             <h1
-              className={`glitch-text text-[#fcee0a] text-4xl sm:text-6xl md:text-7xl font-black tracking-[0.15em] uppercase text-center mb-3 ${isGlitching ? "glitching" : ""}`}
+              className={`glitch-text text-yellow text-4xl sm:text-6xl md:text-7xl font-black tracking-[0.15em] uppercase text-center mb-3 ${isGlitching ? "glitching" : ""}`}
               data-text="George Suarez"
               style={{
-                fontFamily: "'Orbitron', sans-serif",
                 textShadow: "0 0 20px rgba(252, 238, 10, 0.3)",
               }}
             >
@@ -169,15 +155,10 @@ export default function Hero() {
               )}
             </h1>
 
-            {/* Subtitle */}
-            <p
-              className="inline-block text-black text-lg sm:text-2xl tracking-[0.4em] uppercase mb-16 bg-[#00f0ff] px-4 py-1"
-              style={{ fontFamily: "'Share Tech Mono', monospace" }}
-            >
+            <p className="inline-block text-background text-lg sm:text-2xl tracking-[0.4em] uppercase mb-16 bg-cyan px-4 py-1 font-mono">
               Software Engineer
             </p>
 
-            {/* Menu Container with Frame */}
             <div className="relative p-8 sm:p-12 w-full max-w-md">
               <nav className="flex flex-col gap-5 sm:gap-6 items-start">
                 {menuItems.map((item, index) => {
@@ -185,18 +166,17 @@ export default function Hero() {
                   const content = (
                     <span className="group flex items-center gap-4 transition-all duration-300">
                       <span
-                        className={`text-[#00f0ff] text-lg transition-opacity ${isSelected ? "opacity-100" : "opacity-50 group-hover:opacity-100"}`}
-                        style={{ fontFamily: "'Share Tech Mono', monospace" }}
+                        className={`text-cyan text-lg transition-opacity font-mono ${isSelected ? "opacity-100" : "opacity-50 group-hover:opacity-100"}`}
                       >
                         0{index + 1}
                       </span>
                       <span
-                        className={`text-lg sm:text-xl tracking-[0.2em] uppercase transition-all duration-300 ${isSelected ? "text-[#fcee0a] translate-x-2" : "text-gray-300 group-hover:text-[#fcee0a] group-hover:translate-x-2"}`}
+                        className={`text-lg sm:text-xl tracking-[0.2em] uppercase transition-all duration-300 ${isSelected ? "text-yellow translate-x-2" : "text-muted group-hover:text-yellow group-hover:translate-x-2"}`}
                       >
                         {item.label}
                       </span>
                       <span
-                        className={`h-px transition-all duration-300 ${isSelected ? "w-12 bg-[#fcee0a] opacity-100" : "w-0 bg-[#fcee0a] opacity-0 group-hover:w-12 group-hover:opacity-100"}`}
+                        className={`h-px transition-all duration-300 ${isSelected ? "w-12 bg-yellow opacity-100" : "w-0 bg-yellow opacity-0 group-hover:w-12 group-hover:opacity-100"}`}
                       />
                     </span>
                   );
@@ -232,13 +212,11 @@ export default function Hero() {
               </nav>
             </div>
 
-            {/* Decorative Bottom Line */}
-            <div className="w-24 h-px bg-[#fcee0a] mt-12 opacity-60" />
+            <div className="w-24 h-px bg-yellow mt-12 opacity-60" />
           </div>
         </div>
       </div>
 
-      {/* Overlays */}
       {activeOverlay === "projects" && (
         <TerminalOverlay
           title="projects.dat"
@@ -255,17 +233,7 @@ export default function Hero() {
           <Skills />
         </TerminalOverlay>
       )}
-      {activeOverlay === "resume" && (
-        <a href="https://docs.google.com/document/d/1dc6JMnq39HdQFgQT9z8GoSA6DrW2nYucwzqWWfyX8tE/export?format=pdf"></a>
-      )}
-      {/* activeOverlay === "resume" && (
-        <TerminalOverlay
-          title="resume.dat"
-          onClose={() => setActiveOverlay(null)}
-        >
-          <Resume />
-        </TerminalOverlay>
-      ) */}
+      {activeOverlay === "resume" && (() => { openResume(); return null; })()}
     </div>
   );
 }

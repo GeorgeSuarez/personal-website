@@ -30,52 +30,47 @@ const categories: Skill["category"][] = [
 
 const categoryConfig: Record<
   Skill["category"],
-  {
-    color: string;
-    borderColor: string;
-    hoverBorder: string;
-    hoverText: string;
-    hoverShadow: string;
-    cornerColor: string;
-    hoverCorner: string;
-  }
+  { color: string; borderColor: string }
 > = {
-  Languages: {
-    color: "#fcee0a",
-    borderColor: "border-[#fcee0a]/30",
-    hoverBorder: "hover:border-[#fcee0a]",
-    hoverText: "group-hover:text-[#fcee0a]",
-    hoverShadow: "hover:shadow-[0_0_15px_rgba(252,238,10,0.2)]",
-    cornerColor: "border-[#fcee0a]/30",
-    hoverCorner: "group-hover:border-[#fcee0a]",
-  },
-  Frameworks: {
-    color: "#00f0ff",
-    borderColor: "border-[#00f0ff]/30",
-    hoverBorder: "hover:border-[#00f0ff]",
-    hoverText: "group-hover:text-[#00f0ff]",
-    hoverShadow: "hover:shadow-[0_0_15px_rgba(0,240,255,0.2)]",
-    cornerColor: "border-[#00f0ff]/30",
-    hoverCorner: "group-hover:border-[#00f0ff]",
-  },
-  Tools: {
-    color: "#ff0055",
-    borderColor: "border-[#ff0055]/30",
-    hoverBorder: "hover:border-[#ff0055]",
-    hoverText: "group-hover:text-[#ff0055]",
-    hoverShadow: "hover:shadow-[0_0_15px_rgba(255,0,85,0.2)]",
-    cornerColor: "border-[#ff0055]/30",
-    hoverCorner: "group-hover:border-[#ff0055]",
-  },
-  Databases: {
-    color: "#00f0ff",
-    borderColor: "border-[#00f0ff]/30",
-    hoverBorder: "hover:border-[#00f0ff]",
-    hoverText: "group-hover:text-[#00f0ff]",
-    hoverShadow: "hover:shadow-[0_0_15px_rgba(0,240,255,0.2)]",
-    cornerColor: "border-[#00f0ff]/30",
-    hoverCorner: "group-hover:border-[#00f0ff]",
-  },
+  Languages: { color: "#fcee0a", borderColor: "border-yellow/30" },
+  Frameworks: { color: "#00f0ff", borderColor: "border-cyan/30" },
+  Tools: { color: "#ff0055", borderColor: "border-magenta/30" },
+  Databases: { color: "#00f0ff", borderColor: "border-cyan/30" },
+};
+
+const categoryText: Record<Skill["category"], string> = {
+  Languages: "text-yellow",
+  Frameworks: "text-cyan",
+  Tools: "text-magenta",
+  Databases: "text-cyan",
+};
+
+const categoryHoverBorder: Record<Skill["category"], string> = {
+  Languages: "hover:border-yellow",
+  Frameworks: "hover:border-cyan",
+  Tools: "hover:border-magenta",
+  Databases: "hover:border-cyan",
+};
+
+const categoryHoverText: Record<Skill["category"], string> = {
+  Languages: "group-hover:text-yellow",
+  Frameworks: "group-hover:text-cyan",
+  Tools: "group-hover:text-magenta",
+  Databases: "group-hover:text-cyan",
+};
+
+const categoryHoverShadow: Record<Skill["category"], string> = {
+  Languages: "hover:shadow-[0_0_15px_rgba(252,238,10,0.2)]",
+  Frameworks: "hover:shadow-[0_0_15px_rgba(0,240,255,0.2)]",
+  Tools: "hover:shadow-[0_0_15px_rgba(255,0,85,0.2)]",
+  Databases: "hover:shadow-[0_0_15px_rgba(0,240,255,0.2)]",
+};
+
+const categoryHoverCorner: Record<Skill["category"], string> = {
+  Languages: "group-hover:border-yellow",
+  Frameworks: "group-hover:border-cyan",
+  Tools: "group-hover:border-magenta",
+  Databases: "group-hover:border-cyan",
 };
 
 function SkillCard({ skill }: { skill: Skill }) {
@@ -84,23 +79,21 @@ function SkillCard({ skill }: { skill: Skill }) {
 
   return (
     <div
-      className={`group relative border ${config.borderColor} ${config.hoverBorder} bg-[#0a0a0f]/50 backdrop-blur-sm p-4 flex flex-col items-center gap-3 transition-all duration-300 ${config.hoverShadow} hover:scale-[1.02] cursor-default`}
+      className={`group relative border ${config.borderColor} ${categoryHoverBorder[skill.category]} bg-background/50 backdrop-blur-sm p-4 flex flex-col items-center gap-3 transition-all duration-300 ${categoryHoverShadow[skill.category]} hover:scale-[1.02] cursor-default`}
     >
-      {/* Corner accents */}
       <div
-        className={`absolute top-0 left-0 w-2 h-2 border-t border-l transition-colors ${config.cornerColor} ${config.hoverCorner}`}
+        className={`absolute top-0 left-0 w-2 h-2 border-t border-l transition-colors ${config.borderColor} ${categoryHoverCorner[skill.category]}`}
       />
       <div
-        className={`absolute top-0 right-0 w-2 h-2 border-t border-r transition-colors ${config.cornerColor} ${config.hoverCorner}`}
+        className={`absolute top-0 right-0 w-2 h-2 border-t border-r transition-colors ${config.borderColor} ${categoryHoverCorner[skill.category]}`}
       />
       <div
-        className={`absolute bottom-0 left-0 w-2 h-2 border-b border-l transition-colors ${config.cornerColor} ${config.hoverCorner}`}
+        className={`absolute bottom-0 left-0 w-2 h-2 border-b border-l transition-colors ${config.borderColor} ${categoryHoverCorner[skill.category]}`}
       />
       <div
-        className={`absolute bottom-0 right-0 w-2 h-2 border-b border-r transition-colors ${config.cornerColor} ${config.hoverCorner}`}
+        className={`absolute bottom-0 right-0 w-2 h-2 border-b border-r transition-colors ${config.borderColor} ${categoryHoverCorner[skill.category]}`}
       />
 
-      {/* Icon */}
       <img
         src={iconUrl}
         alt={skill.name}
@@ -113,10 +106,8 @@ function SkillCard({ skill }: { skill: Skill }) {
         }}
       />
 
-      {/* Name */}
       <span
-        className={`text-gray-300 text-sm font-bold tracking-[0.1em] uppercase ${config.hoverText} transition-colors duration-300`}
-        style={{ fontFamily: "'Share Tech Mono', monospace" }}
+        className={`text-muted text-sm font-bold tracking-[0.1em] uppercase ${categoryHoverText[skill.category]} transition-colors duration-300 font-mono`}
       >
         {skill.name}
       </span>
@@ -132,26 +123,18 @@ function CategoryHeader({ category }: { category: Skill["category"] }) {
     <div className="flex items-center gap-4 mb-6">
       <div className="w-2 h-2" style={{ backgroundColor: config.color }} />
       <h2
-        className="text-xl font-bold tracking-[0.3em] uppercase"
+        className={`text-xl font-bold tracking-[0.3em] uppercase ${categoryText[category]} font-display`}
         style={{
-          fontFamily: "'Orbitron', sans-serif",
-          color: config.color,
           textShadow: `0 0 10px ${config.color}40`,
         }}
       >
         {category}
       </h2>
-      <span
-        className="text-[12px] tracking-[0.2em] uppercase opacity-40"
-        style={{
-          fontFamily: "'Share Tech Mono', monospace",
-          color: config.color,
-        }}
-      >
+      <span className={`text-[12px] tracking-[0.2em] uppercase opacity-40 font-mono ${categoryText[category]}`}>
         {count} entries
       </span>
       <div
-        className="flex-1 h-[1px]"
+        className="flex-1 h-px"
         style={{ backgroundColor: `${config.color}30` }}
       />
     </div>
@@ -161,27 +144,20 @@ function CategoryHeader({ category }: { category: Skill["category"] }) {
 export default function Skills() {
   return (
     <div className="text-center">
-      {/* Header */}
-      <div className="w-16 h-[1px] bg-[#fcee0a] mb-8 mx-auto opacity-60" />
+      <div className="w-16 h-px bg-yellow mb-8 mx-auto opacity-60" />
 
-      <h1
-        className="text-[#fcee0a] text-4xl sm:text-5xl font-black tracking-[0.15em] uppercase mb-4"
+      <h1 className="text-yellow text-4xl sm:text-5xl font-black tracking-[0.15em] uppercase mb-4 font-display"
         style={{
-          fontFamily: "'Orbitron', sans-serif",
           textShadow: "0 0 20px rgba(252, 238, 10, 0.3)",
         }}
       >
         Skills
       </h1>
 
-      <p
-        className="text-[#00f0ff]/60 text-lg tracking-[0.2em] uppercase mb-16"
-        style={{ fontFamily: "'Share Tech Mono', monospace" }}
-      >
+      <p className="text-cyan/60 text-lg tracking-[0.2em] uppercase mb-16 font-mono">
         Neural skill grid // {skills.length} protocols loaded
       </p>
 
-      {/* Categories */}
       <div className="space-y-12">
         {categories.map((category) => (
           <div key={category}>
