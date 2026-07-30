@@ -4,6 +4,7 @@ interface Project {
   platform: string;
   description: string;
   url: string;
+  demoUrl?: string;
   tags: string[];
 }
 
@@ -43,6 +44,7 @@ const projects: Project[] = [
     description:
       "A dashboard that displays metrics about your Steam achievements. Built with Next.js, React, Tailwind, and shadcn/UI.",
     url: "https://github.com/GeorgeSuarez/CheevoDash",
+    demoUrl: "https://cheevo-dash.vercel.app",
     tags: ["TypeScript", "NextJS", "ReactJS", "TailWind CSS"],
   },
   {
@@ -58,12 +60,7 @@ const projects: Project[] = [
 
 function ProjectCard({ project }: { project: Project }) {
   return (
-    <a
-      href={project.url}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="group relative block border border-cyan/20 bg-background p-8 sm:p-12 text-left hover:border-cyan/50 hover:shadow-[0_0_30px_rgba(0,240,255,0.12)] transition-all duration-300"
-    >
+    <div className="group relative block border border-cyan/20 bg-background p-8 sm:p-12 text-left hover:border-cyan/50 hover:shadow-[0_0_30px_rgba(0,240,255,0.12)] transition-all duration-300">
       <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-yellow/40 group-hover:border-yellow transition-colors" />
       <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-yellow/40 group-hover:border-yellow transition-colors" />
       <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-yellow/40 group-hover:border-yellow transition-colors" />
@@ -98,12 +95,31 @@ function ProjectCard({ project }: { project: Project }) {
         ))}
       </div>
 
-      <div className="flex items-center gap-2 text-cyan/40 group-hover:text-cyan transition-colors">
-        <span className="text-lg tracking-[0.2em] uppercase font-mono">
-          View on GitHub &gt;&gt;
-        </span>
+      <div className="flex items-center gap-6">
+        <a
+          href={project.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-2 text-cyan/40 hover:text-cyan transition-colors"
+        >
+          <span className="text-lg tracking-[0.2em] uppercase font-mono">
+            View on GitHub &gt;&gt;
+          </span>
+        </a>
+        {project.demoUrl && (
+          <a
+            href={project.demoUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 text-yellow/40 hover:text-yellow transition-colors"
+          >
+            <span className="text-lg tracking-[0.2em] uppercase font-mono">
+              View Demo &gt;&gt;
+            </span>
+          </a>
+        )}
       </div>
-    </a>
+    </div>
   );
 }
 
