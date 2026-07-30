@@ -20,7 +20,7 @@ const projects: Project[] = [
   {
     id: "02",
     title: "ReFactor",
-    platform: "React & .NET // TypeScript & C#",
+    platform: "React/.NET // TypeScript & C#",
     description:
       "A developer-themed eCommerce store that sells developer themed gear. Built with React, .NET, and SQL.",
     url: "https://github.com/GeorgeSuarez/ReFactor",
@@ -112,7 +112,8 @@ export default function Projects() {
     <div className="text-center">
       <div className="w-16 h-px bg-yellow mb-8 mx-auto opacity-60" />
 
-      <h1 className="text-yellow text-4xl sm:text-5xl font-black tracking-[0.15em] uppercase mb-4 font-display"
+      <h1
+        className="text-yellow text-4xl sm:text-5xl font-black tracking-[0.15em] uppercase mb-4 font-display"
         style={{
           textShadow: "0 0 20px rgba(252, 238, 10, 0.3)",
         }}
