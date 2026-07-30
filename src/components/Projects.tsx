@@ -19,21 +19,22 @@ const projects: Project[] = [
   },
   {
     id: "02",
+    title: "ReFactor",
+    platform: "React & .NET // TypeScript & C#",
+    description:
+      "A developer-themed eCommerce store that sells developer themed gear. Built with React, .NET, and SQL.",
+    url: "https://github.com/GeorgeSuarez/ReFactor",
+    tags: ["TypeScript", "C#", ".NET", "Docker", "SQL"],
+  },
+
+  {
+    id: "03",
     title: "Subby",
     platform: "React Native // TypeScript",
     description:
       "An React Native project that lets you track and manage your subscriptions from whatever it may be.",
     url: "https://github.com/GeorgeSuarez/Subby",
     tags: ["React Native", "SQLite", "iOS", "Android", "Expo"],
-  },
-  {
-    id: "03",
-    title: "Rusty Vault",
-    platform: "Rust Crate // Rust",
-    description:
-      "An TUI application that manages your passwords and api credentials. Built with Rust and Ratatui.",
-    url: "https://github.com/GeorgeSuarez/RustyVault",
-    tags: ["Rust", "Ratatui", "SQLite"],
   },
   {
     id: "04",
@@ -43,6 +44,15 @@ const projects: Project[] = [
       "A dashboard that displays metrics about your Steam achievements. Built with Next.js, React, Tailwind, and shadcn/UI.",
     url: "https://github.com/GeorgeSuarez/CheevoDash",
     tags: ["TypeScript", "NextJS", "ReactJS", "TailWind CSS"],
+  },
+  {
+    id: "05",
+    title: "Rusty Vault",
+    platform: "Rust Crate // Rust",
+    description:
+      "An TUI application that manages your passwords and api credentials. Built with Rust and Ratatui.",
+    url: "https://github.com/GeorgeSuarez/RustyVault",
+    tags: ["Rust", "Ratatui", "SQLite"],
   },
 ];
 
