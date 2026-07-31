@@ -96,7 +96,7 @@ export default function Hero() {
   return (
     <div className="hero-bg relative min-h-screen bg-background flex flex-col items-center justify-center px-6 sm:px-10 md:px-12">
       <div className="hero-card flex flex-col items-center text-center w-full max-w-4xl px-16 sm:px-24 py-6 sm:py-8">
-        <h1 className="text-yellow text-6xl sm:text-7xl font-black tracking-widest uppercase mb-4 sm:mb-6 name-glow whitespace-nowrap">
+        <h1 className="text-yellow text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-widest uppercase mb-4 sm:mb-6 name-glow whitespace-nowrap">
           George Suarez
         </h1>
 
