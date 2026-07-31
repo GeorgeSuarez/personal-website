@@ -1,11 +1,11 @@
-import { useTheme } from "../theme/useTheme";
+interface ThemeFabProps {
+  onClick: () => void;
+}
 
-export default function ThemeFab() {
-  const { openSelector } = useTheme();
-
+export default function ThemeFab({ onClick }: ThemeFabProps) {
   return (
     <button
-      onClick={openSelector}
+      onClick={onClick}
       aria-label="Change theme"
       className="flex md:pointer-fine:hidden fixed bottom-5 right-5 z-40 w-14 h-14 rounded-full items-center justify-center shadow-lg transition-transform duration-200 active:scale-90 hover:scale-105 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
       style={{

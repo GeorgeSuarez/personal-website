@@ -1,34 +1,29 @@
 import { useState, useEffect, useCallback } from "react";
-import { useTheme, type Theme } from "../theme/useTheme";
+import { useTheme } from "../theme/useTheme";
+import { THEMES, type Theme } from "../theme/themes";
 
-const themes: { id: Theme; label: string; accent: string }[] = [
-  { id: "cyberpunk", label: "Cyberpunk", accent: "#00f0ff" },
-  { id: "forge", label: "Forge", accent: "#c85a17" },
-  { id: "guild", label: "Guild Hall", accent: "#c9a84c" },
-  { id: "achievement", label: "Achievement", accent: "#4a9eff" },
-  { id: "ledger", label: "Ledger", accent: "#059669" },
-  { id: "merch", label: "Merch", accent: "#ff6b35" },
-  { id: "prism", label: "Prism", accent: "#7c4dff" },
-];
+interface ThemeSelectorProps {
+  onClose: () => void;
+}
 
-export default function ThemeSelector() {
-  const { mode, setTheme, closeSelector } = useTheme();
+export default function ThemeSelector({ onClose }: ThemeSelectorProps) {
+  const { theme, setTheme } = useTheme();
   const [selectedIndex, setSelectedIndex] = useState(
-    themes.findIndex((t) => t.id === mode),
+    THEMES.findIndex((t) => t.id === theme),
   );
 
   const select = useCallback(
-    (theme: Theme) => {
-      setTheme(theme);
-      closeSelector();
+    (next: Theme) => {
+      setTheme(next);
+      onClose();
     },
-    [setTheme, closeSelector],
+    [setTheme, onClose],
   );
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        closeSelector();
+        onClose();
         return;
       }
 
@@ -36,26 +31,26 @@ export default function ThemeSelector() {
         e.preventDefault();
         setSelectedIndex((prev) => {
           const delta = e.key === "ArrowUp" ? -1 : 1;
-          return (prev + delta + themes.length) % themes.length;
+          return (prev + delta + THEMES.length) % THEMES.length;
         });
         return;
       }
 
       if (e.key === "Enter") {
         e.preventDefault();
-        select(themes[selectedIndex].id);
+        select(THEMES[selectedIndex].id);
         return;
       }
     };
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [selectedIndex, select, closeSelector]);
+  }, [selectedIndex, select, onClose]);
 
   return (
     <div
       className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4"
-      onClick={closeSelector}
+      onClick={onClose}
       style={{ animation: "fade-in 0.2s ease-out" }}
     >
       <div
@@ -69,19 +64,19 @@ export default function ThemeSelector() {
         </div>
 
         <div className="p-2 flex flex-col gap-0.5">
-          {themes.map((theme, index) => {
+          {THEMES.map((t, index) => {
             const isSelected = index === selectedIndex;
-            const isActive = theme.id === mode;
+            const isActive = t.id === theme;
             return (
               <button
-                key={theme.id}
-                onClick={() => select(theme.id)}
+                key={t.id}
+                onClick={() => select(t.id)}
                 onMouseEnter={() => setSelectedIndex(index)}
                 className="group flex items-center gap-3 px-3 py-2.5 text-left transition-colors duration-150 hover:outline-none focus:outline-none cursor-pointer hover:bg-muted/10 rounded"
               >
                 <span
                   className="w-3 h-3 rounded-full flex-shrink-0"
-                  style={{ backgroundColor: theme.accent }}
+                  style={{ backgroundColor: t.accent }}
                 />
                 <span
                   className={`text-sm tracking-wide transition-colors duration-150 ${
@@ -90,7 +85,7 @@ export default function ThemeSelector() {
                       : "text-muted group-hover:text-foreground"
                   }`}
                 >
-                  {theme.label}
+                  {t.label}
                 </span>
                 {isActive && (
                   <span className="text-[10px] tracking-wider uppercase text-muted/50 font-medium ml-auto">
