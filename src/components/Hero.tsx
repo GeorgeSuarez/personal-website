@@ -33,22 +33,10 @@ const menuItems: MenuItem[] = [
 ];
 
 export default function Hero() {
-  const [isGlitching, setIsGlitching] = useState(false);
   const [activeOverlay, setActiveOverlay] = useState<
     null | "projects" | "skills" | "resume"
   >(null);
   const [selectedIndex, setSelectedIndex] = useState(0);
-
-  useEffect(() => {
-    const triggerGlitch = () => {
-      setIsGlitching(true);
-      setTimeout(() => setIsGlitching(false), 1000);
-    };
-
-    triggerGlitch();
-    const interval = setInterval(triggerGlitch, 15000);
-    return () => clearInterval(interval);
-  }, []);
 
   useEffect(() => {
     const activateItem = (item: MenuItem) => {
@@ -101,120 +89,80 @@ export default function Hero() {
     window.open(
       "https://docs.google.com/document/d/1UhSLU710_8HHWU7tvZG9tbA83dd_0L8IwUvfGo5BnXI/export?format=pdf",
       "_blank",
-      "noopener,noreferrer"
+      "noopener,noreferrer",
     );
   };
 
   return (
-    <div className="relative min-h-screen bg-background overflow-hidden flex items-center justify-center p-4 sm:p-8">
-      <div
-        className="absolute inset-0 opacity-20 pointer-events-none"
-        style={{
-          backgroundImage:
-            "linear-gradient(rgba(0, 240, 255, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 240, 255, 0.1) 1px, transparent 1px)",
-          backgroundSize: "50px 50px",
-        }}
-      />
+    <div className="hero-bg relative min-h-screen bg-background flex flex-col items-center justify-center px-6 sm:px-10 md:px-12">
+      <div className="hero-card flex flex-col items-center text-center w-full max-w-4xl px-16 sm:px-24 py-6 sm:py-8">
+        <h1 className="text-yellow text-6xl sm:text-7xl font-black tracking-widest uppercase mb-4 sm:mb-6 name-glow whitespace-nowrap">
+          George Suarez
+        </h1>
 
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,#0a0a0f_80%)] pointer-events-none" />
+        <p className="hero-badge inline-block text-background text-2xl sm:text-3xl md:text-4xl tracking-[0.3em] uppercase bg-cyan px-6 py-1.5 sm:px-8 sm:py-2 font-semibold mb-8 sm:mb-12">
+          Software Engineer
+        </p>
 
-      <div className="relative z-10 w-full max-w-3xl">
-        <div className="relative border border-cyan/30 bg-background/90 backdrop-blur-sm shadow-[0_0_30px_rgba(0,240,255,0.1)]">
-          <div className="flex items-center justify-between px-4 py-3 border-b border-cyan/20 bg-background/50">
-            <div className="flex items-center gap-2">
-              <span className="w-3 h-3 rounded-full bg-magenta/80" />
-              <span className="w-3 h-3 rounded-full bg-yellow/80" />
-              <span className="w-3 h-3 rounded-full bg-cyan/80" />
-            </div>
-            <span className="text-cyan/60 text-[16px] tracking-[0.2em] uppercase font-mono">
-              root@netrunner:~$
-            </span>
-            <div className="w-13" />
-          </div>
-          <div className="p-8 sm:p-12 flex flex-col items-center justify-center text-center">
-            <div className="w-full flex items-center gap-2 mb-8 text-left">
-              <span className="text-cyan text-xs font-mono">$</span>
-              <span className="text-cyan/40 text-sm tracking-wider font-mono">
-                ./init_portfolio.sh
-              </span>
-            </div>
-
-            <div className="w-24 h-px bg-yellow mb-8 opacity-60" />
-
-            <h1
-              className={`glitch-text text-yellow text-4xl sm:text-6xl md:text-7xl font-black tracking-[0.15em] uppercase text-center mb-3 ${isGlitching ? "glitching" : ""}`}
-              data-text="George Suarez"
-              style={{
-                textShadow: "0 0 20px rgba(252, 238, 10, 0.3)",
-              }}
-            >
-              George Suarez
-              <span className="glitch-layer" aria-hidden="true" />
-              {isGlitching && (
-                <span className="glitch-scanline" aria-hidden="true" />
-              )}
-            </h1>
-
-            <p className="inline-block text-background text-lg sm:text-2xl tracking-[0.4em] uppercase mb-16 bg-cyan px-4 py-1 font-mono">
-              Software Engineer
-            </p>
-
-            <div className="relative p-8 sm:p-12 w-full max-w-md">
-              <nav className="flex flex-col gap-5 sm:gap-6 items-start">
-                {menuItems.map((item, index) => {
-                  const isSelected = index === selectedIndex;
-                  const content = (
-                    <span className="group flex items-center gap-4 transition-all duration-300">
-                      <span
-                        className={`text-cyan text-lg transition-opacity font-mono ${isSelected ? "opacity-100" : "opacity-50 group-hover:opacity-100"}`}
-                      >
-                        0{index + 1}
-                      </span>
-                      <span
-                        className={`text-lg sm:text-xl tracking-[0.2em] uppercase transition-all duration-300 ${isSelected ? "text-yellow translate-x-2" : "text-muted group-hover:text-yellow group-hover:translate-x-2"}`}
-                      >
-                        {item.label}
-                      </span>
-                      <span
-                        className={`h-px transition-all duration-300 ${isSelected ? "w-12 bg-yellow opacity-100" : "w-0 bg-yellow opacity-0 group-hover:w-12 group-hover:opacity-100"}`}
-                      />
-                    </span>
-                  );
-
-                  return (
-                    <div
-                      key={item.label}
-                      className="relative"
-                      onMouseEnter={() => setSelectedIndex(index)}
+        <nav className="flex flex-col sm:gap-3 items-start w-full">
+          {menuItems.map((item, index) => {
+            const isSelected = index === selectedIndex;
+            return (
+              <div
+                key={item.label}
+                onMouseEnter={() => setSelectedIndex(index)}
+              >
+                <span className="group flex items-center gap-4 transition-all duration-200">
+                  <span
+                    className={`menu-arrow font-semibold text-2xl sm:text-3xl transition-all duration-200 ${
+                      isSelected
+                        ? "opacity-100 text-yellow active"
+                        : "opacity-0 text-yellow/60 group-hover:opacity-60"
+                    }`}
+                    aria-hidden="true"
+                  >
+                    {">"}
+                  </span>
+                  {item.external ? (
+                    <a
+                      href={item.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`menu-label ${isSelected ? "menu-selected" : ""} block px-5 py-1.5 text-2xl sm:text-3xl tracking-[0.2em] uppercase transition-all duration-200 hover:outline-none focus:outline-none ${
+                        isSelected
+                          ? "bg-yellow text-background"
+                          : "text-muted hover:bg-yellow/10 hover:text-yellow"
+                      }`}
                     >
-                      {item.external ? (
-                        <a
-                          href={item.href}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="block py-1 hover:outline-none focus:outline-none"
-                        >
-                          {content}
-                        </a>
-                      ) : (
-                        <button
-                          onClick={() =>
-                            item.overlay && setActiveOverlay(item.overlay)
-                          }
-                          className="block py-1 hover:outline-none focus:outline-none text-left cursor-pointer"
-                        >
-                          {content}
-                        </button>
-                      )}
-                    </div>
-                  );
-                })}
-              </nav>
-            </div>
+                      {item.label}
+                    </a>
+                  ) : (
+                    <button
+                      onClick={() =>
+                        item.overlay && setActiveOverlay(item.overlay)
+                      }
+                      className={`menu-label ${isSelected ? "menu-selected" : ""} block px-5 py-1.5 text-2xl sm:text-3xl tracking-[0.2em] uppercase transition-all duration-200 hover:outline-none focus:outline-none text-left cursor-pointer ${
+                        isSelected
+                          ? "bg-yellow text-background"
+                          : "text-muted hover:bg-yellow/10 hover:text-yellow"
+                      }`}
+                    >
+                      {item.label}
+                    </button>
+                  )}
+                </span>
+              </div>
+            );
+          })}
+        </nav>
+      </div>
 
-            <div className="w-24 h-px bg-yellow mt-12 opacity-60" />
-          </div>
-        </div>
+      <div className="flex items-center justify-center gap-3 mt-4 pb-3 sm:pb-4 select-none w-full max-w-4xl">
+        <span className="h-px flex-1 max-w-16 sm:max-w-20 bg-cyan/40" />
+        <span className="footer-hint text-cyan/70 text-lg sm:text-xl tracking-[0.2em] uppercase font-semibold">
+          [ctrl+shift+h] help
+        </span>
+        <span className="h-px flex-1 max-w-16 sm:max-w-20 bg-cyan/40" />
       </div>
 
       {activeOverlay === "projects" && (
@@ -233,7 +181,11 @@ export default function Hero() {
           <Skills />
         </TerminalOverlay>
       )}
-      {activeOverlay === "resume" && (() => { openResume(); return null; })()}
+      {activeOverlay === "resume" &&
+        (() => {
+          openResume();
+          return null;
+        })()}
     </div>
   );
 }

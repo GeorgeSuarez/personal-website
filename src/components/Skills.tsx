@@ -59,45 +59,18 @@ const categoryHoverText: Record<Skill["category"], string> = {
   Databases: "group-hover:text-cyan",
 };
 
-const categoryHoverShadow: Record<Skill["category"], string> = {
-  Languages: "hover:shadow-[0_0_15px_rgba(252,238,10,0.2)]",
-  Frameworks: "hover:shadow-[0_0_15px_rgba(0,240,255,0.2)]",
-  Tools: "hover:shadow-[0_0_15px_rgba(255,0,85,0.2)]",
-  Databases: "hover:shadow-[0_0_15px_rgba(0,240,255,0.2)]",
-};
-
-const categoryHoverCorner: Record<Skill["category"], string> = {
-  Languages: "group-hover:border-yellow",
-  Frameworks: "group-hover:border-cyan",
-  Tools: "group-hover:border-magenta",
-  Databases: "group-hover:border-cyan",
-};
-
 function SkillCard({ skill }: { skill: Skill }) {
   const config = categoryConfig[skill.category];
   const iconUrl = `https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/${skill.icon}/${skill.icon}-original.svg`;
 
   return (
     <div
-      className={`group relative border ${config.borderColor} ${categoryHoverBorder[skill.category]} bg-background/50 backdrop-blur-sm p-4 flex flex-col items-center gap-3 transition-all duration-300 ${categoryHoverShadow[skill.category]} hover:scale-[1.02] cursor-default`}
+      className={`skill-card group border ${config.borderColor} ${categoryHoverBorder[skill.category]} bg-background/50 p-4 flex flex-col items-center gap-3 transition-all duration-200 hover:scale-[1.02] cursor-default rounded`}
     >
-      <div
-        className={`absolute top-0 left-0 w-2 h-2 border-t border-l transition-colors ${config.borderColor} ${categoryHoverCorner[skill.category]}`}
-      />
-      <div
-        className={`absolute top-0 right-0 w-2 h-2 border-t border-r transition-colors ${config.borderColor} ${categoryHoverCorner[skill.category]}`}
-      />
-      <div
-        className={`absolute bottom-0 left-0 w-2 h-2 border-b border-l transition-colors ${config.borderColor} ${categoryHoverCorner[skill.category]}`}
-      />
-      <div
-        className={`absolute bottom-0 right-0 w-2 h-2 border-b border-r transition-colors ${config.borderColor} ${categoryHoverCorner[skill.category]}`}
-      />
-
       <img
         src={iconUrl}
         alt={skill.name}
-        className="w-10 h-10 object-contain transition-all duration-300 group-hover:brightness-110 group-hover:scale-110"
+        className="w-9 h-9 object-contain transition-all duration-200 group-hover:scale-110"
         style={{
           filter: `drop-shadow(0 0 2px ${config.color}40)`,
         }}
@@ -107,7 +80,7 @@ function SkillCard({ skill }: { skill: Skill }) {
       />
 
       <span
-        className={`text-muted text-sm font-bold tracking-[0.1em] uppercase ${categoryHoverText[skill.category]} transition-colors duration-300 font-mono`}
+        className={`text-xs font-semibold tracking-wide uppercase ${categoryHoverText[skill.category]} transition-colors duration-200 text-muted`}
       >
         {skill.name}
       </span>
@@ -120,22 +93,19 @@ function CategoryHeader({ category }: { category: Skill["category"] }) {
   const count = skills.filter((s) => s.category === category).length;
 
   return (
-    <div className="flex items-center gap-4 mb-6">
-      <div className="w-2 h-2" style={{ backgroundColor: config.color }} />
+    <div className="flex items-center gap-3 mb-4">
+      <div className="w-2 h-2 rounded-full" style={{ backgroundColor: config.color }} />
       <h2
-        className={`text-xl font-bold tracking-[0.3em] uppercase ${categoryText[category]} font-display`}
-        style={{
-          textShadow: `0 0 10px ${config.color}40`,
-        }}
+        className={`text-sm font-bold tracking-wider uppercase ${categoryText[category]}`}
       >
         {category}
       </h2>
-      <span className={`text-[12px] tracking-[0.2em] uppercase opacity-40 font-mono ${categoryText[category]}`}>
-        {count} entries
+      <span className="text-[11px] tracking-wider uppercase opacity-40 text-muted">
+        {count}
       </span>
       <div
         className="flex-1 h-px"
-        style={{ backgroundColor: `${config.color}30` }}
+        style={{ backgroundColor: `${config.color}20` }}
       />
     </div>
   );
@@ -143,30 +113,22 @@ function CategoryHeader({ category }: { category: Skill["category"] }) {
 
 export default function Skills() {
   return (
-    <div className="text-center">
-      <div className="w-16 h-px bg-yellow mb-8 mx-auto opacity-60" />
-
-      <h1 className="text-yellow text-4xl sm:text-5xl font-black tracking-[0.15em] uppercase mb-4 font-display"
-        style={{
-          textShadow: "0 0 20px rgba(252, 238, 10, 0.3)",
-        }}
-      >
-        Skills
-      </h1>
-
-      <p className="text-cyan/60 text-lg tracking-[0.2em] uppercase mb-16 font-mono">
-        Neural skill grid // {skills.length} protocols loaded
-      </p>
-
-      <div className="space-y-12">
+    <div>
+      <div className="space-y-10">
         {categories.map((category) => (
           <div key={category}>
             <CategoryHeader category={category} />
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
               {skills
                 .filter((s) => s.category === category)
                 .map((skill, index) => (
-                  <SkillCard key={index} skill={skill} />
+                  <div
+                    key={index}
+                    className="animate-card-in"
+                    style={{ animationDelay: `${index * 60}ms` }}
+                  >
+                    <SkillCard skill={skill} />
+                  </div>
                 ))}
             </div>
           </div>

@@ -88,11 +88,6 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
 
       <div className="relative z-10 w-full max-w-2xl">
         <div className="relative border border-cyan/30 bg-background/95 backdrop-blur-sm shadow-[0_0_30px_rgba(0,240,255,0.1)]">
-          <div className="absolute -top-1 -left-1 w-4 h-4 border-t-2 border-l-2 border-yellow" />
-          <div className="absolute -top-1 -right-1 w-4 h-4 border-t-2 border-r-2 border-yellow" />
-          <div className="absolute -bottom-1 -left-1 w-4 h-4 border-b-2 border-l-2 border-yellow" />
-          <div className="absolute -bottom-1 -right-1 w-4 h-4 border-b-2 border-r-2 border-yellow" />
-
           <div className="flex items-center justify-between px-4 py-3 border-b border-cyan/20 bg-background/50">
             <div className="flex items-center gap-2">
               <span className="w-3 h-3 rounded-full bg-magenta/80" />
