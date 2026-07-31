@@ -7,12 +7,8 @@ import ThemeFab from "../components/ThemeFab";
 const STORAGE_KEY = "portfolio-theme";
 const ALL_THEMES: Theme[] = ["cyberpunk", "forge", "guild", "achievement", "ledger", "merch", "prism"];
 
-function pickRandomTheme(): Theme {
-  return ALL_THEMES[Math.floor(Math.random() * ALL_THEMES.length)];
-}
-
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [mode, setMode] = useState<Theme>(() => pickRandomTheme());
+  const [mode, setMode] = useState<Theme>("achievement");
 
   const [selectorOpen, setSelectorOpen] = useState(false);
   const [helpOpen, setHelpOpen] = useState(false);
