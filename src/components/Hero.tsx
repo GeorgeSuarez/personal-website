@@ -95,7 +95,7 @@ export default function Hero() {
 
   return (
     <div className="hero-bg relative min-h-screen bg-background flex flex-col items-center justify-center px-6 sm:px-10 md:px-12">
-      <div className="hero-card flex flex-col items-center text-center w-full max-w-4xl px-16 sm:px-24 py-6 sm:py-8">
+      <div className="hero-card flex flex-col items-center text-center w-full max-w-4xl px-8 sm:px-24 py-6 sm:py-8">
         <h1 className="text-yellow text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-widest uppercase mb-4 sm:mb-6 name-glow whitespace-nowrap">
           George Suarez
         </h1>
@@ -128,7 +128,7 @@ export default function Hero() {
                       href={item.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={`menu-label ${isSelected ? "menu-selected" : ""} block px-5 py-1.5 text-2xl sm:text-3xl tracking-[0.2em] uppercase transition-all duration-200 hover:outline-none focus:outline-none ${
+                      className={`menu-label ${isSelected ? "menu-selected" : ""} block px-5 py-1.5 text-2xl sm:text-3xl tracking-[0.2em] uppercase transition-all duration-200 hover:outline-none focus:outline-none whitespace-nowrap ${
                         isSelected
                           ? "bg-yellow text-background"
                           : "text-muted hover:bg-yellow/10 hover:text-yellow"
@@ -141,7 +141,7 @@ export default function Hero() {
                       onClick={() =>
                         item.overlay && setActiveOverlay(item.overlay)
                       }
-                      className={`menu-label ${isSelected ? "menu-selected" : ""} block px-5 py-1.5 text-2xl sm:text-3xl tracking-[0.2em] uppercase transition-all duration-200 hover:outline-none focus:outline-none text-left cursor-pointer ${
+                      className={`menu-label ${isSelected ? "menu-selected" : ""} block px-5 py-1.5 text-2xl sm:text-3xl tracking-[0.2em] uppercase transition-all duration-200 hover:outline-none focus:outline-none text-left cursor-pointer whitespace-nowrap ${
                         isSelected
                           ? "bg-yellow text-background"
                           : "text-muted hover:bg-yellow/10 hover:text-yellow"

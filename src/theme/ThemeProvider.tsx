@@ -2,6 +2,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import { ThemeContext, type Theme } from "./useTheme";
 import ThemeSelector from "../components/ThemeSelector";
 import HelpOverlay from "../components/HelpOverlay";
+import ThemeFab from "../components/ThemeFab";
 
 const STORAGE_KEY = "portfolio-theme";
 const ALL_THEMES: Theme[] = ["cyberpunk", "forge", "guild", "achievement", "ledger", "merch", "prism"];
@@ -73,6 +74,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       value={{ mode, setTheme, cycleTheme, selectorOpen, openSelector, closeSelector }}
     >
       {children}
+      <ThemeFab />
       {selectorOpen && <ThemeSelector />}
       {helpOpen && <HelpOverlay onClose={closeHelp} />}
     </ThemeContext.Provider>
