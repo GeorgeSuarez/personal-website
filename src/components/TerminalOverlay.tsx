@@ -7,6 +7,7 @@ interface TerminalOverlayProps {
 }
 
 export default function TerminalOverlay({
+  title,
   onClose,
   children,
 }: TerminalOverlayProps) {
@@ -31,7 +32,7 @@ export default function TerminalOverlay({
       >
         <div className="sticky top-0 flex items-center justify-between px-5 py-3 border-b border-muted/20 bg-background z-10">
           <h2 className="text-foreground text-sm font-semibold tracking-wide uppercase">
-            Projects
+            {title}
           </h2>
           <button
             onClick={onClose}

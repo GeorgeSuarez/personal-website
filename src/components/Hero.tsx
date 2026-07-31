@@ -167,17 +167,14 @@ export default function Hero() {
 
       {activeOverlay === "projects" && (
         <TerminalOverlay
-          title="projects.dat"
+          title="projects"
           onClose={() => setActiveOverlay(null)}
         >
           <Projects />
         </TerminalOverlay>
       )}
       {activeOverlay === "skills" && (
-        <TerminalOverlay
-          title="skills.dat"
-          onClose={() => setActiveOverlay(null)}
-        >
+        <TerminalOverlay title="skills" onClose={() => setActiveOverlay(null)}>
           <Skills />
         </TerminalOverlay>
       )}
