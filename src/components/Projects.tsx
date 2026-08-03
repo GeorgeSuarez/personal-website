@@ -1,14 +1,31 @@
+import { useTheme } from "../theme/useTheme";
+
+const ICON_BASE = "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/";
+
 type ProjectKind = "Mobile" | "Web" | "CLI";
+
+function iconFor(icon: string, isLedger: boolean) {
+  if (icon === "nextjs") {
+    return { src: `${ICON_BASE}nextjs/nextjs-plain.svg`, invert: !isLedger };
+  }
+  if (icon === "expo") {
+    return { src: `${ICON_BASE}expo/expo-original.svg`, invert: !isLedger };
+  }
+  if (icon === "rust") {
+    return { src: `${ICON_BASE}rust/rust-original.svg`, invert: !isLedger };
+  }
+  return { src: `${ICON_BASE}${icon}/${icon}-original.svg`, invert: false };
+}
 
 interface Project {
   id: string;
   title: string;
   kind: ProjectKind;
   stack: string;
+  icons: string[];
   description: string;
   url: string;
   demoUrl?: string;
-  tags: string[];
 }
 
 const projects: Project[] = [
@@ -17,51 +34,51 @@ const projects: Project[] = [
     title: "LFGuild",
     kind: "Mobile",
     stack: "Swift / UIKit",
+    icons: ["swift", "xcode"],
     description:
       "Guild discovery for World of Warcraft players. Matches players to guilds that fit their playstyle, with real-time chat built on Swift.",
     url: "https://github.com/GeorgeSuarez/LFGuild",
-    tags: ["Swift", "iOS", "UIKit", "Xcode"],
   },
   {
     id: "02",
     title: "ReFactor",
     kind: "Web",
     stack: "React / .NET / SQL",
+    icons: ["react", "typescript", "dotnetcore", "docker"],
     description:
       "A developer-themed store for dev gear. Full-stack eCommerce with cart, checkout, and an SQL inventory.",
     url: "https://github.com/GeorgeSuarez/ReFactor",
-    tags: ["TypeScript", "C#", ".NET", "Docker", "SQL"],
   },
   {
     id: "03",
     title: "Subby",
     kind: "Mobile",
     stack: "React Native / Expo",
+    icons: ["reactnative", "expo", "sqlite", "android"],
     description:
       "Track and manage subscriptions from one place across iOS and Android, with offline storage via SQLite.",
     url: "https://github.com/GeorgeSuarez/Subby",
-    tags: ["React Native", "SQLite", "iOS", "Android", "Expo"],
   },
   {
     id: "04",
     title: "Cheevo Dash",
     kind: "Web",
     stack: "Next.js / React / Tailwind",
+    icons: ["nextjs", "react", "tailwindcss", "typescript"],
     description:
       "A metrics dashboard for Steam achievements. Visualize unlock progress across your entire library.",
     url: "https://github.com/GeorgeSuarez/CheevoDash",
     demoUrl: "https://cheevo-dash.vercel.app",
-    tags: ["TypeScript", "NextJS", "ReactJS", "TailWind CSS"],
   },
   {
     id: "05",
     title: "Rusty Vault",
     kind: "CLI",
     stack: "Rust / Ratatui",
+    icons: ["rust", "sqlite"],
     description:
       "A terminal-based credential manager. Passwords and API keys encrypted with AES-256-GCM in a Ratatui TUI.",
     url: "https://github.com/GeorgeSuarez/RustyVault",
-    tags: ["Rust", "Ratatui", "SQLite"],
   },
 ];
 
@@ -72,6 +89,9 @@ const kindStyles: Record<ProjectKind, string> = {
 };
 
 function ProjectCard({ project }: { project: Project }) {
+  const { theme } = useTheme();
+  const isLedger = theme === "ledger";
+
   return (
     <div className="project-card group flex h-[330px] flex-col border border-muted/20 bg-background p-6 text-left hover:border-muted/40 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_8px_30px_color-mix(in_srgb,var(--clr-cyan)_12%,transparent)]">
       <div className="flex items-center justify-between mb-4">
@@ -97,15 +117,22 @@ function ProjectCard({ project }: { project: Project }) {
         {project.description}
       </p>
 
-      <div className="flex flex-wrap gap-2 mb-6">
-        {project.tags.map((tag) => (
-          <span
-            key={tag}
-            className="text-xs text-cyan/70 tracking-wide uppercase border border-cyan/15 px-2.5 py-1 font-medium"
-          >
-            {tag}
-          </span>
-        ))}
+      <div className="flex flex-wrap gap-3 mb-6">
+        {project.icons.map((icon) => {
+          const { src, invert } = iconFor(icon, isLedger);
+          return (
+            <img
+              key={icon}
+              src={src}
+              alt={icon}
+              className="w-7 h-7 object-contain"
+              style={invert ? { filter: "invert(1)" } : undefined}
+              onError={(e) => {
+                (e.target as HTMLImageElement).style.display = "none";
+              }}
+            />
+          );
+        })}
       </div>
 
       <div className="flex items-center gap-5">
