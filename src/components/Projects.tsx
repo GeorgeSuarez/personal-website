@@ -73,7 +73,7 @@ const kindStyles: Record<ProjectKind, string> = {
 
 function ProjectCard({ project }: { project: Project }) {
   return (
-    <div className="project-card group block border border-muted/20 bg-background p-6 text-left hover:border-muted/40 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_8px_30px_color-mix(in_srgb,var(--clr-cyan)_12%,transparent)]">
+    <div className="project-card group flex h-[330px] flex-col border border-muted/20 bg-background p-6 text-left hover:border-muted/40 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_8px_30px_color-mix(in_srgb,var(--clr-cyan)_12%,transparent)]">
       <div className="flex items-center justify-between mb-4">
         <span
           className={`text-[10px] tracking-[0.25em] uppercase border px-2 py-0.5 font-semibold ${kindStyles[project.kind]}`}
@@ -93,7 +93,7 @@ function ProjectCard({ project }: { project: Project }) {
         {project.stack}
       </p>
 
-      <p className="text-muted text-sm sm:text-base leading-relaxed mb-6">
+      <p className="flex-1 text-muted text-sm sm:text-base leading-relaxed mb-6">
         {project.description}
       </p>
 
