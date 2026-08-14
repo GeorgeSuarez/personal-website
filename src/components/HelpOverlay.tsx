@@ -48,24 +48,17 @@ export default function HelpOverlay({ onClose }: HelpOverlayProps) {
 
         <div className="p-5 flex flex-col gap-3">
           {shortcuts.map((shortcut) => (
-            <div
-              key={shortcut.keys}
-              className="flex items-baseline justify-between gap-4"
-            >
+            <div key={shortcut.keys} className="flex items-baseline justify-between gap-4">
               <span className="text-yellow text-sm font-semibold whitespace-nowrap font-mono">
                 {shortcut.keys}
               </span>
-              <span className="text-muted text-sm text-right">
-                {shortcut.action}
-              </span>
+              <span className="text-muted text-sm text-right">{shortcut.action}</span>
             </div>
           ))}
         </div>
 
         <div className="px-5 py-2.5 border-t border-muted/20">
-          <span className="text-muted/50 text-[10px] tracking-wider uppercase">
-            [esc] close
-          </span>
+          <span className="text-muted/50 text-[10px] tracking-wider uppercase">[esc] close</span>
         </div>
       </div>
     </div>

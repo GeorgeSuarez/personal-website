@@ -102,21 +102,13 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
 
           <div className="p-6 sm:p-8 min-h-[300px]">
             <div className="mb-4 space-y-1">
-              <p className="text-cyan/30 text-xs font-mono">
-                BIOS v4.2.77 initialized
-              </p>
-              <p className="text-cyan/30 text-xs font-mono">
-                Memory check: 64TB OK
-              </p>
-              <p className="text-cyan/30 text-xs font-mono">
-                Neural interface detected
-              </p>
+              <p className="text-cyan/30 text-xs font-mono">BIOS v4.2.77 initialized</p>
+              <p className="text-cyan/30 text-xs font-mono">Memory check: 64TB OK</p>
+              <p className="text-cyan/30 text-xs font-mono">Neural interface detected</p>
             </div>
 
             <div className="flex items-start gap-2 mb-4">
-              <span className="text-cyan text-sm font-mono">
-                root@netrunner:~$
-              </span>
+              <span className="text-cyan text-sm font-mono">root@netrunner:~$</span>
               <span className="text-foreground text-sm font-mono">
                 {displayedCommand}
                 {!isComplete && (
@@ -135,9 +127,7 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
                   <p
                     key={index}
                     className={`text-sm animate-fade-in ${
-                      index === OUTPUT_LINES.length - 1
-                        ? "text-yellow"
-                        : "text-cyan/70"
+                      index === OUTPUT_LINES.length - 1 ? "text-yellow" : "text-cyan/70"
                     } font-mono`}
                   >
                     {line}

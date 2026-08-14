@@ -39,9 +39,7 @@ export default function Hero() {
         window.open(item.href, "_blank", "noopener,noreferrer");
       }
     } else if (item.action === "projects") {
-      document
-        .getElementById("projects")
-        ?.scrollIntoView({ behavior: "smooth" });
+      document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -93,10 +91,7 @@ export default function Hero() {
             {menuItems.map((item, index) => {
               const isSelected = index === selectedIndex;
               return (
-                <div
-                  key={item.label}
-                  onMouseEnter={() => setSelectedIndex(index)}
-                >
+                <div key={item.label} onMouseEnter={() => setSelectedIndex(index)}>
                   <span className="group flex items-center gap-4 transition-all duration-200">
                     <span
                       className={`menu-arrow font-semibold text-2xl sm:text-3xl transition-all duration-200 ${
@@ -149,10 +144,7 @@ export default function Hero() {
         </div>
       </div>
 
-      <section
-        id="projects"
-        className="px-6 sm:px-10 md:px-12 pb-20 max-w-6xl mx-auto"
-      >
+      <section id="projects" className="px-6 sm:px-10 md:px-12 pb-20 max-w-6xl mx-auto">
         <div className="flex items-center gap-3 mb-8 mt-4">
           <span className="text-cyan text-sm font-bold tracking-[0.25em] uppercase">
             ~/projects

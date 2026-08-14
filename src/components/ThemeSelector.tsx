@@ -8,9 +8,7 @@ interface ThemeSelectorProps {
 
 export default function ThemeSelector({ onClose }: ThemeSelectorProps) {
   const { theme, setTheme } = useTheme();
-  const [selectedIndex, setSelectedIndex] = useState(
-    THEMES.findIndex((t) => t.id === theme),
-  );
+  const [selectedIndex, setSelectedIndex] = useState(THEMES.findIndex((t) => t.id === theme));
 
   const select = useCallback(
     (next: Theme) => {
@@ -98,9 +96,7 @@ export default function ThemeSelector({ onClose }: ThemeSelectorProps) {
         </div>
 
         <div className="px-5 py-2.5 border-t border-muted/20">
-          <span className="text-muted/50 text-[10px] tracking-wider uppercase">
-            [esc] cancel
-          </span>
+          <span className="text-muted/50 text-[10px] tracking-wider uppercase">[esc] cancel</span>
         </div>
       </div>
     </div>

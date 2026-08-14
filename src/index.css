@@ -133,8 +133,7 @@
   inset: 0;
   background:
     linear-gradient(rgba(13, 0, 21, 0.85), rgba(13, 0, 21, 0.85)) padding-box,
-    linear-gradient(90deg, #ff0055, #ff8a00, #ffe600, #00e676, #00b0ff, #7c4dff)
-      border-box;
+    linear-gradient(90deg, #ff0055, #ff8a00, #ffe600, #00e676, #00b0ff, #7c4dff) border-box;
   border: 1px solid transparent;
   border-radius: 4px;
   z-index: -1;
@@ -156,29 +155,12 @@
 [data-theme="prism"] .overlay-card {
   background:
     linear-gradient(rgba(26, 0, 48, 0.9), rgba(26, 0, 48, 0.9)) padding-box,
-    linear-gradient(
-        120deg,
-        #ff0055,
-        #ff8a00,
-        #ffe600,
-        #00e676,
-        #00b0ff,
-        #7c4dff
-      )
-      border-box;
+    linear-gradient(120deg, #ff0055, #ff8a00, #ffe600, #00e676, #00b0ff, #7c4dff) border-box;
   border: 2px solid transparent;
 }
 
 [data-theme="prism"] .hero-badge {
-  background: linear-gradient(
-    90deg,
-    #ff0055,
-    #ff8a00,
-    #ffe600,
-    #00e676,
-    #00b0ff,
-    #7c4dff
-  );
+  background: linear-gradient(90deg, #ff0055, #ff8a00, #ffe600, #00e676, #00b0ff, #7c4dff);
   background-size: 200% auto;
   animation: prism-shift 8s linear infinite;
   color: #0d0015;
@@ -188,16 +170,7 @@
 [data-theme="prism"] .skill-card {
   background:
     linear-gradient(rgba(13, 0, 21, 0.9), rgba(13, 0, 21, 0.9)) padding-box,
-    linear-gradient(
-        120deg,
-        #ff0055,
-        #ff8a00,
-        #ffe600,
-        #00e676,
-        #00b0ff,
-        #7c4dff
-      )
-      border-box;
+    linear-gradient(120deg, #ff0055, #ff8a00, #ffe600, #00e676, #00b0ff, #7c4dff) border-box;
   border: 2px solid transparent;
 }
 

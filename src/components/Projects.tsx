@@ -58,6 +58,7 @@ const projects: Project[] = [
     description:
       "Track and manage subscriptions from one place across iOS and Android, with offline storage via SQLite.",
     url: "https://github.com/GeorgeSuarez/Subby",
+    demoUrl: "https://georgesuarez.github.io/Subby/demo/",
   },
   {
     id: "04",
@@ -100,9 +101,7 @@ function ProjectCard({ project }: { project: Project }) {
         >
           {project.kind}
         </span>
-        <span className="text-muted/30 text-sm font-bold tracking-widest">
-          {project.id}
-        </span>
+        <span className="text-muted/30 text-sm font-bold tracking-widest">{project.id}</span>
       </div>
 
       <h2 className="text-yellow text-xl sm:text-2xl font-bold mb-1 tracking-tight">

@@ -7,9 +7,7 @@ export default function NotFound() {
         404
       </h1>
 
-      <p className="text-muted text-sm sm:text-base tracking-wide uppercase mb-8">
-        Page not found
-      </p>
+      <p className="text-muted text-sm sm:text-base tracking-wide uppercase mb-8">Page not found</p>
 
       <Link
         to="/"
