@@ -81,6 +81,17 @@ const projects: Project[] = [
       "A terminal-based credential manager. Passwords and API keys encrypted with AES-256-GCM in a Ratatui TUI.",
     url: "https://github.com/GeorgeSuarez/RustyVault",
   },
+  {
+    id: "06",
+    title: "TrailFinder",
+    kind: "Web",
+    stack: "EffectTS / Vite / React",
+    icons: ["typescript", "vite", "react"],
+    description:
+      "A web application that finds hiking trails either by near your location, searching a location, or simply dropping a pin. Powered by Overpass API for trail data and Nominatim for geocoding",
+    url: "https://github.com/GeorgeSuarez/TrailFinder",
+    demoUrl: "https://trailfinder.georgesuarezdev.workers.dev",
+  },
 ];
 
 const kindStyles: Record<ProjectKind, string> = {
