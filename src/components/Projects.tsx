@@ -31,26 +31,16 @@ interface Project {
 const projects: Project[] = [
   {
     id: "01",
-    title: "LFGuild",
-    kind: "Mobile",
-    stack: "Swift / UIKit",
-    icons: ["swift", "xcode"],
-    description:
-      "Guild discovery for World of Warcraft players. Matches players to guilds that fit their playstyle, with real-time chat built on Swift.",
-    url: "https://github.com/GeorgeSuarez/LFGuild",
-  },
-  {
-    id: "02",
     title: "ReFactor",
     kind: "Web",
-    stack: "React / .NET / SQL",
-    icons: ["react", "typescript", "dotnetcore", "docker"],
+    stack: "TypeScript / React / .NET / SQL",
+    icons: ["typescript", "react", "dotnetcore", "docker"],
     description:
       "A developer-themed store for dev gear. Full-stack eCommerce with cart, checkout, and an SQL inventory.",
     url: "https://github.com/GeorgeSuarez/ReFactor",
   },
   {
-    id: "03",
+    id: "02",
     title: "Subby",
     kind: "Mobile",
     stack: "React Native / Expo",
@@ -61,28 +51,18 @@ const projects: Project[] = [
     demoUrl: "https://georgesuarez.github.io/Subby/demo/",
   },
   {
-    id: "04",
-    title: "Cheevo Dash",
+    id: "03",
+    title: "Rarify",
     kind: "Web",
     stack: "Next.js / React / Tailwind",
     icons: ["nextjs", "react", "tailwindcss", "typescript"],
     description:
-      "A metrics dashboard for Steam achievements. Visualize unlock progress across your entire library.",
-    url: "https://github.com/GeorgeSuarez/CheevoDash",
-    demoUrl: "https://cheevo-dash.vercel.app",
+      "A metrics dashboard for Steam achievements. Visualize unlock progress across your entire library, and compare stats with your friends on Steam.",
+    url: "https://github.com/GeorgeSuarez/Rarify",
+    demoUrl: "https://rarify.vercel.app",
   },
   {
-    id: "05",
-    title: "Rusty Vault",
-    kind: "CLI",
-    stack: "Rust / Ratatui",
-    icons: ["rust", "sqlite"],
-    description:
-      "A terminal-based credential manager. Passwords and API keys encrypted with AES-256-GCM in a Ratatui TUI.",
-    url: "https://github.com/GeorgeSuarez/RustyVault",
-  },
-  {
-    id: "06",
+    id: "04",
     title: "TrailFinder",
     kind: "Web",
     stack: "EffectTS / Vite / React",
@@ -91,6 +71,26 @@ const projects: Project[] = [
       "A web application that finds hiking trails either by near your location, searching a location, or simply dropping a pin. Powered by Overpass API for trail data and Nominatim for geocoding",
     url: "https://github.com/GeorgeSuarez/TrailFinder",
     demoUrl: "https://trailfinder.georgesuarezdev.workers.dev",
+  },
+  {
+    id: "05",
+    title: "LFGuild",
+    kind: "Mobile",
+    stack: "Swift / UIKit",
+    icons: ["swift", "xcode"],
+    description:
+      "Guild discovery for World of Warcraft players. Matches players to guilds that fit their playstyle, with real-time chat built on Swift.",
+    url: "https://github.com/GeorgeSuarez/LFGuild",
+  },
+  {
+    id: "06",
+    title: "Rusty Vault",
+    kind: "CLI",
+    stack: "Rust / Ratatui",
+    icons: ["rust", "sqlite"],
+    description:
+      "A terminal-based credential manager. Passwords and API keys encrypted with AES-256-GCM in a Ratatui TUI.",
+    url: "https://github.com/GeorgeSuarez/RustyVault",
   },
 ];
 
