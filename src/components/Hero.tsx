@@ -6,14 +6,23 @@ interface MenuItem {
   href: string;
   external: boolean;
   action?: "projects";
+  downloadFilename?: string;
 }
+
+const resumePdfPath = "/George_Suarez_Resume.pdf";
 
 const menuItems: MenuItem[] = [
   { label: "Projects", href: "#", external: false, action: "projects" },
   {
     label: "Resume",
-    href: "https://docs.google.com/document/d/1UhSLU710_8HHWU7tvZG9tbA83dd_0L8IwUvfGo5BnXI/export?format=pdf",
+    href: resumePdfPath,
     external: true,
+  },
+  {
+    label: "Download",
+    href: resumePdfPath,
+    external: true,
+    downloadFilename: "George_Suarez_Resume.pdf",
   },
   { label: "GitHub", href: "https://github.com/georgesuarez", external: true },
   {
@@ -32,7 +41,14 @@ export default function Hero() {
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const activateItem = (item: MenuItem) => {
-    if (item.external) {
+    if (item.downloadFilename) {
+      const downloadAnchor = document.createElement("a");
+      downloadAnchor.href = item.href;
+      downloadAnchor.download = item.downloadFilename;
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+    } else if (item.external) {
       if (item.href.startsWith("mailto:")) {
         window.location.href = item.href;
       } else {
@@ -106,8 +122,11 @@ export default function Hero() {
                     {item.external ? (
                       <a
                         href={item.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
+                        target={item.downloadFilename ? undefined : "_blank"}
+                        rel={item.downloadFilename ? undefined : "noopener noreferrer"}
+                        download={item.downloadFilename}
+                        aria-label={item.downloadFilename ? "Download resume as PDF" : undefined}
+                        title={item.downloadFilename ? "Download resume as PDF" : undefined}
                         className={`menu-label ${isSelected ? "menu-selected" : ""} block px-5 py-1.5 text-2xl sm:text-3xl tracking-[0.2em] uppercase transition-all duration-200 hover:outline-none focus:outline-none whitespace-nowrap ${
                           isSelected
                             ? "bg-yellow text-background"
