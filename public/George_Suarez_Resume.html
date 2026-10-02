@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>George Suarez — Resume</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+        --bg: #ffffff;
+        --fg: #1f2328;
+        --muted: #57606a;
+        --accent: #0969da;
+        --rule: #d0d7de;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #0d1117;
+          --fg: #e6edf3;
+          --muted: #9198a1;
+          --accent: #4493f8;
+          --rule: #30363d;
+        }
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--fg);
+        font:
+          16px/1.55 -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Helvetica,
+          Arial,
+          sans-serif;
+      }
+
+      main {
+        max-width: 52rem;
+        margin: 0 auto;
+        padding: 3rem 1.5rem 4rem;
+      }
+
+      header {
+        margin-bottom: 2.25rem;
+        text-align: center;
+      }
+
+      h1 {
+        margin: 0 0 0.75rem;
+        font-size: 2rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      h2 {
+        margin: 2.25rem 0 1rem;
+        padding-bottom: 0.35rem;
+        border-bottom: 1px solid var(--rule);
+        font-size: 0.95rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+
+      h3 {
+        margin: 1.25rem 0 0.35rem;
+        font-size: 1.05rem;
+      }
+
+      p {
+        margin: 0.35rem 0;
+      }
+
+      .contact {
+        margin: 0.25rem 0;
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      .contact a {
+        color: inherit;
+      }
+
+      .entry-meta {
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+
+      ul {
+        margin: 0.4rem 0 0;
+        padding-left: 1.25rem;
+      }
+
+      li {
+        margin: 0.3rem 0;
+      }
+
+      a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+
+      a:hover {
+        text-decoration: underline;
+      }
+
+      .entry {
+        break-inside: avoid;
+      }
+
+      @media print {
+        body {
+          font-size: 11pt;
+        }
+
+        main {
+          max-width: none;
+          padding: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <h1>George Suarez</h1>
+        <p class="contact">
+          Ventura, CA · <a href="tel:+19092755199">909-275-5199</a> ·
+          <a href="https://georgejsuarez.com">georgejsuarez.com</a> ·
+          <a href="mailto:georgesuarezdev@gmail.com">georgesuarezdev@gmail.com</a>
+        </p>
+        <p class="contact">
+          <a href="https://linkedin.com/in/george-suarez">linkedin.com/in/george-suarez</a> ·
+          <a href="https://github.com/georgesuarez">github.com/georgesuarez</a>
+        </p>
+      </header>
+      <section>
+        <h2>Education</h2>
+        <div class="entry">
+          <h3>California State University San Bernardino</h3>
+          <p class="entry-meta">San Bernardino, California</p>
+          <p>Bachelor of Science (B.S.), Computer Science, December 2019</p>
+        </div>
+      </section>
+      <section>
+        <h2>Technical Skills</h2>
+        <ul>
+          <li>
+            <strong>Languages:</strong> TypeScript, JavaScript, C#, Python, Swift, Rust, C/C++, SQL
+          </li>
+          <li>
+            <strong>Frameworks &amp; Tools:</strong> .NET, React, Next.js, React Native, Expo,
+            Node.js, Tailwind CSS, Supabase (PostgreSQL), SQLite, Docker, Git, Linux
+          </li>
+          <li>
+            <strong>Development Practices:</strong> Software Design, Testing &amp; Debugging,
+            Technical Documentation, Code Review, QA
+          </li>
+        </ul>
+      </section>
+      <section>
+        <h2>Professional Experience</h2>
+        <div class="entry">
+          <h3>Optimal State</h3>
+          <p class="entry-meta">Software Engineer, iOS · November 2019 - January 2022</p>
+          <ul>
+            <li>
+              Designed and developed an iOS application in Swift that enabled users to monitor and
+              track habitual mental and emotional states over time
+            </li>
+            <li>
+              Wrote clean, maintainable, and scalable code following software design patterns
+              including MVC and MVVM
+            </li>
+            <li>
+              Produced technical documentation including architecture diagrams and flowcharts, and
+              performed testing and debugging to resolve defects and ensure application stability
+            </li>
+            <li>
+              Collaborated with stakeholders in an Agile environment to gather requirements, triage
+              reported issues, and deliver work packages end-to-end from design through testing and
+              release
+            </li>
+          </ul>
+        </div>
+        <div class="entry">
+          <h3>Amazon.com</h3>
+          <p class="entry-meta">Fulfillment Associate · May 2022 - December 2025</p>
+          <ul>
+            <li>
+              Collaborated cross-functionally with supervisors and team leads to resolve operational
+              issues and ensure smooth workflow and on-time delivery
+            </li>
+            <li>
+              Troubleshot and resolved inventory discrepancies, contributing to a 20% reduction in
+              inventory shrinkage
+            </li>
+          </ul>
+        </div>
+      </section>
+      <section>
+        <h2>Projects</h2>
+        <div class="entry">
+          <h3>Subby | React Native, TypeScript, Supabase, Expo</h3>
+          <ul>
+            <li>
+              Built a cross-platform subscription tracker for iOS and Android with a dashboard for
+              spending metrics, renewal dates, and usage insights
+            </li>
+            <li>
+              Designed a typed React Native architecture with testable feature modules and
+              implemented offline-first sync via a SQLite write queue, backed by 117 Jest unit tests
+              and GitHub Actions CI
+            </li>
+          </ul>
+        </div>
+        <div class="entry">
+          <h3>ReFactor | C#, .NET, React, Redux, SQL, Docker</h3>
+          <ul>
+            <li>
+              Developed a full-stack e-commerce application with a C#/.NET backend, REST APIs for
+              product search, cart, and checkout, and SQL data storage
+            </li>
+            <li>
+              Built a responsive React and Redux frontend and integrated Stripe payments, ASP.NET
+              Core Identity authentication, and a containerized SQL Server
+            </li>
+          </ul>
+        </div>
+        <div class="entry">
+          <h3>Rarify | TypeScript, Next.js, Tailwind CSS, PostgreSQL</h3>
+          <ul>
+            <li>
+              Built and deployed a Steam achievement dashboard to production on Vercel using
+              Next.js, TypeScript, Tailwind CSS, and PostgreSQL
+            </li>
+            <li>
+              Integrated Steam OpenID authentication, JWT sessions, and a cached Steam API client
+              with nightly snapshot jobs for tracking progress over time
+            </li>
+          </ul>
+        </div>
+        <div class="entry">
+          <h3>TrailFinder | TypeScript, Effect TS, React, Cloudflare Workers</h3>
+          <ul>
+            <li>
+              Built a full-stack trail finder on Cloudflare Workers with a type-safe Effect TS HTTP
+              API featuring schema validation, typed errors, and retry with timeout
+            </li>
+            <li>
+              Integrated OpenStreetMap Overpass and Nominatim APIs to query, decode, and
+              distance-sort hiking routes onto an interactive React and Leaflet map
+            </li>
+          </ul>
+        </div>
+        <div class="entry">
+          <h3>RustyVault | Rust, SQLite</h3>
+          <ul>
+            <li>
+              Built a Rust terminal credential manager (Ratatui TUI) that encrypts passwords and API
+              keys with AES-256-GCM and Argon2id-derived keys in a local SQLite database
+            </li>
+            <li>
+              Implemented atomic master-password rotation, on-demand secret reveal, and memory
+              scrubbing on lock and quit, with no network access
+            </li>
+          </ul>
+        </div>
+        <div class="entry">
+          <h3>LFGuild | Swift, SwiftUI, Firebase</h3>
+          <ul>
+            <li>
+              Built an iOS guild-matching application with SwiftUI and MVVM using Firebase Auth,
+              Firestore, Cloud Messaging, and real-time chat with unread tracking
+            </li>
+            <li>
+              Designed a weighted six-factor match-scoring algorithm and Firestore security rules
+              enforcing verified-email and owner-only access
+            </li>
+          </ul>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

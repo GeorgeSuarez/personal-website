@@ -1,11 +1,24 @@
 import { useState, useEffect } from "react";
 import Projects from "./Projects";
 
+type SubmenuId = "resume" | "download";
+
+type SubmenuLink = {
+  readonly label: string;
+  readonly href: string;
+  /** When set, the browser saves the file with this name instead of opening it in a tab. */
+  readonly filename?: string;
+};
+
 type HeroMenuItem =
   | {
       readonly label: string;
-      readonly kind: "action";
-      readonly action: "projects" | "resume";
+      readonly kind: "projects";
+    }
+  | {
+      readonly label: string;
+      readonly kind: "submenu";
+      readonly submenuId: SubmenuId;
     }
   | {
       readonly label: string;
@@ -13,26 +26,53 @@ type HeroMenuItem =
       readonly href: string;
     };
 
-const resumePdfPath = "/George_Suarez_Resume.pdf";
-const resumePdfFilename = "George_Suarez_Resume.pdf";
-const resumeDocxPath = "/George_Suarez_Resume.docx";
-const resumeDocxFilename = "George_Suarez_Resume.docx";
+type Submenu = {
+  readonly ariaLabel: string;
+  readonly items: ReadonlyArray<SubmenuLink>;
+};
+
+const resumeFilenameBase = "George_Suarez_Resume";
+
+const resumeFiles = {
+  pdf: `${resumeFilenameBase}.pdf`,
+  docx: `${resumeFilenameBase}.docx`,
+  txt: `${resumeFilenameBase}.txt`,
+  html: `${resumeFilenameBase}.html`,
+  markdown: `${resumeFilenameBase}.md`,
+} as const;
+
+const submenus: Record<SubmenuId, Submenu> = {
+  resume: {
+    ariaLabel: "Resume viewing options",
+    items: [{ label: "View PDF", href: `/${resumeFiles.pdf}` }],
+  },
+  download: {
+    ariaLabel: "Resume download formats",
+    items: [
+      { label: "PDF", href: `/${resumeFiles.pdf}`, filename: resumeFiles.pdf },
+      { label: "DOCX", href: `/${resumeFiles.docx}`, filename: resumeFiles.docx },
+      { label: "TXT", href: `/${resumeFiles.txt}`, filename: resumeFiles.txt },
+      { label: "HTML", href: `/${resumeFiles.html}`, filename: resumeFiles.html },
+      { label: "Markdown", href: `/${resumeFiles.markdown}`, filename: resumeFiles.markdown },
+    ],
+  },
+};
 
 const menuItems: ReadonlyArray<HeroMenuItem> = [
-  { label: "Projects", kind: "action", action: "projects" },
-  { label: "Resume", kind: "action", action: "resume" },
+  { label: "Projects", kind: "projects" },
+  { label: "Resume", kind: "submenu", submenuId: "resume" },
+  { label: "Download", kind: "submenu", submenuId: "download" },
   { label: "GitHub", kind: "link", href: "https://github.com/georgesuarez" },
   { label: "LinkedIn", kind: "link", href: "https://linkedin.com/in/george-suarez" },
   { label: "Contact Me", kind: "link", href: "mailto:georgesuarezdev@gmail.com" },
 ];
 
-const resumeMenuIndex = menuItems.findIndex(
-  (item) => item.kind === "action" && item.action === "resume",
-);
+const submenuTriggerId = (submenuId: SubmenuId): string => `${submenuId}-menu-trigger`;
+const submenuPanelId = (submenuId: SubmenuId): string => `${submenuId}-submenu`;
 
 export default function Hero() {
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [isResumeMenuOpen, setIsResumeMenuOpen] = useState(false);
+  const [openSubmenuId, setOpenSubmenuId] = useState<SubmenuId | null>(null);
 
   const activateItem = (item: HeroMenuItem) => {
     if (item.kind === "link") {
@@ -41,34 +81,47 @@ export default function Hero() {
       } else {
         window.open(item.href, "_blank", "noopener,noreferrer");
       }
-    } else if (item.action === "resume") {
-      setIsResumeMenuOpen((isOpen) => !isOpen);
-    } else {
-      document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
+      return;
     }
+
+    if (item.kind === "submenu") {
+      setOpenSubmenuId((openId) => (openId === item.submenuId ? null : item.submenuId));
+      return;
+    }
+
+    document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const selectItem = (index: number) => {
+    setSelectedIndex(index);
+    const item = menuItems[index];
+    if (item) activateItem(item);
   };
 
   useEffect(() => {
-    if (selectedIndex !== resumeMenuIndex) {
-      setIsResumeMenuOpen(false);
+    const selectedItem = menuItems[selectedIndex];
+    const selectedSubmenuId = selectedItem?.kind === "submenu" ? selectedItem.submenuId : null;
+    if (selectedSubmenuId !== openSubmenuId) {
+      setOpenSubmenuId(null);
     }
-  }, [selectedIndex]);
+  }, [openSubmenuId, selectedIndex]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       const target = e.target instanceof HTMLElement ? e.target : null;
 
-      if (e.key === "Escape" && isResumeMenuOpen) {
+      if (e.key === "Escape" && openSubmenuId) {
         e.preventDefault();
-        setIsResumeMenuOpen(false);
-        document.getElementById("resume-menu-trigger")?.focus();
+        const submenuId = openSubmenuId;
+        setOpenSubmenuId(null);
+        document.getElementById(submenuTriggerId(submenuId))?.focus();
         return;
       }
 
-      const resumeSubmenu = target?.closest("#resume-submenu");
-      if (resumeSubmenu) {
+      const submenuPanel = target?.closest<HTMLElement>("[data-submenu-panel]");
+      if (submenuPanel) {
         if (e.key === "ArrowUp" || e.key === "ArrowDown") {
-          const submenuLinks = resumeSubmenu.querySelectorAll<HTMLAnchorElement>("a");
+          const submenuLinks = submenuPanel.querySelectorAll<HTMLAnchorElement>("a");
           const focusedLink = target?.closest<HTMLAnchorElement>("a");
           const focusedLinkIndex = Array.from(submenuLinks).findIndex(
             (link) => link === focusedLink,
@@ -89,10 +142,12 @@ export default function Hero() {
         const focusedMenuItem = target?.closest<HTMLElement>("[data-menu-index]");
         const focusedMenuIndex = focusedMenuItem ? Number(focusedMenuItem.dataset.menuIndex) : -1;
         const hasFocusedMenuItem = focusedMenuIndex >= 0 && focusedMenuIndex < menuItems.length;
+        const focusedItem = hasFocusedMenuItem ? menuItems[focusedMenuIndex] : undefined;
+        const focusedSubmenuId = focusedItem?.kind === "submenu" ? focusedItem.submenuId : null;
 
-        if (e.key === "ArrowDown" && isResumeMenuOpen && focusedMenuIndex === resumeMenuIndex) {
+        if (e.key === "ArrowDown" && openSubmenuId && focusedSubmenuId === openSubmenuId) {
           e.preventDefault();
-          document.querySelector<HTMLAnchorElement>("#resume-submenu a")?.focus();
+          document.querySelector<HTMLAnchorElement>(`#${submenuPanelId(openSubmenuId)} a`)?.focus();
           return;
         }
 
@@ -122,14 +177,12 @@ export default function Hero() {
       const index = Number(e.key) - 1;
       if (!Number.isInteger(index) || index < 0 || index >= menuItems.length) return;
 
-      setSelectedIndex(index);
-      const selectedItem = menuItems[index];
-      if (selectedItem) activateItem(selectedItem);
+      selectItem(index);
     };
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [isResumeMenuOpen, selectedIndex]);
+  }, [openSubmenuId, selectedIndex]);
 
   const scrollToMenu = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -150,7 +203,9 @@ export default function Hero() {
           <nav className="flex flex-col sm:gap-3 items-start w-full">
             {menuItems.map((item, index) => {
               const isSelected = index === selectedIndex;
-              const isResumeItem = item.kind === "action" && item.action === "resume";
+              const submenuId = item.kind === "submenu" ? item.submenuId : null;
+              const submenu = submenuId ? submenus[submenuId] : null;
+              const isSubmenuOpen = submenuId !== null && openSubmenuId === submenuId;
 
               return (
                 <div
@@ -185,11 +240,11 @@ export default function Hero() {
                       </a>
                     ) : (
                       <button
-                        id={isResumeItem ? "resume-menu-trigger" : undefined}
+                        id={submenuId ? submenuTriggerId(submenuId) : undefined}
                         type="button"
-                        aria-expanded={isResumeItem ? isResumeMenuOpen : undefined}
-                        aria-controls={isResumeItem ? "resume-submenu" : undefined}
-                        onClick={() => activateItem(item)}
+                        aria-expanded={submenuId ? isSubmenuOpen : undefined}
+                        aria-controls={submenuId ? submenuPanelId(submenuId) : undefined}
+                        onClick={() => selectItem(index)}
                         className={`menu-label ${isSelected ? "menu-selected" : ""} block px-5 py-1.5 text-2xl sm:text-3xl tracking-[0.2em] uppercase transition-all duration-200 hover:outline-none focus:outline-none text-left cursor-pointer whitespace-nowrap ${
                           isSelected
                             ? "bg-yellow text-background"
@@ -197,41 +252,39 @@ export default function Hero() {
                         }`}
                       >
                         {item.label}
-                        {isResumeItem && (
+                        {submenuId && (
                           <span
                             className="ml-3 text-sm tracking-normal text-cyan/70"
                             aria-hidden="true"
                           >
-                            {isResumeMenuOpen ? "−" : "+"}
+                            {isSubmenuOpen ? "−" : "+"}
                           </span>
                         )}
                       </button>
                     )}
                   </span>
-                  {isResumeItem && (
+                  {submenuId && submenu && (
                     <div
-                      id="resume-submenu"
+                      id={submenuPanelId(submenuId)}
+                      data-submenu-panel={submenuId}
                       role="group"
-                      aria-label="Resume options"
+                      aria-label={submenu.ariaLabel}
                       className={`ml-10 border-l border-cyan/30 pl-4 ${
-                        isResumeMenuOpen ? "mt-1 flex flex-col gap-1" : "hidden"
+                        isSubmenuOpen ? "mt-1 flex flex-col gap-1" : "hidden"
                       }`}
                     >
-                      <a
-                        href={resumePdfPath}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="block px-3 py-1.5 text-lg sm:text-xl tracking-[0.2em] uppercase text-muted transition-colors hover:bg-yellow/10 hover:text-yellow focus:bg-yellow/10 focus:text-yellow focus:outline-none whitespace-nowrap"
-                      >
-                        View
-                      </a>
-                      <a
-                        href={resumePdfPath}
-                        download={resumePdfFilename}
-                        className="block px-3 py-1.5 text-lg sm:text-xl tracking-[0.2em] uppercase text-muted transition-colors hover:bg-yellow/10 hover:text-yellow focus:bg-yellow/10 focus:text-yellow focus:outline-none whitespace-nowrap"
-                      >
-                        Download
-                      </a>
+                      {submenu.items.map((submenuItem) => (
+                        <a
+                          key={submenuItem.label}
+                          href={submenuItem.href}
+                          download={submenuItem.filename}
+                          target={submenuItem.filename ? undefined : "_blank"}
+                          rel={submenuItem.filename ? undefined : "noopener noreferrer"}
+                          className="block px-3 py-1.5 text-lg sm:text-xl tracking-[0.2em] uppercase text-muted transition-colors hover:bg-yellow/10 hover:text-yellow focus:bg-yellow/10 focus:text-yellow focus:outline-none whitespace-nowrap"
+                        >
+                          {submenuItem.label}
+                        </a>
+                      ))}
                     </div>
                   )}
                 </div>

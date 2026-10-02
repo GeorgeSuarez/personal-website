@@ -9,6 +9,8 @@
     "lint": "oxlint .",
     "format": "oxfmt --check .",
     "format:fix": "oxfmt .",
+    "generate:resume": "node scripts/generate-resume-formats.ts",
+    "generate:resume:check": "node scripts/generate-resume-formats.ts --check",
     "preview": "npm run build && wrangler dev",
     "deploy": "npm run build && wrangler deploy"
   },
@@ -29,6 +31,7 @@
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.1",
     "babel-plugin-react-compiler": "^1.0.0",
+    "fflate": "^0.8.3",
     "oxfmt": "^0.63.0",
     "oxlint": "^1.78.0",
     "typescript": "~6.0.2",
