@@ -1,91 +1,133 @@
 import { useState, useEffect } from "react";
 import Projects from "./Projects";
 
-interface MenuItem {
-  label: string;
-  href: string;
-  external: boolean;
-  action?: "projects";
-  downloadFilename?: string;
-}
+type HeroMenuItem =
+  | {
+      readonly label: string;
+      readonly kind: "action";
+      readonly action: "projects" | "resume";
+    }
+  | {
+      readonly label: string;
+      readonly kind: "link";
+      readonly href: string;
+    };
 
 const resumePdfPath = "/George_Suarez_Resume.pdf";
+const resumePdfFilename = "George_Suarez_Resume.pdf";
 
-const menuItems: MenuItem[] = [
-  { label: "Projects", href: "#", external: false, action: "projects" },
-  {
-    label: "Resume",
-    href: resumePdfPath,
-    external: true,
-  },
-  {
-    label: "Download",
-    href: resumePdfPath,
-    external: true,
-    downloadFilename: "George_Suarez_Resume.pdf",
-  },
-  { label: "GitHub", href: "https://github.com/georgesuarez", external: true },
-  {
-    label: "LinkedIn",
-    href: "https://linkedin.com/in/george-suarez",
-    external: true,
-  },
-  {
-    label: "Contact Me",
-    href: "mailto:georgesuarezdev@gmail.com",
-    external: true,
-  },
+const menuItems: ReadonlyArray<HeroMenuItem> = [
+  { label: "Projects", kind: "action", action: "projects" },
+  { label: "Resume", kind: "action", action: "resume" },
+  { label: "GitHub", kind: "link", href: "https://github.com/georgesuarez" },
+  { label: "LinkedIn", kind: "link", href: "https://linkedin.com/in/george-suarez" },
+  { label: "Contact Me", kind: "link", href: "mailto:georgesuarezdev@gmail.com" },
 ];
+
+const resumeMenuIndex = menuItems.findIndex(
+  (item) => item.kind === "action" && item.action === "resume",
+);
 
 export default function Hero() {
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const [isResumeMenuOpen, setIsResumeMenuOpen] = useState(false);
 
-  const activateItem = (item: MenuItem) => {
-    if (item.downloadFilename) {
-      const downloadAnchor = document.createElement("a");
-      downloadAnchor.href = item.href;
-      downloadAnchor.download = item.downloadFilename;
-      document.body.appendChild(downloadAnchor);
-      downloadAnchor.click();
-      downloadAnchor.remove();
-    } else if (item.external) {
+  const activateItem = (item: HeroMenuItem) => {
+    if (item.kind === "link") {
       if (item.href.startsWith("mailto:")) {
         window.location.href = item.href;
       } else {
         window.open(item.href, "_blank", "noopener,noreferrer");
       }
-    } else if (item.action === "projects") {
+    } else if (item.action === "resume") {
+      setIsResumeMenuOpen((isOpen) => !isOpen);
+    } else {
       document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
     }
   };
 
   useEffect(() => {
+    if (selectedIndex !== resumeMenuIndex) {
+      setIsResumeMenuOpen(false);
+    }
+  }, [selectedIndex]);
+
+  useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "ArrowUp" || e.key === "ArrowDown") {
+      const target = e.target instanceof HTMLElement ? e.target : null;
+
+      if (e.key === "Escape" && isResumeMenuOpen) {
         e.preventDefault();
-        setSelectedIndex((prev) => {
-          const delta = e.key === "ArrowUp" ? -1 : 1;
-          return (prev + delta + menuItems.length) % menuItems.length;
-        });
+        setIsResumeMenuOpen(false);
+        document.getElementById("resume-menu-trigger")?.focus();
+        return;
+      }
+
+      const resumeSubmenu = target?.closest("#resume-submenu");
+      if (resumeSubmenu) {
+        if (e.key === "ArrowUp" || e.key === "ArrowDown") {
+          const submenuLinks = resumeSubmenu.querySelectorAll<HTMLAnchorElement>("a");
+          const focusedLink = target?.closest<HTMLAnchorElement>("a");
+          const focusedLinkIndex = Array.from(submenuLinks).findIndex(
+            (link) => link === focusedLink,
+          );
+
+          if (focusedLinkIndex !== -1) {
+            e.preventDefault();
+            const delta = e.key === "ArrowUp" ? -1 : 1;
+            const nextLinkIndex =
+              (focusedLinkIndex + delta + submenuLinks.length) % submenuLinks.length;
+            submenuLinks[nextLinkIndex]?.focus();
+          }
+        }
+        return;
+      }
+
+      if (e.key === "ArrowUp" || e.key === "ArrowDown") {
+        const focusedMenuItem = target?.closest<HTMLElement>("[data-menu-index]");
+        const focusedMenuIndex = focusedMenuItem ? Number(focusedMenuItem.dataset.menuIndex) : -1;
+        const hasFocusedMenuItem = focusedMenuIndex >= 0 && focusedMenuIndex < menuItems.length;
+
+        if (e.key === "ArrowDown" && isResumeMenuOpen && focusedMenuIndex === resumeMenuIndex) {
+          e.preventDefault();
+          document.querySelector<HTMLAnchorElement>("#resume-submenu a")?.focus();
+          return;
+        }
+
+        e.preventDefault();
+        const delta = e.key === "ArrowUp" ? -1 : 1;
+        const nextIndex = hasFocusedMenuItem
+          ? (focusedMenuIndex + delta + menuItems.length) % menuItems.length
+          : (selectedIndex + delta + menuItems.length) % menuItems.length;
+        setSelectedIndex(nextIndex);
+
+        if (hasFocusedMenuItem) {
+          document
+            .querySelector<HTMLElement>(`[data-menu-index="${nextIndex}"] .menu-label`)
+            ?.focus();
+        }
         return;
       }
 
       if (e.key === "Enter") {
+        if (target?.closest("button, a")) return;
         e.preventDefault();
-        activateItem(menuItems[selectedIndex]);
+        const selectedItem = menuItems[selectedIndex];
+        if (selectedItem) activateItem(selectedItem);
         return;
       }
 
-      const index = parseInt(e.key, 10) - 1;
-      if (index < 0 || index >= menuItems.length) return;
+      const index = Number(e.key) - 1;
+      if (!Number.isInteger(index) || index < 0 || index >= menuItems.length) return;
 
       setSelectedIndex(index);
-      activateItem(menuItems[index]);
+      const selectedItem = menuItems[index];
+      if (selectedItem) activateItem(selectedItem);
     };
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [selectedIndex]);
+  }, [isResumeMenuOpen, selectedIndex]);
 
   const scrollToMenu = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -106,8 +148,15 @@ export default function Hero() {
           <nav className="flex flex-col sm:gap-3 items-start w-full">
             {menuItems.map((item, index) => {
               const isSelected = index === selectedIndex;
+              const isResumeItem = item.kind === "action" && item.action === "resume";
+
               return (
-                <div key={item.label} onMouseEnter={() => setSelectedIndex(index)}>
+                <div
+                  key={item.label}
+                  data-menu-index={index}
+                  onMouseEnter={() => setSelectedIndex(index)}
+                  onFocus={() => setSelectedIndex(index)}
+                >
                   <span className="group flex items-center gap-4 transition-all duration-200">
                     <span
                       className={`menu-arrow font-semibold text-2xl sm:text-3xl transition-all duration-200 ${
@@ -119,14 +168,11 @@ export default function Hero() {
                     >
                       {">"}
                     </span>
-                    {item.external ? (
+                    {item.kind === "link" ? (
                       <a
                         href={item.href}
-                        target={item.downloadFilename ? undefined : "_blank"}
-                        rel={item.downloadFilename ? undefined : "noopener noreferrer"}
-                        download={item.downloadFilename}
-                        aria-label={item.downloadFilename ? "Download resume as PDF" : undefined}
-                        title={item.downloadFilename ? "Download resume as PDF" : undefined}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className={`menu-label ${isSelected ? "menu-selected" : ""} block px-5 py-1.5 text-2xl sm:text-3xl tracking-[0.2em] uppercase transition-all duration-200 hover:outline-none focus:outline-none whitespace-nowrap ${
                           isSelected
                             ? "bg-yellow text-background"
@@ -137,6 +183,10 @@ export default function Hero() {
                       </a>
                     ) : (
                       <button
+                        id={isResumeItem ? "resume-menu-trigger" : undefined}
+                        type="button"
+                        aria-expanded={isResumeItem ? isResumeMenuOpen : undefined}
+                        aria-controls={isResumeItem ? "resume-submenu" : undefined}
                         onClick={() => activateItem(item)}
                         className={`menu-label ${isSelected ? "menu-selected" : ""} block px-5 py-1.5 text-2xl sm:text-3xl tracking-[0.2em] uppercase transition-all duration-200 hover:outline-none focus:outline-none text-left cursor-pointer whitespace-nowrap ${
                           isSelected
@@ -145,9 +195,43 @@ export default function Hero() {
                         }`}
                       >
                         {item.label}
+                        {isResumeItem && (
+                          <span
+                            className="ml-3 text-sm tracking-normal text-cyan/70"
+                            aria-hidden="true"
+                          >
+                            {isResumeMenuOpen ? "−" : "+"}
+                          </span>
+                        )}
                       </button>
                     )}
                   </span>
+                  {isResumeItem && (
+                    <div
+                      id="resume-submenu"
+                      role="group"
+                      aria-label="Resume options"
+                      className={`ml-10 border-l border-cyan/30 pl-4 ${
+                        isResumeMenuOpen ? "mt-1 flex flex-col gap-1" : "hidden"
+                      }`}
+                    >
+                      <a
+                        href={resumePdfPath}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block px-3 py-1.5 text-lg sm:text-xl tracking-[0.2em] uppercase text-muted transition-colors hover:bg-yellow/10 hover:text-yellow focus:bg-yellow/10 focus:text-yellow focus:outline-none whitespace-nowrap"
+                      >
+                        View PDF
+                      </a>
+                      <a
+                        href={resumePdfPath}
+                        download={resumePdfFilename}
+                        className="block px-3 py-1.5 text-lg sm:text-xl tracking-[0.2em] uppercase text-muted transition-colors hover:bg-yellow/10 hover:text-yellow focus:bg-yellow/10 focus:text-yellow focus:outline-none whitespace-nowrap"
+                      >
+                        Download PDF
+                      </a>
+                    </div>
+                  )}
                 </div>
               );
             })}
