@@ -15,6 +15,8 @@ type HeroMenuItem =
 
 const resumePdfPath = "/George_Suarez_Resume.pdf";
 const resumePdfFilename = "George_Suarez_Resume.pdf";
+const resumeDocxPath = "/George_Suarez_Resume.docx";
+const resumeDocxFilename = "George_Suarez_Resume.docx";
 
 const menuItems: ReadonlyArray<HeroMenuItem> = [
   { label: "Projects", kind: "action", action: "projects" },
@@ -221,14 +223,14 @@ export default function Hero() {
                         rel="noopener noreferrer"
                         className="block px-3 py-1.5 text-lg sm:text-xl tracking-[0.2em] uppercase text-muted transition-colors hover:bg-yellow/10 hover:text-yellow focus:bg-yellow/10 focus:text-yellow focus:outline-none whitespace-nowrap"
                       >
-                        View PDF
+                        View
                       </a>
                       <a
                         href={resumePdfPath}
                         download={resumePdfFilename}
                         className="block px-3 py-1.5 text-lg sm:text-xl tracking-[0.2em] uppercase text-muted transition-colors hover:bg-yellow/10 hover:text-yellow focus:bg-yellow/10 focus:text-yellow focus:outline-none whitespace-nowrap"
                       >
-                        Download PDF
+                        Download
                       </a>
                     </div>
                   )}
