@@ -1,3 +1,5 @@
+// Effect's official mark from effect.website; devicon has no Effect icon.
+import effectMark from "../assets/effect-mark.svg";
 import { useTheme } from "../theme/useTheme";
 
 const ICON_BASE = "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/";
@@ -15,6 +17,10 @@ function iconFor(icon: string, isLedger: boolean) {
 
   if (icon === "rust") {
     return { src: `${ICON_BASE}rust/rust-original.svg`, invert: !isLedger };
+  }
+
+  if (icon === "effect") {
+    return { src: effectMark, invert: !isLedger };
   }
 
   return { src: `${ICON_BASE}${icon}/${icon}-original.svg`, invert: false };
@@ -58,7 +64,7 @@ const projects: Project[] = [
     title: "Rarify",
     kind: "Web",
     stack: "Effect / Vite / React / Tailwind",
-    icons: ["vite", "react", "tailwindcss", "typescript"],
+    icons: ["effect", "vite", "react", "tailwindcss"],
     description:
       "A metrics dashboard for Steam achievements. Visualize unlock progress across your entire library, and compare stats with your friends on Steam.",
     url: "https://github.com/GeorgeSuarez/Rarify",
@@ -69,7 +75,7 @@ const projects: Project[] = [
     title: "TrailFinder",
     kind: "Web",
     stack: "Effect / Vite / React",
-    icons: ["typescript", "vite", "react"],
+    icons: ["effect", "vite", "react"],
     description:
       "A web application that finds hiking trails either by near your location, searching a location, or simply dropping a pin. Powered by Overpass API for trail data and Nominatim for geocoding",
     url: "https://github.com/GeorgeSuarez/TrailFinder",
