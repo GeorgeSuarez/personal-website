@@ -11,6 +11,8 @@
     "format:fix": "oxfmt .",
     "generate:resume": "node scripts/generate-resume-formats.ts",
     "generate:resume:check": "node scripts/generate-resume-formats.ts --check",
+    "generate:og": "node scripts/generate-og-image.ts",
+    "generate:og:check": "node scripts/generate-og-image.ts --check",
     "preview": "npm run build && wrangler dev",
     "deploy": "npm run build && wrangler deploy"
   },

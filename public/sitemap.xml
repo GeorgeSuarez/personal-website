@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Add a <url> entry here for every real route. Hash-only and client-only views do not belong. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://georgejsuarez.com/</loc>
+  </url>
+</urlset>

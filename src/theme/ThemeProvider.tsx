@@ -3,6 +3,20 @@ import { ThemeContext } from "./useTheme";
 import { DEFAULT_THEME, isTheme, type Theme } from "./themes";
 import { localStorageThemeStore } from "./themeStore";
 
+/** Keeps the mobile browser UI color in step with the active theme's background. */
+function syncBrowserChromeColor(): void {
+  const meta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
+
+  if (meta === null) return;
+
+  // Read the resolved theme variable so the color stays sourced from index.css.
+  const background = getComputedStyle(document.documentElement).getPropertyValue("--clr-bg").trim();
+
+  if (background === "") return;
+
+  meta.content = background;
+}
+
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setTheme] = useState<Theme>(() => {
     const stored = localStorageThemeStore.read();
@@ -25,6 +39,8 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     } else {
       el.setAttribute("data-theme", theme);
     }
+
+    syncBrowserChromeColor();
   }, [theme]);
 
   return <ThemeContext.Provider value={contextValue}>{children}</ThemeContext.Provider>;
