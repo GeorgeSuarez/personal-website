@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Projects from "./Projects";
 
 type SubmenuId = "resume" | "download";
@@ -90,16 +90,31 @@ const submenuItemClassName =
   "block px-3 py-1.5 text-lg sm:text-xl tracking-[0.2em] uppercase text-muted transition-colors hover:bg-yellow/10 hover:text-yellow focus:bg-yellow/10 focus:text-yellow focus:outline-none whitespace-nowrap";
 
 const submenuTriggerId = (submenuId: string): string => `${submenuId}-menu-trigger`;
+
 const submenuPanelId = (submenuId: string): string => `${submenuId}-submenu`;
+
+/** mailto links open in place; every other link opens in a new tab. */
+const isMailtoHref = (href: string): boolean => href.startsWith("mailto:");
 
 /** Whether the given submenu is the open one or one of its ancestors. */
 function isSubmenuOpen(submenuId: SubmenuId, openSubmenuId: SubmenuId | null): boolean {
   let currentId = openSubmenuId;
+
   while (currentId !== null) {
     if (currentId === submenuId) return true;
     currentId = submenus[currentId].parentId;
   }
+
   return false;
+}
+
+/** Click the anchor the menu already renders instead of navigating programmatically. */
+function activateLink(index: number): void {
+  document.querySelector<HTMLAnchorElement>(`[data-menu-index="${index}"] a`)?.click();
+}
+
+function scrollToMenu(): void {
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
 type HeroSubmenuProps = {
@@ -125,6 +140,7 @@ function HeroSubmenu({ submenuId, openSubmenuId, onToggleSubmenu }: HeroSubmenuP
       {submenu.items.map((item) => {
         if (item.kind === "submenu") {
           const nestedIsOpen = openSubmenuId === item.submenuId;
+
           return (
             <div key={item.label} className="flex flex-col">
               <button
@@ -173,41 +189,44 @@ export default function Hero() {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [openSubmenuId, setOpenSubmenuId] = useState<SubmenuId | null>(null);
 
-  const toggleSubmenu = (submenuId: SubmenuId) => {
+  const toggleSubmenu = useCallback((submenuId: SubmenuId) => {
     setOpenSubmenuId((openId) => (openId === submenuId ? submenus[submenuId].parentId : submenuId));
-  };
+  }, []);
 
-  const activateItem = (item: HeroMenuItem) => {
-    if (item.kind === "link") {
-      if (item.href.startsWith("mailto:")) {
-        window.location.href = item.href;
-      } else {
-        window.open(item.href, "_blank", "noopener,noreferrer");
-      }
-      return;
-    }
-
-    if (item.kind === "submenu") {
-      toggleSubmenu(item.submenuId);
-      return;
-    }
-
-    document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  const selectItem = (index: number) => {
+  /** Move the selection, closing any submenu the newly selected item does not own. */
+  const selectIndex = useCallback((index: number) => {
     setSelectedIndex(index);
-    const item = menuItems[index];
-    if (item) activateItem(item);
-  };
+    setOpenSubmenuId((openId) => {
+      const item = menuItems[index];
+      const submenuId = item?.kind === "submenu" ? item.submenuId : null;
 
-  useEffect(() => {
-    const selectedItem = menuItems[selectedIndex];
-    const selectedSubmenuId = selectedItem?.kind === "submenu" ? selectedItem.submenuId : null;
-    if (selectedSubmenuId === null || !isSubmenuOpen(selectedSubmenuId, openSubmenuId)) {
-      setOpenSubmenuId(null);
-    }
-  }, [openSubmenuId, selectedIndex]);
+      return submenuId !== null && isSubmenuOpen(submenuId, openId) ? openId : null;
+    });
+  }, []);
+
+  const selectItem = useCallback(
+    (index: number) => {
+      selectIndex(index);
+      const item = menuItems[index];
+
+      if (!item) return;
+
+      if (item.kind === "link") {
+        activateLink(index);
+
+        return;
+      }
+
+      if (item.kind === "submenu") {
+        toggleSubmenu(item.submenuId);
+
+        return;
+      }
+
+      document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
+    },
+    [selectIndex, toggleSubmenu],
+  );
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -218,15 +237,18 @@ export default function Hero() {
         const closedSubmenuId = openSubmenuId;
         setOpenSubmenuId(submenus[closedSubmenuId].parentId);
         document.getElementById(submenuTriggerId(closedSubmenuId))?.focus();
+
         return;
       }
 
       const submenuPanel = target?.closest<HTMLElement>("[data-submenu-panel]");
+
       if (submenuPanel) {
         if (e.key === "ArrowUp" || e.key === "ArrowDown") {
           const panelItems = Array.from(
             submenuPanel.querySelectorAll<HTMLElement>("[data-submenu-item]"),
           ).filter((item) => item.closest("[data-submenu-panel]") === submenuPanel);
+
           const focusedItem = target?.closest<HTMLElement>("[data-submenu-item]");
           const focusedItemIndex = focusedItem ? panelItems.indexOf(focusedItem) : -1;
           const nestedSubmenuId = focusedItem?.dataset.submenuTrigger;
@@ -236,6 +258,7 @@ export default function Hero() {
             document
               .querySelector<HTMLElement>(`#${submenuPanelId(nestedSubmenuId)} [data-submenu-item]`)
               ?.focus();
+
             return;
           }
 
@@ -246,6 +269,7 @@ export default function Hero() {
             panelItems[nextIndex]?.focus();
           }
         }
+
         return;
       }
 
@@ -265,45 +289,47 @@ export default function Hero() {
           document
             .querySelector<HTMLElement>(`#${submenuPanelId(focusedSubmenuId)} [data-submenu-item]`)
             ?.focus();
+
           return;
         }
 
         e.preventDefault();
         const delta = e.key === "ArrowUp" ? -1 : 1;
+
         const nextIndex = hasFocusedMenuItem
           ? (focusedMenuIndex + delta + menuItems.length) % menuItems.length
           : (selectedIndex + delta + menuItems.length) % menuItems.length;
-        setSelectedIndex(nextIndex);
+
+        selectIndex(nextIndex);
 
         if (hasFocusedMenuItem) {
           document
             .querySelector<HTMLElement>(`[data-menu-index="${nextIndex}"] .menu-label`)
             ?.focus();
         }
+
         return;
       }
 
       if (e.key === "Enter") {
         if (target?.closest("button, a")) return;
         e.preventDefault();
-        const selectedItem = menuItems[selectedIndex];
-        if (selectedItem) activateItem(selectedItem);
+        selectItem(selectedIndex);
+
         return;
       }
 
       const index = Number(e.key) - 1;
+
       if (!Number.isInteger(index) || index < 0 || index >= menuItems.length) return;
 
       selectItem(index);
     };
 
     window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [openSubmenuId, selectedIndex]);
 
-  const scrollToMenu = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [openSubmenuId, selectedIndex, selectIndex, selectItem]);
 
   return (
     <div className="hero-bg relative bg-background">
@@ -322,13 +348,14 @@ export default function Hero() {
               const isSelected = index === selectedIndex;
               const submenuId = item.kind === "submenu" ? item.submenuId : null;
               const isOpen = submenuId !== null && isSubmenuOpen(submenuId, openSubmenuId);
+              const isExternalLink = item.kind === "link" && !isMailtoHref(item.href);
 
               return (
                 <div
                   key={item.label}
                   data-menu-index={index}
-                  onMouseEnter={() => setSelectedIndex(index)}
-                  onFocus={() => setSelectedIndex(index)}
+                  onMouseEnter={() => selectIndex(index)}
+                  onFocus={() => selectIndex(index)}
                 >
                   <span className="group flex items-center gap-4 transition-all duration-200">
                     <span
@@ -344,8 +371,8 @@ export default function Hero() {
                     {item.kind === "link" ? (
                       <a
                         href={item.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
+                        target={isExternalLink ? "_blank" : undefined}
+                        rel={isExternalLink ? "noopener noreferrer" : undefined}
                         className={`menu-label ${isSelected ? "menu-selected" : ""} block px-5 py-1.5 text-2xl sm:text-3xl tracking-[0.2em] uppercase transition-all duration-200 hover:outline-none focus:outline-none whitespace-nowrap ${
                           isSelected
                             ? "bg-yellow text-background"

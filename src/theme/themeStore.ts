@@ -1,14 +1,15 @@
 import { STORAGE_KEY, type Theme } from "./themes";
 
 export interface ThemeStore {
-  read: () => Theme | null;
+  /** Returns the raw stored value; callers validate it before use. */
+  read: () => string | null;
   write: (theme: Theme) => void;
 }
 
 export const localStorageThemeStore: ThemeStore = {
   read() {
     try {
-      return localStorage.getItem(STORAGE_KEY) as Theme | null;
+      return localStorage.getItem(STORAGE_KEY);
     } catch {
       return null;
     }

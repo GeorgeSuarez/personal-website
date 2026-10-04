@@ -24,8 +24,8 @@
   "devDependencies": {
     "@babel/core": "^7.29.0",
     "@cloudflare/vite-plugin": "^1.54.7",
+    "@oxlint/plugins": "1.86.0",
     "@rolldown/plugin-babel": "^0.2.3",
-    "@types/babel__core": "^7.20.5",
     "@types/node": "^24.12.3",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
@@ -33,7 +33,7 @@
     "babel-plugin-react-compiler": "^1.0.0",
     "fflate": "^0.8.3",
     "oxfmt": "^0.63.0",
-    "oxlint": "^1.78.0",
+    "oxlint": "1.86.0",
     "typescript": "~6.0.2",
     "vite": "^8.0.12",
     "wrangler": "^4.131.0"

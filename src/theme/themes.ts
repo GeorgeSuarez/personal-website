@@ -9,16 +9,17 @@ export const THEMES = [
 ] as const;
 
 export type Theme = (typeof THEMES)[number]["id"];
-export type ThemeInfo = (typeof THEMES)[number];
 
 export const DEFAULT_THEME: Theme = "achievement";
+
 export const STORAGE_KEY = "portfolio-theme";
 
-export function isTheme(value: unknown): value is Theme {
-  return typeof value === "string" && THEMES.some((t) => t.id === value);
+export function isTheme(value: string): value is Theme {
+  return THEMES.some((t) => t.id === value);
 }
 
 export function nextTheme(theme: Theme): Theme {
   const index = THEMES.findIndex((t) => t.id === theme);
+
   return THEMES[(index + 1) % THEMES.length].id;
 }

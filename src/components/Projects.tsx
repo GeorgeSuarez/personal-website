@@ -8,12 +8,15 @@ function iconFor(icon: string, isLedger: boolean) {
   if (icon === "nextjs") {
     return { src: `${ICON_BASE}nextjs/nextjs-plain.svg`, invert: !isLedger };
   }
+
   if (icon === "expo") {
     return { src: `${ICON_BASE}expo/expo-original.svg`, invert: !isLedger };
   }
+
   if (icon === "rust") {
     return { src: `${ICON_BASE}rust/rust-original.svg`, invert: !isLedger };
   }
+
   return { src: `${ICON_BASE}${icon}/${icon}-original.svg`, invert: false };
 }
 
@@ -130,6 +133,7 @@ function ProjectCard({ project }: { project: Project }) {
       <div className="flex flex-wrap gap-3 mb-6">
         {project.icons.map((icon) => {
           const { src, invert } = iconFor(icon, isLedger);
+
           return (
             <img
               key={icon}
@@ -138,7 +142,7 @@ function ProjectCard({ project }: { project: Project }) {
               className="w-7 h-7 object-contain"
               style={invert ? { filter: "invert(1)" } : undefined}
               onError={(e) => {
-                (e.target as HTMLImageElement).style.display = "none";
+                e.currentTarget.style.display = "none";
               }}
             />
           );

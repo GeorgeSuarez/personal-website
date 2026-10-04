@@ -1,21 +1,25 @@
-import { useCallback, useEffect, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useMemo, useState, type ReactNode } from "react";
 import { ThemeContext } from "./useTheme";
 import { DEFAULT_THEME, isTheme, type Theme } from "./themes";
 import { localStorageThemeStore } from "./themeStore";
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>(() => {
+  const [theme, setTheme] = useState<Theme>(() => {
     const stored = localStorageThemeStore.read();
+
     return stored !== null && isTheme(stored) ? stored : DEFAULT_THEME;
   });
 
-  const setTheme = useCallback((next: Theme) => {
-    setThemeState(next);
+  const applyTheme = useCallback((next: Theme) => {
+    setTheme(next);
     localStorageThemeStore.write(next);
   }, []);
 
+  const contextValue = useMemo(() => ({ theme, setTheme: applyTheme }), [theme, applyTheme]);
+
   useEffect(() => {
     const el = document.documentElement;
+
     if (theme === "cyberpunk") {
       el.removeAttribute("data-theme");
     } else {
@@ -23,5 +27,5 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     }
   }, [theme]);
 
-  return <ThemeContext.Provider value={{ theme, setTheme }}>{children}</ThemeContext.Provider>;
+  return <ThemeContext.Provider value={contextValue}>{children}</ThemeContext.Provider>;
 }

@@ -15,12 +15,14 @@ export default function AppChrome({ children }: { children: ReactNode }) {
       if (e.ctrlKey && e.shiftKey && e.key === "T") {
         e.preventDefault();
         setSelectorOpen(true);
+
         return;
       }
 
       if (e.ctrlKey && e.shiftKey && e.key === "R") {
         e.preventDefault();
         setTheme(nextTheme(theme));
+
         return;
       }
 
@@ -31,6 +33,7 @@ export default function AppChrome({ children }: { children: ReactNode }) {
     };
 
     window.addEventListener("keydown", handleKeyDown);
+
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [theme, setTheme]);
 

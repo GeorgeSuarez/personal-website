@@ -22,6 +22,7 @@ export default function ThemeSelector({ onClose }: ThemeSelectorProps) {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         onClose();
+
         return;
       }
 
@@ -29,19 +30,23 @@ export default function ThemeSelector({ onClose }: ThemeSelectorProps) {
         e.preventDefault();
         setSelectedIndex((prev) => {
           const delta = e.key === "ArrowUp" ? -1 : 1;
+
           return (prev + delta + THEMES.length) % THEMES.length;
         });
+
         return;
       }
 
       if (e.key === "Enter") {
         e.preventDefault();
         select(THEMES[selectedIndex].id);
+
         return;
       }
     };
 
     window.addEventListener("keydown", handleKeyDown);
+
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [selectedIndex, select, onClose]);
 
@@ -65,6 +70,7 @@ export default function ThemeSelector({ onClose }: ThemeSelectorProps) {
           {THEMES.map((t, index) => {
             const isSelected = index === selectedIndex;
             const isActive = t.id === theme;
+
             return (
               <button
                 key={t.id}

@@ -11,8 +11,11 @@ import { strFromU8, unzipSync } from "fflate";
 import { format } from "oxfmt";
 
 const repositoryRoot = path.join(import.meta.dirname, "..");
+
 const docxPath = path.join(repositoryRoot, "public", "George_Suarez_Resume.docx");
+
 const outputDirectory = path.join(repositoryRoot, "public");
+
 const outputBaseName = "George_Suarez_Resume";
 
 type ContactPart = {
@@ -60,7 +63,9 @@ type RenderedOutput = {
 };
 
 const paragraphPattern = /<w:p(?:\s[^>]*)?>([\s\S]*?)<\/w:p>/g;
+
 const inlineTokenPattern = /<w:t(?:\s[^>]*)?>([^<]*)<\/w:t>|<w:tab\s*\/>|<w:br\s*\/>/g;
+
 const phonePattern = /^[\d\s\-()+]+$/;
 
 /** Extract paragraph text from the WordprocessingML body, preserving tabs and breaks. */
@@ -69,8 +74,10 @@ function readParagraphTexts(documentXml: string): string[] {
 
   for (const paragraphMatch of documentXml.matchAll(paragraphPattern)) {
     let text = "";
+
     for (const tokenMatch of (paragraphMatch[1] ?? "").matchAll(inlineTokenPattern)) {
       const [token, textContent] = tokenMatch;
+
       if (textContent !== undefined) {
         text += decodeXmlEntities(textContent);
       } else if (token.startsWith("<w:tab")) {
@@ -81,6 +88,7 @@ function readParagraphTexts(documentXml: string): string[] {
     }
 
     const trimmed = text.trim();
+
     if (trimmed) {
       paragraphs.push(trimmed);
     }
@@ -103,13 +111,7 @@ function decodeXmlEntities(value: string): string {
 }
 
 /** Split paragraphs into the header and the four resume sections, keyed by their headings. */
-function splitSections(paragraphs: ReadonlyArray<string>): {
-  readonly header: string[];
-  readonly education: string[];
-  readonly skills: string[];
-  readonly experience: string[];
-  readonly projects: string[];
-} {
+function splitSections(paragraphs: ReadonlyArray<string>) {
   const header: string[] = [];
   const education: string[] = [];
   const skills: string[] = [];
@@ -117,6 +119,7 @@ function splitSections(paragraphs: ReadonlyArray<string>): {
   const projects: string[] = [];
 
   let current = header;
+
   for (const paragraph of paragraphs) {
     switch (paragraph) {
       case "EDUCATION":
@@ -145,6 +148,7 @@ function parseRawEntries(lines: ReadonlyArray<string>): RawEntry[] {
 
   for (const line of lines) {
     const lastEntry = entries.at(-1);
+
     if (line.startsWith("- ") && lastEntry) {
       lastEntry.bullets.push(line.slice(2).trim());
       continue;
@@ -163,25 +167,28 @@ function parseResume(paragraphs: ReadonlyArray<string>): Resume {
   return {
     name,
     contactLines: contactLines.map((line) =>
-      line
-        .split("|")
-        .map((part) => part.trim())
-        .filter((part) => part.length > 0)
-        .map((text) => ({ text, href: resolveContactHref(text) })),
+      line.split("|").flatMap((part) => {
+        const text = part.trim();
+
+        return text.length > 0 ? [{ text, href: resolveContactHref(text) }] : [];
+      }),
     ),
     education: sections.education,
     skills: sections.skills.map((line) => {
       const separatorIndex = line.indexOf(": ");
+
       return separatorIndex === -1
         ? { label: line, value: "" }
         : { label: line.slice(0, separatorIndex), value: line.slice(separatorIndex + 2) };
     }),
     experience: parseRawEntries(sections.experience).map(({ heading, bullets }) => {
       const [company = heading, role = "", dates = ""] = heading.split(" | ");
+
       return { company, role, dates, bullets };
     }),
     projects: parseRawEntries(sections.projects).map(({ heading, bullets }) => {
       const [entryName = heading, technologies = ""] = heading.split(" | ");
+
       return { name: entryName, technologies, bullets };
     }),
   };
@@ -195,6 +202,7 @@ function resolveContactHref(text: string): string | null {
 
   if (phonePattern.test(text)) {
     const digits = text.replace(/\D/g, "");
+
     return `tel:+${digits.length === 10 ? `1${digits}` : digits}`;
   }
 
@@ -220,9 +228,11 @@ function escapeHtml(value: string): string {
 
 function splitOnFirst(value: string, separator: string): [string, string] {
   const index = value.indexOf(separator);
+
   if (index === -1) {
     return [value, ""];
   }
+
   return [value.slice(0, index), value.slice(index + separator.length)];
 }
 
@@ -238,12 +248,14 @@ function renderText(resume: Resume): string {
   lines.push(...resume.skills.map((skill) => `${skill.label}: ${skill.value}`));
 
   lines.push("", "PROFESSIONAL EXPERIENCE");
+
   for (const entry of resume.experience) {
     lines.push(`${entry.company} | ${entry.role} | ${entry.dates}`);
     lines.push(...entry.bullets.map((bullet) => `- ${bullet}`));
   }
 
   lines.push("", "PROJECTS");
+
   for (const entry of resume.projects) {
     lines.push(`${entry.name} | ${entry.technologies}`);
     lines.push(...entry.bullets.map((bullet) => `- ${bullet}`));
@@ -259,15 +271,18 @@ function renderMarkdown(resume: Resume): string {
     const parts = contactLine.map((part) =>
       part.href ? `[${part.text}](${part.href})` : part.text,
     );
+
     lines.push(parts.join(" | "));
   }
 
   const [institutionLine = "", degreeLine = ""] = resume.education;
   const [institution, location] = splitOnFirst(institutionLine, ", ");
   lines.push("", "## Education", "", `### ${institution}`);
+
   if (location) {
     lines.push("", location);
   }
+
   if (degreeLine) {
     lines.push("", degreeLine);
   }
@@ -276,16 +291,20 @@ function renderMarkdown(resume: Resume): string {
   lines.push(...resume.skills.map((skill) => `- **${skill.label}:** ${skill.value}`));
 
   lines.push("", "## Professional Experience");
+
   for (const entry of resume.experience) {
     lines.push("", `### ${entry.company} | ${entry.role}`);
+
     if (entry.dates) {
       lines.push("", `*${entry.dates}*`);
     }
+
     lines.push("");
     lines.push(...entry.bullets.map((bullet) => `- ${bullet}`));
   }
 
   lines.push("", "## Projects");
+
   for (const entry of resume.projects) {
     lines.push("", `### ${entry.name} | ${entry.technologies}`, "");
     lines.push(...entry.bullets.map((bullet) => `- ${bullet}`));
@@ -418,6 +437,7 @@ a:hover {
 
 function renderHtml(resume: Resume): string {
   const displayName = titleCase(resume.name);
+
   const lines: string[] = [
     "<!doctype html>",
     '<html lang="en">',
@@ -441,6 +461,7 @@ function renderHtml(resume: Resume): string {
         ? `<a href="${escapeHtml(part.href)}">${escapeHtml(part.text)}</a>`
         : escapeHtml(part.text),
     );
+
     lines.push(`<p class="contact">${parts.join(" · ")}</p>`);
   }
 
@@ -448,19 +469,23 @@ function renderHtml(resume: Resume): string {
   const [institution, location] = splitOnFirst(institutionLine, ", ");
   lines.push("</header>", "<section>", "<h2>Education</h2>", '<div class="entry">');
   lines.push(`<h3>${escapeHtml(institution)}</h3>`);
+
   if (location) {
     lines.push(`<p class="entry-meta">${escapeHtml(location)}</p>`);
   }
+
   if (degreeLine) {
     lines.push(`<p>${escapeHtml(degreeLine)}</p>`);
   }
 
   lines.push("</div>", "</section>", "<section>", "<h2>Technical Skills</h2>", "<ul>");
+
   for (const skill of resume.skills) {
     lines.push(`<li><strong>${escapeHtml(skill.label)}:</strong> ${escapeHtml(skill.value)}</li>`);
   }
 
   lines.push("</ul>", "</section>", "<section>", "<h2>Professional Experience</h2>");
+
   for (const entry of resume.experience) {
     lines.push('<div class="entry">');
     lines.push(`<h3>${escapeHtml(entry.company)}</h3>`);
@@ -471,6 +496,7 @@ function renderHtml(resume: Resume): string {
   }
 
   lines.push("</section>", "<section>", "<h2>Projects</h2>");
+
   for (const entry of resume.projects) {
     lines.push('<div class="entry">');
     lines.push(`<h3>${escapeHtml(`${entry.name} | ${entry.technologies}`)}</h3>`);
@@ -487,15 +513,18 @@ function renderHtml(resume: Resume): string {
 async function formatWithOxfmt(fileName: string, source: string): Promise<string> {
   const result = await format(fileName, source);
   const firstError = result.errors[0];
+
   if (firstError) {
     throw new Error(`oxfmt could not format ${fileName}: ${firstError.message}`);
   }
+
   return result.code;
 }
 
 async function main(): Promise<void> {
   const archive = unzipSync(new Uint8Array(readFileSync(docxPath)));
   const documentXml = archive["word/document.xml"];
+
   if (!documentXml) {
     throw new Error(`Resume DOCX is missing word/document.xml: ${docxPath}`);
   }
@@ -511,24 +540,33 @@ async function main(): Promise<void> {
 
   let hasStaleOutput = false;
 
-  for (const output of outputs) {
-    const content = output.formatWithOxfmt
-      ? await formatWithOxfmt(output.fileName, output.content)
-      : output.content;
+  const renderedOutputs = await Promise.all(
+    outputs.map(async (output) => ({
+      output,
+      content: output.formatWithOxfmt
+        ? await formatWithOxfmt(output.fileName, output.content)
+        : output.content,
+    })),
+  );
+
+  for (const { output, content } of renderedOutputs) {
     const targetPath = path.join(outputDirectory, output.fileName);
     const relativePath = path.relative(repositoryRoot, targetPath);
 
     if (isCheckMode) {
       let existing = "";
+
       try {
         existing = readFileSync(targetPath, "utf8");
       } catch {
         // A missing generated file counts as stale.
       }
+
       if (existing !== content) {
         hasStaleOutput = true;
         console.error(`out of date: ${relativePath}`);
       }
+
       continue;
     }
 
@@ -545,6 +583,7 @@ async function main(): Promise<void> {
       "Resume formats are out of date. Run `npm run generate:resume` and commit the generated files.",
     );
     process.exitCode = 1;
+
     return;
   }
 
