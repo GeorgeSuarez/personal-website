@@ -57,18 +57,18 @@ const projects: Project[] = [
     id: "03",
     title: "Rarify",
     kind: "Web",
-    stack: "Next.js / React / Tailwind",
-    icons: ["nextjs", "react", "tailwindcss", "typescript"],
+    stack: "Effect / Vite / React / Tailwind",
+    icons: ["vite", "react", "tailwindcss", "typescript"],
     description:
       "A metrics dashboard for Steam achievements. Visualize unlock progress across your entire library, and compare stats with your friends on Steam.",
     url: "https://github.com/GeorgeSuarez/Rarify",
-    demoUrl: "https://rarify.vercel.app",
+    demoUrl: "https://rarify.georgejsuarez.com",
   },
   {
     id: "04",
     title: "TrailFinder",
     kind: "Web",
-    stack: "EffectTS / Vite / React",
+    stack: "Effect / Vite / React",
     icons: ["typescript", "vite", "react"],
     description:
       "A web application that finds hiking trails either by near your location, searching a location, or simply dropping a pin. Powered by Overpass API for trail data and Nominatim for geocoding",
