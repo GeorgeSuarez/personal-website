@@ -154,9 +154,6 @@ function HeroSubmenu({ submenuId, openSubmenuId, onToggleSubmenu }: HeroSubmenuP
                 className={`${submenuItemClassName} w-full text-left cursor-pointer`}
               >
                 {item.label}
-                <span className="ml-3 text-sm tracking-normal text-cyan/70" aria-hidden="true">
-                  {nestedIsOpen ? "−" : "+"}
-                </span>
               </button>
               <HeroSubmenu
                 submenuId={item.submenuId}
@@ -395,14 +392,6 @@ export default function Hero() {
                         }`}
                       >
                         {item.label}
-                        {submenuId && (
-                          <span
-                            className="ml-3 text-sm tracking-normal text-cyan/70"
-                            aria-hidden="true"
-                          >
-                            {isOpen ? "−" : "+"}
-                          </span>
-                        )}
                       </button>
                     )}
                   </span>
