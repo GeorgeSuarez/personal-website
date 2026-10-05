@@ -114,14 +114,78 @@
         break-inside: avoid;
       }
 
+      /*
+ * Print styling for the committed PDF, which generate:resume renders from this
+ * file with headless Chrome. It is a resume, so print forces the light palette
+ * regardless of the reader's colour scheme, sets Letter margins, and keeps block
+ * spacing minimal: the original Word export fit the same content on one page with
+ * essentially no paragraph margins, so anything more overflows to a second page.
+ */
       @media print {
+        @page {
+          size: Letter;
+          margin: 0.6in;
+        }
+
+        :root {
+          color-scheme: light;
+          --bg: #ffffff;
+          --fg: #000000;
+          --muted: #1a1a1a;
+          --accent: #1a4d8f;
+          --rule: #000000;
+        }
+
         body {
-          font-size: 11pt;
+          font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+          font-size: 10pt;
+          line-height: 1.22;
         }
 
         main {
           max-width: none;
           padding: 0;
+        }
+
+        header {
+          margin-bottom: 0.25rem;
+        }
+
+        h1 {
+          margin-bottom: 0.25rem;
+          font-size: 18pt;
+          letter-spacing: 0.06em;
+        }
+
+        .contact {
+          margin: 0.04rem 0;
+          font-size: 9pt;
+        }
+
+        h2 {
+          margin: 0.5rem 0 0.2rem;
+          padding-bottom: 0.05rem;
+          border-bottom: 1pt solid var(--rule);
+          font-size: 11pt;
+        }
+
+        h3 {
+          margin: 0.28rem 0 0.06rem;
+          font-size: 10pt;
+        }
+
+        .entry-meta {
+          margin: 0.04rem 0;
+          font-size: 9pt;
+        }
+
+        ul {
+          margin: 0.08rem 0 0;
+          padding-left: 1rem;
+        }
+
+        li {
+          margin: 0.04rem 0;
         }
       }
     </style>
@@ -234,54 +298,15 @@
           </ul>
         </div>
         <div class="entry">
-          <h3>Rarify | TypeScript, Next.js, Tailwind CSS, PostgreSQL</h3>
+          <h3>Rarify | TypeScript, Effect, React, Tailwind CSS, Cloudflare Workers, SQLite</h3>
           <ul>
             <li>
-              Built and deployed a Steam achievement dashboard to production on Vercel using
-              Next.js, TypeScript, Tailwind CSS, and PostgreSQL
+              Built and deployed a Steam achievement dashboard on Cloudflare Workers: a React
+              single-page app over a type-safe Effect HTTP API, backed by a D1 SQLite store
             </li>
             <li>
               Integrated Steam OpenID authentication, JWT sessions, and a cached Steam API client
               with nightly snapshot jobs for tracking progress over time
-            </li>
-          </ul>
-        </div>
-        <div class="entry">
-          <h3>TrailFinder | TypeScript, Effect TS, React, Cloudflare Workers</h3>
-          <ul>
-            <li>
-              Built a full-stack trail finder on Cloudflare Workers with a type-safe Effect TS HTTP
-              API featuring schema validation, typed errors, and retry with timeout
-            </li>
-            <li>
-              Integrated OpenStreetMap Overpass and Nominatim APIs to query, decode, and
-              distance-sort hiking routes onto an interactive React and Leaflet map
-            </li>
-          </ul>
-        </div>
-        <div class="entry">
-          <h3>RustyVault | Rust, SQLite</h3>
-          <ul>
-            <li>
-              Built a Rust terminal credential manager (Ratatui TUI) that encrypts passwords and API
-              keys with AES-256-GCM and Argon2id-derived keys in a local SQLite database
-            </li>
-            <li>
-              Implemented atomic master-password rotation, on-demand secret reveal, and memory
-              scrubbing on lock and quit, with no network access
-            </li>
-          </ul>
-        </div>
-        <div class="entry">
-          <h3>LFGuild | Swift, SwiftUI, Firebase</h3>
-          <ul>
-            <li>
-              Built an iOS guild-matching application with SwiftUI and MVVM using Firebase Auth,
-              Firestore, Cloud Messaging, and real-time chat with unread tracking
-            </li>
-            <li>
-              Designed a weighted six-factor match-scoring algorithm and Firestore security rules
-              enforcing verified-email and owner-only access
             </li>
           </ul>
         </div>

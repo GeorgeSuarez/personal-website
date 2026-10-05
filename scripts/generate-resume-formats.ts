@@ -5,10 +5,12 @@
  * `npm run generate:resume` after replacing it, and `npm run generate:resume:check`
  * to fail when the generated variants no longer match it.
  */
-import { readFileSync, writeFileSync } from "node:fs";
+import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
+import { pathToFileURL } from "node:url";
 import { strFromU8, unzipSync } from "fflate";
 import { format } from "oxfmt";
+import { renderWithChrome } from "./chrome-render.ts";
 
 const repositoryRoot = path.join(import.meta.dirname, "..");
 
@@ -17,6 +19,13 @@ const docxPath = path.join(repositoryRoot, "public", "George_Suarez_Resume.docx"
 const outputDirectory = path.join(repositoryRoot, "public");
 
 const outputBaseName = "George_Suarez_Resume";
+
+const pdfPath = path.join(outputDirectory, `${outputBaseName}.pdf`);
+
+/** Every PDF starts with this signature, used to reject non-PDF output. */
+const pdfSignature = "%PDF-";
+
+const pdfHeaderByteLength = 8;
 
 type ContactPart = {
   readonly text: string;
@@ -423,14 +432,78 @@ a:hover {
   break-inside: avoid;
 }
 
+/*
+ * Print styling for the committed PDF, which generate:resume renders from this
+ * file with headless Chrome. It is a resume, so print forces the light palette
+ * regardless of the reader's colour scheme, sets Letter margins, and keeps block
+ * spacing minimal: the original Word export fit the same content on one page with
+ * essentially no paragraph margins, so anything more overflows to a second page.
+ */
 @media print {
+  @page {
+    size: Letter;
+    margin: 0.6in;
+  }
+
+  :root {
+    color-scheme: light;
+    --bg: #ffffff;
+    --fg: #000000;
+    --muted: #1a1a1a;
+    --accent: #1a4d8f;
+    --rule: #000000;
+  }
+
   body {
-    font-size: 11pt;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 10pt;
+    line-height: 1.22;
   }
 
   main {
     max-width: none;
     padding: 0;
+  }
+
+  header {
+    margin-bottom: 0.25rem;
+  }
+
+  h1 {
+    margin-bottom: 0.25rem;
+    font-size: 18pt;
+    letter-spacing: 0.06em;
+  }
+
+  .contact {
+    margin: 0.04rem 0;
+    font-size: 9pt;
+  }
+
+  h2 {
+    margin: 0.5rem 0 0.2rem;
+    padding-bottom: 0.05rem;
+    border-bottom: 1pt solid var(--rule);
+    font-size: 11pt;
+  }
+
+  h3 {
+    margin: 0.28rem 0 0.06rem;
+    font-size: 10pt;
+  }
+
+  .entry-meta {
+    margin: 0.04rem 0;
+    font-size: 9pt;
+  }
+
+  ul {
+    margin: 0.08rem 0 0;
+    padding-left: 1rem;
+  }
+
+  li {
+    margin: 0.04rem 0;
   }
 }
 `;
@@ -521,6 +594,31 @@ async function formatWithOxfmt(fileName: string, source: string): Promise<string
   return result.code;
 }
 
+/**
+ * Validates the committed PDF. Chrome's PDF output is not byte-stable across
+ * browser versions, so this checks structure rather than content; regenerate
+ * with generate:resume whenever the DOCX changes.
+ */
+function checkPdf(): boolean {
+  if (!existsSync(pdfPath)) {
+    console.error(
+      `Missing ${path.relative(repositoryRoot, pdfPath)}. Run: npm run generate:resume`,
+    );
+
+    return false;
+  }
+
+  const header = readFileSync(pdfPath).subarray(0, pdfHeaderByteLength).toString("latin1");
+
+  if (!header.startsWith(pdfSignature)) {
+    console.error(`${path.relative(repositoryRoot, pdfPath)} is not a valid PDF.`);
+
+    return false;
+  }
+
+  return true;
+}
+
 async function main(): Promise<void> {
   const archive = unzipSync(new Uint8Array(readFileSync(docxPath)));
   const documentXml = archive["word/document.xml"];
@@ -574,20 +672,38 @@ async function main(): Promise<void> {
     console.log(`wrote ${relativePath}`);
   }
 
-  if (!isCheckMode) {
+  if (isCheckMode) {
+    if (!checkPdf()) hasStaleOutput = true;
+
+    if (hasStaleOutput) {
+      console.error(
+        "Resume formats are out of date. Run `npm run generate:resume` and commit the generated files.",
+      );
+      process.exitCode = 1;
+
+      return;
+    }
+
+    console.log("Resume formats are up to date.");
+
     return;
   }
 
-  if (hasStaleOutput) {
-    console.error(
-      "Resume formats are out of date. Run `npm run generate:resume` and commit the generated files.",
-    );
+  // Render the PDF from the HTML just written, so it always matches the DOCX.
+  const pdfRendered = await renderWithChrome({
+    label: path.basename(pdfPath),
+    outputPath: pdfPath,
+    target: pathToFileURL(path.join(outputDirectory, `${outputBaseName}.html`)).href,
+    chromeArgs: ["--no-pdf-header-footer", `--print-to-pdf=${pdfPath}`],
+  });
+
+  if (!pdfRendered) {
     process.exitCode = 1;
 
     return;
   }
 
-  console.log("Resume formats are up to date.");
+  console.log(`wrote ${path.relative(repositoryRoot, pdfPath)}`);
 }
 
 await main();

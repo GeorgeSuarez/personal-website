@@ -28,15 +28,6 @@ Subby | React Native, TypeScript, Supabase, Expo
 ReFactor | C#, .NET, React, Redux, SQL, Docker
 - Developed a full-stack e-commerce application with a C#/.NET backend, REST APIs for product search, cart, and checkout, and SQL data storage
 - Built a responsive React and Redux frontend and integrated Stripe payments, ASP.NET Core Identity authentication, and a containerized SQL Server
-Rarify | TypeScript, Next.js, Tailwind CSS, PostgreSQL
-- Built and deployed a Steam achievement dashboard to production on Vercel using Next.js, TypeScript, Tailwind CSS, and PostgreSQL
+Rarify | TypeScript, Effect, React, Tailwind CSS, Cloudflare Workers, SQLite
+- Built and deployed a Steam achievement dashboard on Cloudflare Workers: a React single-page app over a type-safe Effect HTTP API, backed by a D1 SQLite store
 - Integrated Steam OpenID authentication, JWT sessions, and a cached Steam API client with nightly snapshot jobs for tracking progress over time
-TrailFinder | TypeScript, Effect TS, React, Cloudflare Workers
-- Built a full-stack trail finder on Cloudflare Workers with a type-safe Effect TS HTTP API featuring schema validation, typed errors, and retry with timeout
-- Integrated OpenStreetMap Overpass and Nominatim APIs to query, decode, and distance-sort hiking routes onto an interactive React and Leaflet map
-RustyVault | Rust, SQLite
-- Built a Rust terminal credential manager (Ratatui TUI) that encrypts passwords and API keys with AES-256-GCM and Argon2id-derived keys in a local SQLite database
-- Implemented atomic master-password rotation, on-demand secret reveal, and memory scrubbing on lock and quit, with no network access
-LFGuild | Swift, SwiftUI, Firebase
-- Built an iOS guild-matching application with SwiftUI and MVVM using Firebase Auth, Firestore, Cloud Messaging, and real-time chat with unread tracking
-- Designed a weighted six-factor match-scoring algorithm and Firestore security rules enforcing verified-email and owner-only access
