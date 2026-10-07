@@ -5,7 +5,6 @@ export const THEMES = [
   { id: "achievement", label: "Achievement", accent: "#4a9eff" },
   { id: "ledger", label: "Ledger", accent: "#059669" },
   { id: "merch", label: "Merch", accent: "#ff6b35" },
-  { id: "prism", label: "Prism", accent: "#7c4dff" },
 ] as const;
 
 export type Theme = (typeof THEMES)[number]["id"];

@@ -122,104 +122,6 @@
   --clr-magenta: #ef476f;
 }
 
-[data-theme="prism"] {
-  --clr-bg: #0d0015;
-  --clr-surface: #1a0030;
-  --clr-fg: #f0e6ff;
-  --clr-muted: #b38bd4;
-  --clr-cyan: #00b0ff;
-  --clr-yellow: #ffe600;
-  --clr-magenta: #ff0055;
-}
-
-@keyframes prism-shift {
-  0%,
-  100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-}
-
-[data-theme="prism"] .hero-bg {
-  background: linear-gradient(
-    135deg,
-    #ff0055,
-    #ff8a00,
-    #ffe600,
-    #00e676,
-    #00b0ff,
-    #7c4dff,
-    #ff0055
-  );
-  background-size: 400% 400%;
-  padding-block: 3rem;
-}
-
-[data-theme="prism"] .footer-hint {
-  position: relative;
-  isolation: isolate;
-  color: #f0e6ff;
-  padding-block: 4px;
-  padding-inline: 16px;
-}
-
-[data-theme="prism"] .footer-hint::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(rgba(13, 0, 21, 0.85), rgba(13, 0, 21, 0.85)) padding-box,
-    linear-gradient(90deg, #ff0055, #ff8a00, #ffe600, #00e676, #00b0ff, #7c4dff) border-box;
-  border: 1px solid transparent;
-  border-radius: 4px;
-  z-index: -1;
-}
-
-[data-theme="prism"] .name-glow {
-  text-shadow: none;
-}
-
-[data-theme="prism"] .menu-selected {
-  color: #0d0015;
-  background-image: none;
-  -webkit-background-clip: initial;
-  background-clip: initial;
-  animation: none;
-}
-
-[data-theme="prism"] .hero-card,
-[data-theme="prism"] .overlay-card {
-  background:
-    linear-gradient(rgba(26, 0, 48, 0.9), rgba(26, 0, 48, 0.9)) padding-box,
-    linear-gradient(120deg, #ff0055, #ff8a00, #ffe600, #00e676, #00b0ff, #7c4dff) border-box;
-  border: 2px solid transparent;
-}
-
-[data-theme="prism"] .hero-badge {
-  background: linear-gradient(90deg, #ff0055, #ff8a00, #ffe600, #00e676, #00b0ff, #7c4dff);
-  background-size: 200% auto;
-  color: #0d0015;
-}
-
-[data-theme="prism"] .project-card {
-  background:
-    linear-gradient(rgba(13, 0, 21, 0.9), rgba(13, 0, 21, 0.9)) padding-box,
-    linear-gradient(120deg, #ff0055, #ff8a00, #ffe600, #00e676, #00b0ff, #7c4dff) border-box;
-  border: 2px solid transparent;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  [data-theme="prism"] .hero-bg {
-    animation: prism-shift 12s ease infinite;
-  }
-
-  [data-theme="prism"] .hero-badge {
-    animation: prism-shift 8s linear infinite;
-  }
-}
-
 body {
   background-color: var(--clr-bg);
   color: var(--clr-fg);
@@ -440,12 +342,6 @@ body {
     border-color: color-mix(in oklch, var(--clr-muted) 60%, transparent);
     box-shadow: 0 8px 30px color-mix(in oklch, var(--clr-cyan) 12%, transparent);
     transform: translateY(-0.125rem);
-  }
-
-  [data-theme="prism"] .project-card:hover {
-    box-shadow:
-      0 0 30px rgba(124, 77, 255, 0.35),
-      0 0 60px rgba(255, 0, 85, 0.2);
   }
 
   .github-link:hover {
