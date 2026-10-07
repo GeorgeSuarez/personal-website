@@ -278,6 +278,68 @@ body {
   transition: background-color 160ms ease-out;
 }
 
+.theme-fab {
+  position: fixed;
+  inset-block-start: calc(1rem + env(safe-area-inset-top));
+  inset-inline-end: 1rem;
+  z-index: 40;
+  display: flex;
+  min-block-size: 2.75rem;
+  align-items: center;
+  gap: 0.625rem;
+  padding-block: 0.45rem;
+  padding-inline: 0.75rem;
+  border: 1px solid color-mix(in oklch, var(--clr-cyan) 40%, transparent);
+  border-radius: 0.25rem;
+  background-color: color-mix(in oklch, var(--clr-bg) 92%, transparent);
+  color: var(--clr-fg);
+  box-shadow: 0 4px 16px color-mix(in oklch, var(--clr-bg) 45%, transparent);
+  backdrop-filter: blur(0.5rem);
+  text-align: start;
+  cursor: pointer;
+  transition:
+    border-color 160ms ease-out,
+    background-color 160ms ease-out;
+}
+
+.theme-fab__swatch {
+  flex: none;
+  inline-size: 0.75rem;
+  block-size: 0.75rem;
+  border-radius: 50%;
+  background-color: var(--clr-cyan);
+  box-shadow: 0 0 0 2px color-mix(in oklch, var(--clr-cyan) 24%, transparent);
+}
+
+.theme-fab__copy {
+  display: grid;
+  gap: 0.125rem;
+}
+
+.theme-fab__caption {
+  color: color-mix(in oklch, var(--clr-muted) 65%, var(--clr-fg) 35%);
+  font-size: 0.55rem;
+  letter-spacing: 0.16em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.theme-fab__name {
+  color: var(--clr-fg);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.theme-fab__chevron {
+  flex: none;
+  inline-size: 1em;
+  block-size: 1em;
+  color: var(--clr-cyan);
+}
+
 .theme-option-label,
 .help-close,
 .not-found-link,
@@ -306,8 +368,7 @@ body {
   outline-offset: 0.25em;
 }
 
-.menu-selected:focus-visible,
-.theme-fab:focus-visible {
+.menu-selected:focus-visible {
   outline-color: var(--clr-bg);
 }
 
@@ -372,6 +433,8 @@ body {
   }
 
   .theme-fab:hover:not(:active) {
+    border-color: var(--clr-cyan);
+    background-color: color-mix(in oklch, var(--clr-bg) 82%, var(--clr-cyan) 18%);
     transform: scale(1.05);
   }
 }
@@ -440,6 +503,9 @@ body {
   }
 
   .theme-fab {
-    transition: transform 160ms var(--ease-out);
+    transition:
+      border-color 160ms ease-out,
+      background-color 160ms ease-out,
+      transform 160ms var(--ease-out);
   }
 }
