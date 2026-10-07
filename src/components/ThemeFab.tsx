@@ -7,11 +7,12 @@ export default function ThemeFab({ onClick }: ThemeFabProps) {
     <button
       onClick={onClick}
       aria-label="Change theme"
-      className="flex md:pointer-fine:hidden fixed bottom-5 right-5 z-40 w-14 h-14 rounded-full items-center justify-center shadow-lg transition-transform duration-200 active:scale-90 hover:scale-105 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
+      className="theme-fab flex md:pointer-fine:hidden fixed z-40 w-14 h-14 rounded-full items-center justify-center shadow-lg cursor-pointer"
       style={{
         background:
           "conic-gradient(from 210deg, #ff0055, #ff8a00, #ffe600, #00e676, #00b0ff, #7c4dff, #ff0055)",
-        bottom: "calc(1.25rem + env(safe-area-inset-bottom))",
+        insetBlockEnd: "calc(1.25rem + env(safe-area-inset-bottom))",
+        insetInlineEnd: "1.25rem",
         boxShadow: "0 4px 16px rgba(0, 0, 0, 0.35)",
       }}
     >

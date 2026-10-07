@@ -87,7 +87,7 @@ const menuItems: ReadonlyArray<HeroMenuItem> = [
 ];
 
 const submenuItemClassName =
-  "block px-3 py-1.5 text-lg sm:text-xl tracking-[0.2em] uppercase text-muted transition-colors hover:bg-yellow/10 hover:text-yellow focus:bg-yellow/10 focus:text-yellow focus:outline-none whitespace-nowrap";
+  "submenu-item px-3 text-muted transition-colors focus:bg-yellow/10 focus:text-yellow";
 
 const submenuTriggerId = (submenuId: string): string => `${submenuId}-menu-trigger`;
 
@@ -114,7 +114,7 @@ function activateLink(index: number): void {
 }
 
 function scrollToMenu(): void {
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  window.scrollTo({ top: 0 });
 }
 
 type HeroSubmenuProps = {
@@ -133,7 +133,7 @@ function HeroSubmenu({ submenuId, openSubmenuId, onToggleSubmenu }: HeroSubmenuP
       data-submenu-panel={submenuId}
       role="group"
       aria-label={submenu.ariaLabel}
-      className={`ml-10 border-l border-cyan/30 pl-4 ${
+      className={`ms-10 border-s border-cyan/30 ps-4 ${
         isSubmenuOpen(submenuId, openSubmenuId) ? "mt-1 flex flex-col gap-1" : "hidden"
       }`}
     >
@@ -151,7 +151,7 @@ function HeroSubmenu({ submenuId, openSubmenuId, onToggleSubmenu }: HeroSubmenuP
                 aria-expanded={nestedIsOpen}
                 aria-controls={submenuPanelId(item.submenuId)}
                 onClick={() => onToggleSubmenu(item.submenuId)}
-                className={`${submenuItemClassName} w-full text-left cursor-pointer`}
+                className={`${submenuItemClassName} w-full text-start cursor-pointer`}
               >
                 {item.label}
               </button>
@@ -220,7 +220,7 @@ export default function Hero() {
         return;
       }
 
-      document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
+      document.getElementById("projects")?.scrollIntoView();
     },
     [selectIndex, toggleSubmenu],
   );
@@ -330,17 +330,17 @@ export default function Hero() {
 
   return (
     <div className="hero-bg relative bg-background">
-      <div className="min-h-screen flex flex-col items-center justify-center px-6 sm:px-10 md:px-12">
-        <div className="hero-card flex flex-col items-center text-center w-full max-w-4xl px-8 sm:px-24 py-6 sm:py-8">
-          <h1 className="text-yellow text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-widest uppercase mb-4 sm:mb-6 name-glow whitespace-nowrap">
+      <div className="min-h-svh flex flex-col items-center justify-center px-6 sm:px-10 md:px-12">
+        <div className="hero-card flex flex-col items-center text-center w-full max-w-4xl px-4 sm:px-24 py-6 sm:py-8">
+          <h1 className="hero-title text-yellow font-black uppercase mb-4 sm:mb-6 name-glow">
             George Suarez
           </h1>
 
-          <p className="hero-badge inline-block text-background text-2xl sm:text-3xl md:text-4xl tracking-[0.3em] uppercase bg-cyan px-6 py-1.5 sm:px-8 sm:py-2 font-semibold mb-8 sm:mb-12">
+          <p className="hero-badge inline-block text-background uppercase bg-cyan px-4 py-1.5 sm:px-8 sm:py-2 font-semibold mb-8 sm:mb-12">
             Software Engineer
           </p>
 
-          <nav className="flex flex-col sm:gap-3 items-start w-full">
+          <nav aria-label="Primary" className="flex flex-col sm:gap-3 items-start w-full">
             {menuItems.map((item, index) => {
               const isSelected = index === selectedIndex;
               const submenuId = item.kind === "submenu" ? item.submenuId : null;
@@ -353,13 +353,12 @@ export default function Hero() {
                   data-menu-index={index}
                   onMouseEnter={() => selectIndex(index)}
                   onFocus={() => selectIndex(index)}
+                  className="menu-entry"
                 >
-                  <span className="group flex items-center gap-4 transition-all duration-200">
+                  <span className="menu-row flex items-center gap-4">
                     <span
-                      className={`menu-arrow font-semibold text-2xl sm:text-3xl transition-all duration-200 ${
-                        isSelected
-                          ? "opacity-100 text-yellow active"
-                          : "opacity-0 text-yellow/60 group-hover:opacity-60"
+                      className={`menu-arrow font-semibold ${
+                        isSelected ? "opacity-100 text-yellow active" : "opacity-0 text-yellow/60"
                       }`}
                       aria-hidden="true"
                     >
@@ -370,10 +369,8 @@ export default function Hero() {
                         href={item.href}
                         target={isExternalLink ? "_blank" : undefined}
                         rel={isExternalLink ? "noopener noreferrer" : undefined}
-                        className={`menu-label ${isSelected ? "menu-selected" : ""} block px-5 py-1.5 text-2xl sm:text-3xl tracking-[0.2em] uppercase transition-all duration-200 hover:outline-none focus:outline-none whitespace-nowrap ${
-                          isSelected
-                            ? "bg-yellow text-background"
-                            : "text-muted hover:bg-yellow/10 hover:text-yellow"
+                        className={`menu-label ${isSelected ? "menu-selected" : ""} uppercase ${
+                          isSelected ? "bg-yellow text-background" : "text-muted"
                         }`}
                       >
                         {item.label}
@@ -385,10 +382,8 @@ export default function Hero() {
                         aria-expanded={submenuId ? isOpen : undefined}
                         aria-controls={submenuId ? submenuPanelId(submenuId) : undefined}
                         onClick={() => selectItem(index)}
-                        className={`menu-label ${isSelected ? "menu-selected" : ""} block px-5 py-1.5 text-2xl sm:text-3xl tracking-[0.2em] uppercase transition-all duration-200 hover:outline-none focus:outline-none text-left cursor-pointer whitespace-nowrap ${
-                          isSelected
-                            ? "bg-yellow text-background"
-                            : "text-muted hover:bg-yellow/10 hover:text-yellow"
+                        className={`menu-label ${isSelected ? "menu-selected" : ""} uppercase text-start cursor-pointer ${
+                          isSelected ? "bg-yellow text-background" : "text-muted"
                         }`}
                       >
                         {item.label}
@@ -428,7 +423,7 @@ export default function Hero() {
         <div className="mt-12 flex justify-center">
           <button
             onClick={scrollToMenu}
-            className="border border-cyan/30 text-cyan hover:border-cyan hover:bg-cyan/10 text-xs sm:text-sm font-semibold tracking-[0.25em] uppercase px-6 sm:px-8 py-3 transition-colors cursor-pointer"
+            className="back-to-menu border border-cyan/30 text-cyan text-xs sm:text-sm font-semibold tracking-[0.25em] uppercase px-6 sm:px-8 py-3 cursor-pointer"
           >
             &uarr; Back to menu
           </button>

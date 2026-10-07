@@ -26,14 +26,12 @@ export default function HelpOverlay({ onClose }: HelpOverlayProps) {
 
   return (
     <div
-      className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4"
+      className="overlay-backdrop fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4"
       onClick={onClose}
-      style={{ animation: "fade-in 0.2s ease-out" }}
     >
       <div
-        className="overlay-card relative bg-background border border-muted/30 w-full max-w-md shadow-xl"
+        className="overlay-card overlay-panel relative bg-background border border-muted/30 w-full max-w-md shadow-xl"
         onClick={(e) => e.stopPropagation()}
-        style={{ animation: "overlay-in 0.3s cubic-bezier(0.16, 1, 0.3, 1)" }}
       >
         <div className="flex items-center justify-between px-5 py-3 border-b border-muted/20">
           <h2 className="text-foreground text-sm font-semibold tracking-wide uppercase">
@@ -41,7 +39,7 @@ export default function HelpOverlay({ onClose }: HelpOverlayProps) {
           </h2>
           <button
             onClick={onClose}
-            className="text-muted hover:text-foreground text-lg leading-none transition-colors"
+            className="help-close text-muted text-lg leading-none min-h-11 min-w-11 cursor-pointer"
             aria-label="Close"
           >
             &times;
@@ -54,7 +52,7 @@ export default function HelpOverlay({ onClose }: HelpOverlayProps) {
               <span className="text-yellow text-sm font-semibold whitespace-nowrap font-mono">
                 {shortcut.keys}
               </span>
-              <span className="text-muted text-sm text-right">{shortcut.action}</span>
+              <span className="text-muted text-sm text-end">{shortcut.action}</span>
             </div>
           ))}
         </div>

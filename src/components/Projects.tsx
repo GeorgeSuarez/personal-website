@@ -77,7 +77,7 @@ const projects: Project[] = [
     stack: "Effect / Vite / React",
     icons: ["effect", "vite", "react"],
     description:
-      "A web application that finds hiking trails either by near your location, searching a location, or simply dropping a pin. Powered by Overpass API for trail data and Nominatim for geocoding",
+      "Find nearby hiking trails, search by location, or drop a pin. Trail data comes from Overpass API; geocoding uses Nominatim.",
     url: "https://github.com/GeorgeSuarez/TrailFinder",
     demoUrl: "https://trailfinder.georgesuarezdev.workers.dev",
   },
@@ -114,7 +114,7 @@ function ProjectCard({ project }: { project: Project }) {
   const isLedger = theme === "ledger";
 
   return (
-    <div className="project-card group flex h-82.5 flex-col border border-muted/20 bg-background p-6 text-left hover:border-muted/40 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_8px_30px_color-mix(in_srgb,var(--clr-cyan)_12%,transparent)]">
+    <article className="project-card flex h-full flex-col border border-muted/20 bg-background p-6 text-start">
       <div className="flex items-center justify-between mb-4">
         <span
           className={`text-[10px] tracking-[0.25em] uppercase border px-2 py-0.5 font-semibold ${kindStyles[project.kind]}`}
@@ -128,11 +128,11 @@ function ProjectCard({ project }: { project: Project }) {
         {project.title}
       </h2>
 
-      <p className="text-cyan/50 text-xs tracking-wider uppercase mb-3 font-medium">
+      <p className="project-stack text-cyan/50 text-xs tracking-wider uppercase mb-3 font-medium">
         {project.stack}
       </p>
 
-      <p className="flex-1 text-muted text-sm sm:text-base leading-relaxed mb-6">
+      <p className="project-description flex-1 text-muted text-sm sm:text-base leading-relaxed mb-6">
         {project.description}
       </p>
 
@@ -144,9 +144,8 @@ function ProjectCard({ project }: { project: Project }) {
             <img
               key={icon}
               src={src}
-              alt={icon}
-              className="w-7 h-7 object-contain"
-              style={invert ? { filter: "invert(1)" } : undefined}
+              alt=""
+              className={`w-7 h-7 shrink-0 object-contain ${invert ? "icon-invert" : ""}`}
               onError={(e) => {
                 e.currentTarget.style.display = "none";
               }}
@@ -155,12 +154,12 @@ function ProjectCard({ project }: { project: Project }) {
         })}
       </div>
 
-      <div className="flex items-center gap-5">
+      <div className="project-actions flex flex-wrap items-center gap-x-5 gap-y-2">
         <a
           href={project.url}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-sm text-cyan/60 hover:text-cyan transition-colors font-medium"
+          className="project-link github-link text-sm text-cyan/60 font-medium"
         >
           View on GitHub &rarr;
         </a>
@@ -169,26 +168,22 @@ function ProjectCard({ project }: { project: Project }) {
             href={project.demoUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-sm text-yellow/60 hover:text-yellow transition-colors font-medium"
+            className="project-link demo-link text-sm text-yellow/60 font-medium"
           >
             View Demo &rarr;
           </a>
         )}
       </div>
-    </div>
+    </article>
   );
 }
 
 export default function Projects() {
   return (
-    <div className="text-left">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {projects.map((project, index) => (
-          <div
-            key={project.id}
-            className="animate-card-in"
-            style={{ animationDelay: `${index * 80}ms` }}
-          >
+    <div className="text-start">
+      <div className="project-grid">
+        {projects.map((project) => (
+          <div key={project.id} className="animate-card-in">
             <ProjectCard project={project} />
           </div>
         ))}
