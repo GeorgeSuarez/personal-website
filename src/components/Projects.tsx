@@ -27,7 +27,6 @@ function iconFor(icon: string, isLedger: boolean) {
 }
 
 interface Project {
-  id: string;
   title: string;
   kind: ProjectKind;
   stack: string;
@@ -39,7 +38,6 @@ interface Project {
 
 const projects: Project[] = [
   {
-    id: "01",
     title: "ReFactor",
     kind: "Web",
     stack: "TypeScript / React / .NET / SQL",
@@ -49,7 +47,6 @@ const projects: Project[] = [
     url: "https://github.com/GeorgeSuarez/ReFactor",
   },
   {
-    id: "02",
     title: "Subby",
     kind: "Mobile",
     stack: "React Native / Expo",
@@ -60,7 +57,6 @@ const projects: Project[] = [
     demoUrl: "https://georgesuarez.github.io/Subby/demo/",
   },
   {
-    id: "03",
     title: "Rarify",
     kind: "Web",
     stack: "Effect / Vite / React / Tailwind",
@@ -71,7 +67,6 @@ const projects: Project[] = [
     demoUrl: "https://rarify.georgejsuarez.com",
   },
   {
-    id: "04",
     title: "TrailFinder",
     kind: "Web",
     stack: "Effect / Vite / React",
@@ -82,7 +77,6 @@ const projects: Project[] = [
     demoUrl: "https://trailfinder.georgesuarezdev.workers.dev",
   },
   {
-    id: "05",
     title: "LFGuild",
     kind: "Mobile",
     stack: "Swift / UIKit",
@@ -92,7 +86,6 @@ const projects: Project[] = [
     url: "https://github.com/GeorgeSuarez/LFGuild",
   },
   {
-    id: "06",
     title: "Rusty Vault",
     kind: "CLI",
     stack: "Rust / Ratatui",
@@ -115,13 +108,12 @@ function ProjectCard({ project }: { project: Project }) {
 
   return (
     <article className="project-card flex h-full flex-col border border-muted/20 bg-background p-6 text-start">
-      <div className="flex items-center justify-between mb-4">
+      <div className="flex items-center mb-4">
         <span
           className={`text-[10px] tracking-[0.25em] uppercase border px-2 py-0.5 font-semibold ${kindStyles[project.kind]}`}
         >
           {project.kind}
         </span>
-        <span className="text-muted/30 text-sm font-bold tracking-widest">{project.id}</span>
       </div>
 
       <h2 className="text-yellow text-xl sm:text-2xl font-bold mb-1 tracking-tight">
@@ -183,7 +175,7 @@ export default function Projects() {
     <div className="text-start">
       <div className="project-grid">
         {projects.map((project) => (
-          <div key={project.id} className="animate-card-in">
+          <div key={project.title} className="animate-card-in">
             <ProjectCard project={project} />
           </div>
         ))}
