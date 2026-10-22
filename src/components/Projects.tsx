@@ -38,6 +38,17 @@ interface Project {
 
 const projects: Project[] = [
   {
+    title: "Vigil",
+    kind: "Web",
+    stack: "ArcGIS Maps SDK / React / TypeScript / Calcite",
+    icons: ["typescript", "react", "vite", "cloudflare"],
+    description:
+      "A live natural-hazard map for earthquakes, wildfires, hurricanes, and the ISS. Real-time USGS and NASA feeds with a time slider, shareable deep links, and natural-language map commands.",
+    url: "https://github.com/GeorgeSuarez/arcgis-vigil",
+    demoUrl: "https://arcgis-vigil.georgesuarezdev.workers.dev",
+  },
+
+  {
     title: "ReFactor",
     kind: "Web",
     stack: "TypeScript / React / .NET / SQL",
