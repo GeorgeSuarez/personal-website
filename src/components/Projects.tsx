@@ -4,7 +4,7 @@ import { useTheme } from "../theme/useTheme";
 
 const ICON_BASE = "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/";
 
-type ProjectKind = "Mobile" | "Web" | "CLI";
+type ProjectKind = "Mobile" | "Web" | "CLI" | "Game Add-on";
 
 function iconFor(icon: string, isLedger: boolean) {
   if (icon === "nextjs") {
@@ -47,14 +47,23 @@ const projects: Project[] = [
     url: "https://github.com/GeorgeSuarez/arcgis-vigil",
     demoUrl: "https://arcgis-vigil.georgesuarezdev.workers.dev",
   },
-
+  {
+    title: "arcgis-migrate",
+    kind: "CLI",
+    stack: "TypeScript / Node.js / ts-morph",
+    icons: ["typescript", "nodejs"],
+    description:
+      "An AST-based CLI that audits ArcGIS Maps SDK apps for legacy widget APIs ahead of the 6.0 migration. Produces actionable Markdown or JSON reports, with CI failure thresholds.",
+    url: "https://github.com/GeorgeSuarez/arcgis-migrate",
+  },
   {
     title: "ReFactor",
     kind: "Web",
-    stack: "TypeScript / React / .NET / SQL",
-    icons: ["typescript", "react", "dotnetcore", "docker"],
+    stack:
+      "React 19 / TypeScript / Redux Toolkit / .NET 10 / EF Core / SQL Server / Stripe / Docker",
+    icons: ["typescript", "react", "redux", "dotnetcore", "docker"],
     description:
-      "A developer-themed store for dev gear. Full-stack eCommerce with cart, checkout, and an SQL inventory.",
+      "A developer-themed storefront with catalog search and filters, coupons, authenticated checkout and order history, plus admin inventory management. Uses ASP.NET Identity, Stripe test-mode payments, and Docker Compose.",
     url: "https://github.com/GeorgeSuarez/ReFactor",
   },
   {
@@ -70,10 +79,10 @@ const projects: Project[] = [
   {
     title: "Rarify",
     kind: "Web",
-    stack: "Effect / Vite / React / Tailwind",
-    icons: ["effect", "vite", "react", "tailwindcss"],
+    stack: "React 19 / TypeScript / Effect / Cloudflare Workers / D1 / Tailwind",
+    icons: ["typescript", "react", "effect", "cloudflare", "sqlite", "tailwindcss"],
     description:
-      "A metrics dashboard for Steam achievements. Visualize unlock progress across your entire library, and compare stats with your friends on Steam.",
+      "A Steam achievement dashboard with Steam sign-in, friend and community comparisons, tracked games, and library trends from daily snapshots. Effect-validated APIs and per-game achievement caching run on Cloudflare Workers and D1.",
     url: "https://github.com/GeorgeSuarez/Rarify",
     demoUrl: "https://rarify.georgejsuarez.com",
   },
@@ -97,6 +106,15 @@ const projects: Project[] = [
     url: "https://github.com/GeorgeSuarez/LFGuild",
   },
   {
+    title: "TrickOrRoute",
+    kind: "Game Add-on",
+    stack: "Lua / World of Warcraft AddOn API",
+    icons: ["lua"],
+    description:
+      "A World of Warcraft addon that guides players through a low-backtracking route to every Hallow's End candy bucket, with shortest-path zone ordering, quest-backed progress, automatic waypoints, and a mini tracker HUD.",
+    url: "https://github.com/GeorgeSuarez/TrickOrRoute",
+  },
+  {
     title: "Rusty Vault",
     kind: "CLI",
     stack: "Rust / Ratatui",
@@ -111,6 +129,7 @@ const kindStyles: Record<ProjectKind, string> = {
   Mobile: "text-cyan border-cyan/30",
   Web: "text-yellow border-yellow/30",
   CLI: "text-magenta border-magenta/30",
+  "Game Add-on": "text-cyan border-cyan/30",
 };
 
 function ProjectCard({ project }: { project: Project }) {
