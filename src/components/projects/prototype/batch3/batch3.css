@@ -1,0 +1,714 @@
+/*
+ * Batch 3 — three project-section structures, reusing the site's theme tokens.
+ * Delete this file with this prototype batch after a direction is chosen.
+ */
+
+.pv3 {
+  --pv3-rule: color-mix(in oklch, var(--clr-muted) 28%, transparent);
+  --pv3-copy: color-mix(in oklch, var(--clr-muted) 45%, var(--clr-fg) 55%);
+  --pv3-meta: color-mix(in oklch, var(--clr-muted) 68%, var(--clr-fg) 32%);
+  --pv3-link: color-mix(in oklch, var(--clr-cyan) 78%, var(--clr-fg) 22%);
+  color: var(--clr-fg);
+  text-align: start;
+}
+
+.pv3-font-display {
+  font-family: "Orbitron", ui-sans-serif, system-ui, sans-serif;
+}
+
+.pv3-font-mono {
+  font-family: "Share Tech Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.pv3-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1rem 2rem;
+  margin-block-end: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.pv3-kicker,
+.pv3-total {
+  margin: 0;
+  color: var(--pv3-meta);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+
+.pv3-kicker {
+  margin-block-end: 0.65rem;
+  color: var(--clr-cyan);
+}
+
+.pv3-heading {
+  margin: 0;
+  color: var(--clr-fg);
+  font-size: clamp(2rem, 4.5vw, 3.5rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.pv3-intro {
+  max-width: 52ch;
+  margin: 0.75rem 0 0;
+  color: var(--pv3-copy);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.pv3 a {
+  color: var(--pv3-link);
+  text-decoration-line: underline;
+  text-decoration-thickness: from-font;
+  text-underline-offset: 0.18em;
+  text-underline-position: from-font;
+}
+
+.pv3 a:focus-visible,
+.pv3 button:focus-visible {
+  outline-offset: 0.2em;
+}
+
+/* G — Atlas: one shared field, with projects clustered by their purpose. */
+
+.pv3-atlas-map {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  overflow: hidden;
+  border: 1px solid var(--pv3-rule);
+  background-color: color-mix(in oklch, var(--clr-surface) 78%, var(--clr-bg) 22%);
+  background-image:
+    linear-gradient(color-mix(in oklch, var(--clr-cyan) 7%, transparent) 1px, transparent 1px),
+    linear-gradient(
+      90deg,
+      color-mix(in oklch, var(--clr-cyan) 7%, transparent) 1px,
+      transparent 1px
+    );
+  background-size: 2.5rem 2.5rem;
+}
+
+.pv3-atlas-region {
+  display: flex;
+  min-width: 0;
+  min-height: 13.5rem;
+  flex-direction: column;
+  padding: clamp(1rem, 2vw, 1.5rem);
+  background: color-mix(in oklch, var(--clr-bg) 68%, transparent);
+}
+
+.pv3-atlas-region:nth-child(odd) {
+  border-inline-end: 1px solid var(--pv3-rule);
+}
+
+.pv3-atlas-region:nth-child(-n + 2) {
+  border-block-end: 1px solid var(--pv3-rule);
+}
+
+.pv3-atlas-region-head {
+  display: grid;
+  grid-template-columns: 0.75rem minmax(0, 1fr);
+  align-items: start;
+  gap: 0.75rem;
+}
+
+.pv3-atlas-anchor {
+  inline-size: 0.6rem;
+  block-size: 0.6rem;
+  margin-block-start: 0.35rem;
+  border: 1px solid var(--clr-cyan);
+  border-radius: 50%;
+  background: var(--clr-bg);
+  box-shadow: 0 0 0 0.25rem color-mix(in oklch, var(--clr-cyan) 12%, transparent);
+}
+
+.pv3-atlas-region-title {
+  margin: 0;
+  color: var(--clr-fg);
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.pv3-atlas-region-description {
+  max-width: 34ch;
+  margin: 0.35rem 0 0;
+  color: var(--pv3-copy);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.pv3-atlas-nodes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 0.6rem;
+  margin-block-start: auto;
+  padding-block-start: 1.25rem;
+  padding-inline-start: 1.35rem;
+  border-inline-start: 1px solid color-mix(in oklch, var(--clr-cyan) 38%, transparent);
+  margin-inline-start: 0.25rem;
+}
+
+.pv3-atlas-node {
+  display: flex;
+  min-width: 0;
+  min-height: 3.25rem;
+  flex: 1 1 9rem;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0.2rem;
+  padding: 0.55rem 0.75rem;
+  border: 1px solid var(--pv3-rule);
+  background: color-mix(in oklch, var(--clr-surface) 88%, var(--clr-bg) 12%);
+  color: var(--clr-fg);
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+  transition:
+    border-color 140ms ease-out,
+    background-color 140ms ease-out,
+    color 140ms ease-out;
+}
+
+.pv3-atlas-node[aria-pressed="true"] {
+  border-color: var(--clr-yellow);
+  background: var(--clr-yellow);
+  color: var(--clr-bg);
+}
+
+.pv3-atlas-node-kind,
+.pv3-atlas-detail-kind {
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.pv3-atlas-node[aria-pressed="true"] .pv3-atlas-node-kind {
+  color: inherit;
+}
+
+.pv3-atlas-node-title {
+  overflow-wrap: anywhere;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.pv3-atlas-detail {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 1.5rem;
+  margin-block-start: 1.25rem;
+  padding: clamp(1rem, 2vw, 1.5rem);
+  border-inline-start: 3px solid var(--clr-yellow);
+  background: color-mix(in oklch, var(--clr-surface) 82%, var(--clr-bg) 18%);
+}
+
+.pv3-atlas-detail-title {
+  margin: 0.25rem 0 0;
+  color: var(--clr-yellow);
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  line-height: 1.15;
+}
+
+.pv3-atlas-detail-copy {
+  max-width: 62ch;
+  margin: 0.6rem 0 0;
+  color: var(--pv3-copy);
+  font-size: 0.9375rem;
+  line-height: 1.55;
+}
+
+.pv3-atlas-detail-stack {
+  max-width: 70ch;
+  margin: 0.6rem 0 0;
+  color: var(--pv3-meta);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.pv3-atlas-icons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-block-start: 0.8rem;
+}
+
+.pv3-atlas-icons img {
+  inline-size: 1.4rem;
+  block-size: 1.4rem;
+  object-fit: contain;
+}
+
+.pv3-atlas-actions,
+.pv3-collection-links,
+.pv3-sheet-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1.25rem;
+}
+
+.pv3-atlas-actions a,
+.pv3-collection-links a,
+.pv3-sheet-links a,
+.pv3-github-link {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+/* H — Collections: guide by the user's task, not the project's framework. */
+
+.pv3-collection-list {
+  border-block-start: 1px solid var(--pv3-rule);
+}
+
+.pv3-collection {
+  display: grid;
+  grid-template-columns: minmax(12rem, 0.72fr) minmax(0, 1.8fr);
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+  padding-block: clamp(1.5rem, 3vw, 2.5rem);
+  border-block-end: 1px solid var(--pv3-rule);
+}
+
+.pv3-collection-intro {
+  display: grid;
+  grid-template-columns: 0.65rem minmax(0, 1fr);
+  align-content: start;
+  align-items: start;
+  gap: 0.8rem;
+}
+
+.pv3-collection-mark {
+  inline-size: 0.55rem;
+  block-size: 0.55rem;
+  margin-block-start: 0.42rem;
+  border-radius: 50%;
+  background: var(--clr-cyan);
+}
+
+.pv3-collection:nth-child(2) .pv3-collection-mark {
+  background: var(--clr-yellow);
+}
+
+.pv3-collection:nth-child(3) .pv3-collection-mark {
+  background: var(--clr-magenta);
+}
+
+.pv3-collection-title {
+  margin: 0;
+  color: var(--clr-fg);
+  font-size: clamp(1.25rem, 2vw, 1.625rem);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+}
+
+.pv3-collection-intro p {
+  max-width: 31ch;
+  margin: 0.55rem 0 0;
+  color: var(--pv3-copy);
+  font-size: 0.875rem;
+  line-height: 1.55;
+}
+
+.pv3-collection-projects {
+  min-width: 0;
+}
+
+.pv3-collection-project {
+  display: grid;
+  grid-template-columns: minmax(8.5rem, 0.8fr) minmax(0, 1.65fr) auto;
+  align-items: start;
+  gap: 1rem 1.5rem;
+  padding-block: 1rem;
+  border-block-start: 1px solid color-mix(in oklch, var(--clr-muted) 18%, transparent);
+}
+
+.pv3-collection-project:first-child {
+  padding-block-start: 0;
+  border-block-start: 0;
+}
+
+.pv3-collection-project-title h4 {
+  margin: 0.25rem 0 0;
+  color: var(--clr-fg);
+  font-size: 1.125rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+
+.pv3-collection-kind {
+  font-size: 0.75rem;
+  line-height: 1.3;
+}
+
+.pv3-collection-project-copy p {
+  margin: 0;
+  color: var(--pv3-copy);
+  font-size: 0.875rem;
+  line-height: 1.55;
+}
+
+.pv3-collection-project-copy .pv3-collection-stack {
+  margin-block-start: 0.4rem;
+  color: var(--pv3-meta);
+  font-size: 0.8125rem;
+  overflow-wrap: anywhere;
+}
+
+.pv3-collection-links {
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+/* I — Contact sheet: the project's own screen is the navigation surface. */
+
+.pv3-sheet-grid {
+  display: grid;
+  grid-auto-rows: 2.1rem;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.pv3-sheet-tile {
+  display: flex;
+  min-width: 0;
+  grid-column: span 4;
+  grid-row: span 7;
+  flex-direction: column;
+}
+
+.pv3-sheet-tile--large {
+  grid-column: span 7;
+  grid-row: span 9;
+}
+
+.pv3-sheet-tile--wide {
+  grid-column: span 5;
+  grid-row: span 9;
+}
+
+.pv3-sheet-tile--tall {
+  grid-column: span 4;
+  grid-row: span 8;
+}
+
+.pv3-sheet-tile--medium {
+  grid-column: span 4;
+  grid-row: span 7;
+}
+
+.pv3-sheet-tile--terminal {
+  grid-column: span 6;
+  grid-row: span 8;
+}
+
+.pv3-sheet-tile--route {
+  grid-column: span 6;
+  grid-row: span 8;
+}
+
+.pv3-sheet-tile--terminal-small {
+  grid-column: span 4;
+  grid-row: span 7;
+}
+
+.pv3 .pv3-sheet-artwork {
+  position: relative;
+  display: block;
+  min-width: 0;
+  min-height: 0;
+  flex: 1;
+  overflow: hidden;
+  border: 1px solid var(--pv3-rule);
+  background: color-mix(in oklch, var(--clr-surface) 72%, var(--clr-bg) 28%);
+  color: var(--clr-fg);
+  text-decoration: none;
+}
+
+.pv3-sheet-image {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+}
+
+.pv3-sheet-image[data-frame="product"] {
+  padding: 1rem;
+  background-image:
+    linear-gradient(color-mix(in oklch, var(--clr-cyan) 7%, transparent) 1px, transparent 1px),
+    linear-gradient(
+      90deg,
+      color-mix(in oklch, var(--clr-cyan) 7%, transparent) 1px,
+      transparent 1px
+    );
+  background-size: 2rem 2rem;
+  object-fit: contain;
+}
+
+.pv3-sheet-image[data-frame="phone"] {
+  object-position: top center;
+}
+
+.pv3-sheet-caption {
+  position: absolute;
+  inset-inline: 0.75rem;
+  inset-block-end: 0.75rem;
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.2rem;
+  padding: 0.65rem 0.8rem;
+  border-inline-start: 2px solid var(--clr-yellow);
+  background: color-mix(in oklch, var(--clr-bg) 91%, transparent);
+  backdrop-filter: blur(0.5rem);
+}
+
+.pv3-sheet-kind {
+  font-size: 0.75rem;
+  line-height: 1.25;
+}
+
+.pv3-sheet-title {
+  max-width: 100%;
+  color: var(--clr-fg);
+  font-size: clamp(1rem, 1.5vw, 1.35rem);
+  font-weight: 700;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.pv3-sheet-links {
+  justify-content: space-between;
+  gap: 0 0.75rem;
+  padding-inline: 0.15rem;
+}
+
+.pv3-sheet-links a {
+  min-height: 2.5rem;
+  font-size: 0.8125rem;
+}
+
+.pv3-sheet-art {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.7rem;
+  overflow: hidden;
+  padding: clamp(1rem, 3vw, 2.25rem);
+  color: var(--clr-fg);
+}
+
+.pv3-sheet-art--terminal {
+  align-items: flex-start;
+  background:
+    linear-gradient(
+      90deg,
+      color-mix(in oklch, var(--clr-cyan) 8%, transparent) 1px,
+      transparent 1px
+    ),
+    color-mix(in oklch, var(--clr-bg) 86%, var(--clr-cyan) 14%);
+  background-size: 2.5rem 100%;
+}
+
+.pv3-sheet-art-command,
+.pv3-sheet-art-foot {
+  color: var(--clr-cyan);
+  font-size: 0.8125rem;
+  line-height: 1.4;
+}
+
+.pv3-sheet-art-line {
+  font-family: "Share Tech Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: clamp(0.75rem, 1.1vw, 1rem);
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.pv3-sheet-art-line b {
+  margin-inline-end: 0.5rem;
+  color: var(--clr-yellow);
+  font-weight: 500;
+}
+
+.pv3-sheet-art--route {
+  justify-content: center;
+  background: color-mix(in oklch, var(--clr-bg) 85%, var(--clr-magenta) 15%);
+}
+
+.pv3-route-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--clr-fg);
+  font-size: clamp(0.75rem, 1vw, 0.9rem);
+  line-height: 1.4;
+}
+
+.pv3-route-line i {
+  flex: 1 1 1rem;
+  min-width: 0.8rem;
+  border-block-start: 1px solid var(--clr-cyan);
+}
+
+.pv3-sheet-art-caption {
+  color: var(--pv3-copy);
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+.pv3-sheet-art--empty {
+  align-items: center;
+  color: var(--pv3-meta);
+  font-size: 0.875rem;
+  text-align: center;
+}
+
+[data-theme="ledger"] .pv3 .text-cyan,
+[data-theme="ledger"] .pv3 .text-yellow,
+[data-theme="ledger"] .pv3 .text-magenta,
+[data-theme="ledger"] .pv3-kicker,
+[data-theme="ledger"] .pv3-total,
+[data-theme="ledger"] .pv3-sheet-art-command,
+[data-theme="ledger"] .pv3-sheet-art-foot,
+[data-theme="ledger"] .pv3-sheet-art-line b {
+  color: var(--clr-fg);
+}
+
+[data-theme="ledger"] .pv3-atlas-node[aria-pressed="true"] {
+  color: var(--clr-fg);
+}
+
+@media (max-width: 900px) {
+  .pv3-atlas-detail {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .pv3-atlas-actions {
+    padding-block-start: 0.8rem;
+    border-block-start: 1px solid var(--pv3-rule);
+  }
+
+  .pv3-collection {
+    grid-template-columns: minmax(10rem, 0.6fr) minmax(0, 1.4fr);
+  }
+
+  .pv3-collection-project {
+    grid-template-columns: minmax(7rem, 0.7fr) minmax(0, 1.3fr);
+  }
+
+  .pv3-collection-links {
+    grid-column: 2;
+    flex-direction: row;
+    gap: 0.5rem 1.25rem;
+  }
+
+  .pv3-sheet-tile--large,
+  .pv3-sheet-tile--terminal,
+  .pv3-sheet-tile--route {
+    grid-column: span 4;
+    grid-row: span 8;
+  }
+
+  .pv3-sheet-tile--wide,
+  .pv3-sheet-tile--tall,
+  .pv3-sheet-tile--medium,
+  .pv3-sheet-tile--terminal-small {
+    grid-column: span 2;
+    grid-row: span 7;
+  }
+}
+
+@media (max-width: 640px) {
+  .pv3-atlas-map {
+    grid-template-columns: 1fr;
+  }
+
+  .pv3-atlas-region {
+    min-height: 11rem;
+  }
+
+  .pv3-atlas-region:nth-child(odd) {
+    border-inline-end: 0;
+  }
+
+  .pv3-atlas-region:not(:last-child) {
+    border-block-end: 1px solid var(--pv3-rule);
+  }
+
+  .pv3-collection {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .pv3-collection-project {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.5rem;
+  }
+
+  .pv3-collection-links {
+    grid-column: auto;
+  }
+
+  .pv3-sheet-grid {
+    grid-auto-rows: 2.5rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.6rem;
+  }
+
+  .pv3-sheet-tile,
+  .pv3-sheet-tile--large,
+  .pv3-sheet-tile--wide,
+  .pv3-sheet-tile--tall,
+  .pv3-sheet-tile--medium,
+  .pv3-sheet-tile--terminal,
+  .pv3-sheet-tile--route,
+  .pv3-sheet-tile--terminal-small {
+    grid-column: span 1;
+    grid-row: span 5;
+  }
+
+  .pv3-sheet-tile--large,
+  .pv3-sheet-tile--route {
+    grid-column: span 2;
+    grid-row: span 6;
+  }
+
+  .pv3-sheet-title {
+    font-size: 1rem;
+  }
+
+  .pv3-sheet-caption {
+    inset-inline: 0.5rem;
+    inset-block-end: 0.5rem;
+    padding: 0.5rem 0.6rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pv3-atlas-node {
+    transition: none;
+  }
+}

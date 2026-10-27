@@ -48,7 +48,7 @@ const projects: Project[] = [
     demoUrl: "https://arcgis-vigil.georgesuarezdev.workers.dev",
   },
   {
-    title: "arcgis-migrate",
+    title: "ArcGIS Migrate",
     kind: "CLI",
     stack: "TypeScript / Node.js / ts-morph",
     icons: ["typescript", "nodejs"],
