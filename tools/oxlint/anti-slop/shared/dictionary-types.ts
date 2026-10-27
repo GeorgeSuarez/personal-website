@@ -325,11 +325,10 @@ export function classifyWideningTarget(
 	if (unwrapped.type === "TSUnknownKeyword") return { kind: "unknown" };
 	if (unwrapped.type === "TSObjectKeyword") return { kind: "object" };
 	if (unwrapped.type === "TSTypeLiteral") {
-		return unwrapped.members.some((member) => member.type === "TSIndexSignature")
-			? { kind: "open dictionary" }
-			: unwrapped.members.length > 0
-				? { kind: "anonymous object" }
-				: null;
+		if (unwrapped.members.some((member) => member.type === "TSIndexSignature")) {
+			return { kind: "open dictionary" };
+		}
+		return unwrapped.members.length > 0 ? { kind: "anonymous object" } : null;
 	}
 	if (unwrapped.type === "TSMappedType") return { kind: "open dictionary" };
 	if (unwrapped.type !== "TSTypeReference") return null;
@@ -361,13 +360,12 @@ export function classifyWideningTarget(
 	}
 	const substitutions = aliasSubstitution(alias, unwrapped, new Map());
 	if (substitutions === null) return null;
-	const resolved = classifyAliasBroadTarget(
+	return classifyAliasBroadTarget(
 		alias.typeAnnotation,
 		environment,
 		substitutions,
 		new Set([name]),
 	);
-	return resolved;
 }
 
 function hasBroadRecordKey(

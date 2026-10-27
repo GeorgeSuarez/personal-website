@@ -38,6 +38,7 @@ function markerPattern(markers: readonly string[]): RegExp {
   const alternation = markers
     .map((marker) => marker.replaceAll(/[.*+?^${}()|[\]\\]/gu, String.raw`\$&`))
     .join("|");
+  // pi-lens-ignore: Semgrep:javascript.lang.security.audit.detect-non-literal-regexp.detect-non-literal-regexp -- markers are validated plugin options, not user input.
   return new RegExp(
     String.raw`(?:^|[^\p{L}\p{N}_])(?:${alternation})\s*:\s*\S`,
     "u",

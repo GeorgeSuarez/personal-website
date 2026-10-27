@@ -17,7 +17,12 @@ function collectInferTypeParameterNames(
 	names: Set<string>,
 ): void {
 	if (node.type === "TSInferType") names.add(node.typeParameter.name.name);
-	const record = node as unknown as Readonly<Record<string, unknown>>;
+	// SAFETY: ESTree nodes are object records at runtime, but the plugin type does not
+	// expose an index signature. Only keys from `visitorKeys` are read, and every value
+	// is guarded by `isNode` or `Array.isArray`.
+	const record = node as unknown as Readonly<
+		Record<string, ESTree.Node | readonly ESTree.Node[] | undefined>
+	>;
 	for (const key of visitorKeys[node.type] ?? []) {
 		const value = record[key];
 		if (isNode(value)) {

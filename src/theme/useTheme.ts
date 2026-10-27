@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react";
-import { DEFAULT_THEME, type Theme } from "./themes";
+import { DEFAULT_THEME, type Theme } from "./themes.ts";
 
 export interface ThemeContextType {
   theme: Theme;
@@ -15,4 +15,4 @@ export function useTheme() {
   return useContext(ThemeContext);
 }
 
-export type { Theme } from "./themes";
+export type { Theme } from "./themes.ts";

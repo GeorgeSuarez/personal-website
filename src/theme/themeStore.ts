@@ -1,4 +1,4 @@
-import { STORAGE_KEY, type Theme } from "./themes";
+import { STORAGE_KEY, type Theme } from "./themes.ts";
 
 export interface ThemeStore {
   /** Returns the raw stored value; callers validate it before use. */

@@ -1,5 +1,4 @@
-import { projects, type Project, type ProjectKind } from "../../../../data/projects";
-import { projectMedia } from "../batch2/projectMedia";
+import { PROJECTS, type Project, type ProjectKind } from "../../../../data/projects";
 
 const kindText: Record<ProjectKind, string> = {
   Mobile: "text-cyan",
@@ -15,7 +14,7 @@ const tileLayouts = {
   Rarify: "pv3-sheet-tile--medium",
   TrailFinder: "pv3-sheet-tile--medium",
   LFGuild: "pv3-sheet-tile--medium",
-  "arcgis-migrate": "pv3-sheet-tile--terminal",
+  "ArcGIS Migrate": "pv3-sheet-tile--terminal",
   TrickOrRoute: "pv3-sheet-tile--route",
   "Rusty Vault": "pv3-sheet-tile--terminal-small",
 } satisfies Record<string, string>;
@@ -25,22 +24,19 @@ function tileLayoutForProject(title: string): string {
 }
 
 function ProjectArtwork({ project }: { readonly project: Project }) {
-  const media = projectMedia.get(project.title);
-
-  if (media) {
+  if (project.media) {
     return (
       <img
         className="pv3-sheet-image"
-        src={media.src}
-        alt={media.alt}
+        src={project.media.src}
+        alt={project.media.alt}
         loading="lazy"
         decoding="async"
-        data-frame={media.frame}
       />
     );
   }
 
-  if (project.title === "arcgis-migrate") {
+  if (project.title === "ArcGIS Migrate") {
     return (
       <div
         className="pv3-sheet-art pv3-sheet-art--terminal"
@@ -96,11 +92,11 @@ export default function VariantContactSheet() {
             Pick a project to open its live build where available, or go straight to the source.
           </p>
         </div>
-        <p className="pv3-total pv3-font-mono">{projects.length} projects</p>
+        <p className="pv3-total pv3-font-mono">{PROJECTS.length} projects</p>
       </header>
 
       <div className="pv3-sheet-grid">
-        {projects.map((project) => {
+        {PROJECTS.map((project) => {
           const primaryUrl = project.demoUrl ?? project.url;
           const primaryLabel = project.demoUrl ? "Live project" : "Project source";
 

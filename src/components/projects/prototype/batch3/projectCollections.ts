@@ -1,4 +1,7 @@
-import { projects, type Project } from "../../../../data/projects";
+// Prototype helper: the portfolio app is a single package, so this deep relative
+// import is intentional.
+// pi-lens-ignore: no-relative-cross-package-import -- prototype-only helper
+import { PROJECTS, type Project } from "../../../../data/projects.ts";
 
 export interface ProjectCollection {
   readonly key: string;
@@ -38,7 +41,7 @@ export const projectCollections: readonly ProjectCollection[] = [
 /** Returns the projects assigned to a collection, preserving its editorial order. */
 export function projectsInCollection(collection: ProjectCollection): Project[] {
   return collection.projectTitles.flatMap((title) => {
-    const project = projects.find((candidate) => candidate.title === title);
+    const project = PROJECTS.find((candidate) => candidate.title === title);
 
     return project ? [project] : [];
   });

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { iconFor, projects, type ProjectKind } from "../../../../data/projects";
+import { PROJECTS, iconFor, type ProjectKind } from "../../../../data/projects";
 import { useTheme } from "../../../../theme/useTheme";
 import { projectCollections, projectsInCollection } from "./projectCollections";
 
@@ -12,10 +12,10 @@ const kindText: Record<ProjectKind, string> = {
 
 /** Batch 3, variant G — Atlas: see the portfolio by problem domain, then focus a project. */
 export default function VariantAtlas() {
-  const [activeTitle, setActiveTitle] = useState(projects[0]?.title ?? "");
+  const [activeTitle, setActiveTitle] = useState(PROJECTS[0]?.title ?? "");
   const { theme } = useTheme();
   const isLedger = theme === "ledger";
-  const activeProject = projects.find((project) => project.title === activeTitle) ?? projects[0];
+  const activeProject = PROJECTS.find((project) => project.title === activeTitle) ?? PROJECTS[0];
 
   if (!activeProject) return null;
 
@@ -29,7 +29,7 @@ export default function VariantAtlas() {
             Different problems, connected by the things people need to do.
           </p>
         </div>
-        <p className="pv3-total pv3-font-mono">{projects.length} projects / 4 territories</p>
+        <p className="pv3-total pv3-font-mono">{PROJECTS.length} projects / 4 territories</p>
       </header>
 
       <div className="pv3-atlas-map" role="group" aria-label="Projects grouped by purpose">
