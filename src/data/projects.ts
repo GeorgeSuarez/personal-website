@@ -3,8 +3,6 @@ import effectMark from "../assets/effect-mark.svg";
 
 const ICON_BASE = "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/";
 
-export type ProjectKind = "Mobile" | "Web" | "CLI" | "Game Add-on";
-
 export interface ProjectMedia {
   readonly src: string;
   readonly alt: string;
@@ -14,7 +12,6 @@ export interface ProjectMedia {
 
 export interface Project {
   title: string;
-  kind: ProjectKind;
   stack: string;
   icons: string[];
   description: string;
@@ -46,7 +43,6 @@ export function iconFor(icon: string, isLedger: boolean) {
 export const PROJECTS: Project[] = [
   {
     title: "Vigil",
-    kind: "Web",
     stack: "ArcGIS Maps SDK / React / TypeScript / Calcite",
     icons: ["typescript", "react", "vite", "cloudflare"],
     description:
@@ -60,7 +56,6 @@ export const PROJECTS: Project[] = [
   },
   {
     title: "ArcGIS Migrate",
-    kind: "CLI",
     stack: "TypeScript / Node.js / ts-morph",
     icons: ["typescript", "nodejs"],
     description:
@@ -73,7 +68,6 @@ export const PROJECTS: Project[] = [
   },
   {
     title: "ReFactor",
-    kind: "Web",
     stack:
       "React 19 / TypeScript / Redux Toolkit / .NET 10 / EF Core / SQL Server / Stripe / Docker",
     // Card icons are a curated stack subset, not the full language registry.
@@ -89,7 +83,6 @@ export const PROJECTS: Project[] = [
   },
   {
     title: "Subby",
-    kind: "Mobile",
     stack: "React Native / Expo",
     icons: ["reactnative", "expo", "sqlite", "android"],
     description:
@@ -103,7 +96,6 @@ export const PROJECTS: Project[] = [
   },
   {
     title: "Rarify",
-    kind: "Web",
     stack: "React 19 / TypeScript / Effect / Cloudflare Workers / D1 / Tailwind",
     icons: ["typescript", "react", "effect", "cloudflare", "sqlite", "tailwindcss"],
     description:
@@ -117,7 +109,6 @@ export const PROJECTS: Project[] = [
   },
   {
     title: "TrailFinder",
-    kind: "Web",
     stack: "Effect / Vite / React",
     icons: ["effect", "vite", "react"],
     description:
@@ -131,7 +122,6 @@ export const PROJECTS: Project[] = [
   },
   {
     title: "LFGuild",
-    kind: "Mobile",
     stack: "Swift / UIKit",
     icons: ["swift", "xcode"],
     description:
@@ -144,7 +134,6 @@ export const PROJECTS: Project[] = [
   },
   {
     title: "TrickOrRoute",
-    kind: "Game Add-on",
     stack: "Lua / World of Warcraft AddOn API",
     icons: ["lua"],
     description:
@@ -158,7 +147,6 @@ export const PROJECTS: Project[] = [
   },
   {
     title: "Rusty Vault",
-    kind: "CLI",
     stack: "Rust / Ratatui",
     icons: ["rust", "sqlite"],
     description:

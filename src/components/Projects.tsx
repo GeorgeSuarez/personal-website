@@ -1,12 +1,5 @@
-import { PROJECTS, iconFor, type Project, type ProjectKind } from "../data/projects";
+import { PROJECTS, iconFor, type Project } from "../data/projects";
 import { useTheme } from "../theme/useTheme";
-
-const kindStyles: Record<ProjectKind, string> = {
-  Mobile: "text-cyan border-cyan/30",
-  Web: "text-yellow border-yellow/30",
-  CLI: "text-magenta border-magenta/30",
-  "Game Add-on": "text-cyan border-cyan/30",
-};
 
 function ProjectCard({ project }: { project: Project }) {
   const { theme } = useTheme();
@@ -30,14 +23,6 @@ function ProjectCard({ project }: { project: Project }) {
       )}
 
       <div className="flex flex-1 flex-col p-6">
-        <div className="flex items-center mb-4">
-          <span
-            className={`text-[10px] tracking-[0.25em] uppercase border px-2 py-0.5 font-semibold ${kindStyles[project.kind]}`}
-          >
-            {project.kind}
-          </span>
-        </div>
-
         <h2 className="text-yellow text-xl sm:text-2xl font-bold mb-1 tracking-tight">
           {project.title}
         </h2>
