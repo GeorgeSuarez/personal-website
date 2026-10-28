@@ -402,14 +402,6 @@ export default function Hero() {
             })}
           </nav>
         </div>
-
-        <div className="flex items-center justify-center gap-3 mt-4 pb-3 sm:pb-4 select-none w-full max-w-4xl">
-          <span className="h-px flex-1 max-w-16 sm:max-w-20 bg-cyan/40" />
-          <span className="footer-hint text-cyan/70 text-lg sm:text-xl tracking-[0.2em] uppercase font-semibold">
-            [ctrl+shift+h] help
-          </span>
-          <span className="h-px flex-1 max-w-16 sm:max-w-20 bg-cyan/40" />
-        </div>
       </div>
 
       <section id="projects" className="px-6 sm:px-10 md:px-12 pb-20 max-w-6xl mx-auto">

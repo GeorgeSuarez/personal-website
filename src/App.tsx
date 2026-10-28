@@ -1,18 +1,17 @@
 import { Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "./theme/ThemeProvider";
-import AppChrome from "./components/AppChrome";
+import ThemeFab from "./components/ThemeFab";
 import Home from "./components/Home";
 import NotFound from "./components/NotFound";
 
 export default function App() {
   return (
     <ThemeProvider>
-      <AppChrome>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </AppChrome>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+      <ThemeFab />
     </ThemeProvider>
   );
 }
