@@ -24,7 +24,14 @@ function ProjectCard({ project }: { project: Project }) {
 
       <div className="flex flex-1 flex-col p-6">
         <h2 className="text-yellow text-xl sm:text-2xl font-bold mb-1 tracking-tight">
-          {project.title}
+          <a
+            href={project.demoUrl ?? project.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="project-title-link"
+          >
+            {project.title}
+          </a>
         </h2>
 
         <p className="project-stack text-cyan/50 text-xs tracking-wider uppercase mb-3 font-medium">

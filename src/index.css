@@ -299,6 +299,13 @@ body {
   color: color-mix(in oklch, var(--clr-yellow) 75%, var(--clr-fg) 25%);
 }
 
+.project-title-link {
+  color: inherit;
+  text-decoration: none;
+  text-underline-offset: 0.16em;
+  text-decoration-thickness: 0.06em;
+}
+
 .project-actions {
   margin-block-start: auto;
 }
@@ -557,6 +564,11 @@ body {
     color: color-mix(in oklch, var(--clr-yellow) 55%, var(--clr-fg) 45%);
   }
 
+  .project-title-link:hover {
+    color: color-mix(in oklch, var(--clr-yellow) 60%, var(--clr-fg) 40%);
+    text-decoration: underline;
+  }
+
   .back-to-menu:hover {
     border-color: var(--clr-cyan);
     background-color: color-mix(in oklch, var(--clr-cyan) 10%, transparent);
@@ -611,7 +623,8 @@ body {
       transform 160ms var(--ease-out);
   }
 
-  .project-link {
+  .project-link,
+  .project-title-link {
     transition:
       color 160ms ease-out,
       transform 160ms var(--ease-out);
