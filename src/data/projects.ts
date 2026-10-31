@@ -91,7 +91,7 @@ export const PROJECTS: Project[] = [
     demoUrl: "https://georgesuarez.github.io/Subby/demo/",
     media: {
       src: "/projects/subby.webp",
-      alt: "Subby's dashboard, add-subscription, and subscriptions screens showing monthly spend and upcoming renewals.",
+      alt: "Subby's landing page with the headline 'See the whole subscription picture' beside a monthly spend panel and app screens for the dashboard, adding a subscription, and all subscriptions.",
     },
   },
   {
@@ -104,7 +104,7 @@ export const PROJECTS: Project[] = [
     demoUrl: "https://rarify.georgejsuarez.com",
     media: {
       src: "/projects/rarify.webp",
-      alt: "Rarify landing page with Steam sign-in and achievement cards for Hades, Baldur's Gate 3, and Elden Ring.",
+      alt: "Rarify's landing page with 'Find your rarest trophies' beside a vault preview showing the God of Blood Hades achievement and completion bars for Hades, Elden Ring, and Baldur's Gate 3.",
     },
   },
   {
