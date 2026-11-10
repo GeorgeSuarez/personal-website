@@ -87,9 +87,6 @@ async function waitForStableFile(
 ): Promise<boolean> {
   if (Date.now() >= deadlineMilliseconds) return false;
 
-  // Chrome only exits on its own when it fails early; the deadline covers the rest.
-  if (chromeProcess.exitCode !== null || chromeProcess.signalCode !== null) return false;
-
   let nextPreviousSize = previousSize;
 
   if (existsSync(filePath)) {
@@ -98,6 +95,15 @@ async function waitForStableFile(
     if (size > 0 && size === previousSize) return true;
 
     nextPreviousSize = size;
+  }
+
+  // Some Chrome builds exit just after writing; accept the file if its size stays stable.
+  if (chromeProcess.exitCode !== null || chromeProcess.signalCode !== null) {
+    if (nextPreviousSize <= 0) return false;
+
+    await delay(renderPollIntervalMilliseconds);
+
+    return existsSync(filePath) && statSync(filePath).size === nextPreviousSize;
   }
 
   await delay(renderPollIntervalMilliseconds);

@@ -1,53 +1,56 @@
 # George Suarez
 
-Ventura, CA | [909-275-5199](tel:+19092755199) | [georgejsuarez.com](https://georgejsuarez.com) | [georgesuarezdev@gmail.com](mailto:georgesuarezdev@gmail.com)
-[linkedin.com/in/george-suarez](https://linkedin.com/in/george-suarez) | [github.com/georgesuarez](https://github.com/georgesuarez)
+## Software Engineer | Web, Mobile & Cloud
 
-## Education
+Ventura, CA | [909-275-5199](tel:+19092755199) | [georgesuarezdev@gmail.com](mailto:georgesuarezdev@gmail.com)
+[georgejsuarez.com](https://georgejsuarez.com) | [linkedin.com/in/george-suarez](https://linkedin.com/in/george-suarez) | [github.com/georgesuarez](https://github.com/georgesuarez)
 
-### California State University San Bernardino
+## Summary
 
-San Bernardino, California
+Software engineer with 2+ years of professional iOS product engineering and a portfolio spanning accessible web apps, mobile products, developer tooling, and cloud services. Builds with TypeScript/React and Swift, with hands-on work in .NET, GIS, serverless APIs, and offline-first data sync. B.S. Computer Science.
 
-Bachelor of Science (B.S.), Computer Science, December 2019
+## Skills
 
-## Technical Skills
-
-- **Languages:** TypeScript, JavaScript, C#, Python, Swift, Rust, C/C++, SQL
-- **Frameworks & Tools:** .NET, React, Next.js, React Native, Expo, Node.js, Tailwind CSS, Supabase (PostgreSQL), SQLite, Docker, Git, Linux
-- **Development Practices:** Software Design, Testing & Debugging, Technical Documentation, Code Review, QA
-
-## Professional Experience
-
-### Optimal State | Software Engineer, iOS
-
-_November 2019 - January 2022_
-
-- Designed and developed an iOS application in Swift that enabled users to monitor and track habitual mental and emotional states over time
-- Wrote clean, maintainable, and scalable code following software design patterns including MVC and MVVM
-- Produced technical documentation including architecture diagrams and flowcharts, and performed testing and debugging to resolve defects and ensure application stability
-- Collaborated with stakeholders in an Agile environment to gather requirements, triage reported issues, and deliver work packages end-to-end from design through testing and release
-
-### Amazon.com | Fulfillment Associate
-
-_May 2022 - December 2025_
-
-- Collaborated cross-functionally with supervisors and team leads to resolve operational issues and ensure smooth workflow and on-time delivery
-- Troubleshot and resolved inventory discrepancies, contributing to a 20% reduction in inventory shrinkage
+- **Languages:** TypeScript, JavaScript, C#, Python, Swift, Rust, Lua, C/C++, SQL
+- **Web & mobile:** React 19, React Native, Expo, Next.js, SwiftUI, UIKit, Redux Toolkit/RTK Query, HTML, CSS, Tailwind
+- **Services, data & GIS:** .NET 10/ASP.NET Core, Node.js, Effect, REST APIs, Cloudflare Workers, SQL Server, Supabase/PostgreSQL, SQLite/D1, Firebase, Docker, Nginx, ArcGIS Maps SDK, Calcite, Leaflet
+- **Testing & delivery:** Jest, Vitest, Playwright, React Testing Library, axe/WCAG, Git/GitHub Actions, CI/CD, Agile, technical documentation
 
 ## Projects
 
-### Subby | React Native, TypeScript, Supabase, Expo
+### [Vigil](https://github.com/GeorgeSuarez/arcgis-vigil) | [Live demo](https://vigil.georgesuarezdev.workers.dev) | React 19, TypeScript, ArcGIS Maps SDK, Calcite | 2026
 
-- Built a cross-platform subscription tracker for iOS and Android with a dashboard for spending metrics, renewal dates, and usage insights
-- Designed a typed React Native architecture with testable feature modules and implemented offline-first sync via a SQLite write queue, backed by 117 Jest unit tests and GitHub Actions CI
+- Built and deployed an accessible hazard-monitoring map combining live USGS, cyclone, NASA EONET, and ISS feeds; added time-filtered layers, shareable map state, and natural-language map commands.
 
-### ReFactor | C#, .NET, React, Redux, SQL, Docker
+### [ArcGIS Migrate](https://github.com/GeorgeSuarez/arcgis-migrate) | TypeScript, Node.js, ts-morph | 2026
 
-- Developed a full-stack e-commerce application with a C#/.NET backend, REST APIs for product search, cart, and checkout, and SQL data storage
-- Built a responsive React and Redux frontend and integrated Stripe payments, ASP.NET Core Identity authentication, and a containerized SQL Server
+- Engineered an AST-based CLI to audit ArcGIS SDK apps for widget-era migration risks; emits source-linked Markdown/JSON findings with CI severity gates and was validated on a 53-file app.
 
-### Rarify | TypeScript, Effect, React, Tailwind CSS, Cloudflare Workers, SQLite
+### [ReFactor](https://github.com/GeorgeSuarez/ReFactor) | React 19, TypeScript, .NET 10, EF Core, SQL Server, Stripe | 2026
 
-- Built and deployed a Steam achievement dashboard on Cloudflare Workers: a React single-page app over a type-safe Effect HTTP API, backed by a D1 SQLite store
-- Integrated Steam OpenID authentication, JWT sessions, and a cached Steam API client with nightly snapshot jobs for tracking progress over time
+- Built a full-stack storefront with catalog search and filters, cart and coupons, authenticated Stripe checkout, order history, and admin inventory; packaged the API and SPA in Docker behind Nginx.
+
+### [Subby](https://github.com/GeorgeSuarez/Subby) | React Native, Expo, TypeScript, Supabase, SQLite | 2026
+
+- Built a cross-platform subscription tracker with Supabase account sync and an offline-first SQLite cache/write queue; added 117 Jest tests and GitHub Actions typecheck/test CI.
+
+### [Rarify](https://github.com/GeorgeSuarez/Rarify) | React 19, TypeScript, Effect, Cloudflare Workers, D1 | 2026
+
+- Deployed a Steam achievement dashboard with Steam OpenID sign-in, schema-validated Worker APIs, cached Steam data, and daily snapshots for progress trends.
+
+**Additional projects:** [TrailFinder](https://github.com/GeorgeSuarez/TrailFinder) (Effect API, React/Leaflet trail search); [LFGuild](https://github.com/GeorgeSuarez/LFGuild) (SwiftUI/Firebase guild matching and real-time chat); [TrickOrRoute](https://github.com/GeorgeSuarez/TrickOrRoute) (Lua addon with shortest-path routing across ~281 stops); [Rusty Vault](https://github.com/GeorgeSuarez/RustyVault) (Rust credential manager using AES-256-GCM and Argon2id).
+
+## Experience
+
+### Optimal State | Software Engineer, iOS | November 2019 - January 2022
+
+- Designed and delivered a Swift iOS app for tracking habitual mental and emotional states, structuring the codebase with MVC/MVVM patterns and documenting its architecture.
+- Delivered features from requirements through implementation, testing, debugging, and release in an Agile workflow, triaging issues with stakeholders and the wider team.
+
+### Amazon.com | Fulfillment Associate | May 2022 - December 2025
+
+- Investigated inventory discrepancies in a high-volume, deadline-driven environment, contributing to a 20% reduction in shrinkage and coordinating with supervisors to keep fulfillment on schedule.
+
+## Education
+
+**Bachelor of Science (B.S.), Computer Science** | California State University, San Bernardino | December 2019

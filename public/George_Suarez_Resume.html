@@ -2,315 +2,213 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>George Suarez — Resume</title>
+    <title>George Suarez Resume</title>
     <style>
-      :root {
-        color-scheme: light dark;
-        --bg: #ffffff;
-        --fg: #1f2328;
-        --muted: #57606a;
-        --accent: #0969da;
-        --rule: #d0d7de;
+      @page {
+        size: Letter;
+        margin: 0.42in 0.58in 0.42in 0.58in;
       }
-
-      @media (prefers-color-scheme: dark) {
-        :root {
-          --bg: #0d1117;
-          --fg: #e6edf3;
-          --muted: #9198a1;
-          --accent: #4493f8;
-          --rule: #30363d;
-        }
+      html {
+        font-size: 10pt;
       }
-
-      * {
-        box-sizing: border-box;
-      }
-
       body {
+        font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+        color: #1a1a1a;
+        font-size: 9.8pt;
+        line-height: 1.265;
         margin: 0;
-        background: var(--bg);
-        color: var(--fg);
-        font:
-          16px/1.55 -apple-system,
-          BlinkMacSystemFont,
-          "Segoe UI",
-          Helvetica,
-          Arial,
-          sans-serif;
+        padding: 0;
+        -webkit-font-smoothing: antialiased;
       }
-
-      main {
-        max-width: 52rem;
-        margin: 0 auto;
-        padding: 3rem 1.5rem 4rem;
-      }
-
-      header {
-        margin-bottom: 2.25rem;
-        text-align: center;
-      }
-
       h1 {
-        margin: 0 0 0.75rem;
-        font-size: 2rem;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
+        font-size: 18.5pt;
+        line-height: 1.1;
+        margin: 0 0 2pt 0;
+        color: #0d2b57;
+        letter-spacing: -0.3pt;
       }
-
+      h1 + p {
+        margin: 0;
+        font-size: 9.2pt;
+        line-height: 1.45;
+        color: #333;
+      }
       h2 {
-        margin: 2.25rem 0 1rem;
-        padding-bottom: 0.35rem;
-        border-bottom: 1px solid var(--rule);
-        font-size: 0.95rem;
-        letter-spacing: 0.14em;
+        font-size: 9.4pt;
         text-transform: uppercase;
+        letter-spacing: 0.8pt;
+        color: #0d2b57;
+        margin: 8.5pt 0 3.5pt 0;
+        padding-bottom: 1.4pt;
+        border-bottom: 0.8pt solid #0d2b57;
+        page-break-after: avoid;
       }
-
       h3 {
-        margin: 1.25rem 0 0.35rem;
-        font-size: 1.05rem;
+        font-size: 9.9pt;
+        margin: 6pt 0 0.5pt 0;
+        color: #111;
+        page-break-after: avoid;
       }
-
+      h3 + p {
+        margin-top: 0;
+      }
       p {
-        margin: 0.35rem 0;
+        margin: 0 0 2.6pt 0;
       }
-
-      .contact {
-        margin: 0.25rem 0;
-        color: var(--muted);
-        font-size: 0.95rem;
-      }
-
-      .contact a {
-        color: inherit;
-      }
-
-      .entry-meta {
-        color: var(--muted);
-        font-size: 0.9rem;
-      }
-
       ul {
-        margin: 0.4rem 0 0;
-        padding-left: 1.25rem;
+        margin: 1.5pt 0 3.5pt 0;
+        padding-left: 13pt;
       }
-
       li {
-        margin: 0.3rem 0;
+        margin: 0 0 1.5pt 0;
+        padding-left: 1pt;
       }
-
+      li > p {
+        margin: 0;
+      }
       a {
-        color: var(--accent);
+        color: inherit;
         text-decoration: none;
       }
-
-      a:hover {
-        text-decoration: underline;
+      code {
+        white-space: nowrap;
       }
-
-      .entry {
-        break-inside: avoid;
+      strong {
+        color: #111;
       }
-
-      /*
- * Print styling for the committed PDF, which generate:resume renders from this
- * file with headless Chrome. It is a resume, so print forces the light palette
- * regardless of the reader's colour scheme, sets Letter margins, and keeps block
- * spacing minimal: the original Word export fit the same content on one page with
- * essentially no paragraph margins, so anything more overflows to a second page.
- */
-      @media print {
-        @page {
-          size: Letter;
-          margin: 0.6in;
-        }
-
-        :root {
-          color-scheme: light;
-          --bg: #ffffff;
-          --fg: #000000;
-          --muted: #1a1a1a;
-          --accent: #1a4d8f;
-          --rule: #000000;
-        }
-
-        body {
-          font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-          font-size: 10pt;
-          line-height: 1.22;
-        }
-
-        main {
-          max-width: none;
-          padding: 0;
-        }
-
-        header {
-          margin-bottom: 0.25rem;
-        }
-
-        h1 {
-          margin-bottom: 0.25rem;
-          font-size: 18pt;
-          letter-spacing: 0.06em;
-        }
-
-        .contact {
-          margin: 0.04rem 0;
-          font-size: 9pt;
-        }
-
-        h2 {
-          margin: 0.5rem 0 0.2rem;
-          padding-bottom: 0.05rem;
-          border-bottom: 1pt solid var(--rule);
-          font-size: 11pt;
-        }
-
-        h3 {
-          margin: 0.28rem 0 0.06rem;
-          font-size: 10pt;
-        }
-
-        .entry-meta {
-          margin: 0.04rem 0;
-          font-size: 9pt;
-        }
-
-        ul {
-          margin: 0.08rem 0 0;
-          padding-left: 1rem;
-        }
-
-        li {
-          margin: 0.04rem 0;
-        }
+      hr {
+        border: 0;
+        border-top: 0.8pt solid #0d2b57;
+        margin: 10pt 0;
       }
     </style>
   </head>
-  <body>
-    <main>
-      <header>
-        <h1>George Suarez</h1>
-        <p class="contact">
-          Ventura, CA · <a href="tel:+19092755199">909-275-5199</a> ·
-          <a href="https://georgejsuarez.com">georgejsuarez.com</a> ·
-          <a href="mailto:georgesuarezdev@gmail.com">georgesuarezdev@gmail.com</a>
-        </p>
-        <p class="contact">
-          <a href="https://linkedin.com/in/george-suarez">linkedin.com/in/george-suarez</a> ·
-          <a href="https://github.com/georgesuarez">github.com/georgesuarez</a>
-        </p>
-      </header>
-      <section>
-        <h2>Education</h2>
-        <div class="entry">
-          <h3>California State University San Bernardino</h3>
-          <p class="entry-meta">San Bernardino, California</p>
-          <p>Bachelor of Science (B.S.), Computer Science, December 2019</p>
-        </div>
-      </section>
-      <section>
-        <h2>Technical Skills</h2>
-        <ul>
-          <li>
-            <strong>Languages:</strong> TypeScript, JavaScript, C#, Python, Swift, Rust, C/C++, SQL
-          </li>
-          <li>
-            <strong>Frameworks &amp; Tools:</strong> .NET, React, Next.js, React Native, Expo,
-            Node.js, Tailwind CSS, Supabase (PostgreSQL), SQLite, Docker, Git, Linux
-          </li>
-          <li>
-            <strong>Development Practices:</strong> Software Design, Testing &amp; Debugging,
-            Technical Documentation, Code Review, QA
-          </li>
-        </ul>
-      </section>
-      <section>
-        <h2>Professional Experience</h2>
-        <div class="entry">
-          <h3>Optimal State</h3>
-          <p class="entry-meta">Software Engineer, iOS · November 2019 - January 2022</p>
-          <ul>
-            <li>
-              Designed and developed an iOS application in Swift that enabled users to monitor and
-              track habitual mental and emotional states over time
-            </li>
-            <li>
-              Wrote clean, maintainable, and scalable code following software design patterns
-              including MVC and MVVM
-            </li>
-            <li>
-              Produced technical documentation including architecture diagrams and flowcharts, and
-              performed testing and debugging to resolve defects and ensure application stability
-            </li>
-            <li>
-              Collaborated with stakeholders in an Agile environment to gather requirements, triage
-              reported issues, and deliver work packages end-to-end from design through testing and
-              release
-            </li>
-          </ul>
-        </div>
-        <div class="entry">
-          <h3>Amazon.com</h3>
-          <p class="entry-meta">Fulfillment Associate · May 2022 - December 2025</p>
-          <ul>
-            <li>
-              Collaborated cross-functionally with supervisors and team leads to resolve operational
-              issues and ensure smooth workflow and on-time delivery
-            </li>
-            <li>
-              Troubleshot and resolved inventory discrepancies, contributing to a 20% reduction in
-              inventory shrinkage
-            </li>
-          </ul>
-        </div>
-      </section>
-      <section>
-        <h2>Projects</h2>
-        <div class="entry">
-          <h3>Subby | React Native, TypeScript, Supabase, Expo</h3>
-          <ul>
-            <li>
-              Built a cross-platform subscription tracker for iOS and Android with a dashboard for
-              spending metrics, renewal dates, and usage insights
-            </li>
-            <li>
-              Designed a typed React Native architecture with testable feature modules and
-              implemented offline-first sync via a SQLite write queue, backed by 117 Jest unit tests
-              and GitHub Actions CI
-            </li>
-          </ul>
-        </div>
-        <div class="entry">
-          <h3>ReFactor | C#, .NET, React, Redux, SQL, Docker</h3>
-          <ul>
-            <li>
-              Developed a full-stack e-commerce application with a C#/.NET backend, REST APIs for
-              product search, cart, and checkout, and SQL data storage
-            </li>
-            <li>
-              Built a responsive React and Redux frontend and integrated Stripe payments, ASP.NET
-              Core Identity authentication, and a containerized SQL Server
-            </li>
-          </ul>
-        </div>
-        <div class="entry">
-          <h3>Rarify | TypeScript, Effect, React, Tailwind CSS, Cloudflare Workers, SQLite</h3>
-          <ul>
-            <li>
-              Built and deployed a Steam achievement dashboard on Cloudflare Workers: a React
-              single-page app over a type-safe Effect HTTP API, backed by a D1 SQLite store
-            </li>
-            <li>
-              Integrated Steam OpenID authentication, JWT sessions, and a cached Steam API client
-              with nightly snapshot jobs for tracking progress over time
-            </li>
-          </ul>
-        </div>
-      </section>
-    </main>
+  <body class="resume">
+    <h1>George Suarez</h1>
+    <h2>Software Engineer | Web, Mobile &amp; Cloud</h2>
+    <p>
+      Ventura, CA | <a href="tel:+19092755199">909-275-5199</a> |
+      <a href="mailto:georgesuarezdev@gmail.com">georgesuarezdev@gmail.com</a><br />
+      <a href="https://georgejsuarez.com">georgejsuarez.com</a> |
+      <a href="https://linkedin.com/in/george-suarez">linkedin.com/in/george-suarez</a> |
+      <a href="https://github.com/georgesuarez">github.com/georgesuarez</a>
+    </p>
+    <h2>Summary</h2>
+    <p>
+      Software engineer with 2+ years of professional iOS product engineering and a portfolio
+      spanning accessible web apps, mobile products, developer tooling, and cloud services. Builds
+      with TypeScript/React and Swift, with hands-on work in .NET, GIS, serverless APIs, and
+      offline-first data sync. B.S. Computer Science.
+    </p>
+    <h2>Skills</h2>
+    <ul>
+      <li>
+        <strong>Languages:</strong> TypeScript, JavaScript, C#, Python, Swift, Rust, Lua, C/C++, SQL
+      </li>
+      <li>
+        <strong>Web &amp; mobile:</strong> React 19, React Native, Expo, Next.js, SwiftUI, UIKit,
+        Redux Toolkit/RTK Query, HTML, CSS, Tailwind
+      </li>
+      <li>
+        <strong>Services, data &amp; GIS:</strong> .NET 10/ASP.NET Core, Node.js, Effect, REST APIs,
+        Cloudflare Workers, SQL Server, Supabase/PostgreSQL, SQLite/D1, Firebase, Docker, Nginx,
+        ArcGIS Maps SDK, Calcite, Leaflet
+      </li>
+      <li>
+        <strong>Testing &amp; delivery:</strong> Jest, Vitest, Playwright, React Testing Library,
+        axe/WCAG, Git/GitHub Actions, CI/CD, Agile, technical documentation
+      </li>
+    </ul>
+    <h2>Projects</h2>
+    <h3>
+      <a href="https://github.com/GeorgeSuarez/arcgis-vigil">Vigil</a> |
+      <a href="https://vigil.georgesuarezdev.workers.dev">Live demo</a> | React 19, TypeScript,
+      ArcGIS Maps SDK, Calcite | 2026
+    </h3>
+    <ul>
+      <li>
+        Built and deployed an accessible hazard-monitoring map combining live USGS, cyclone, NASA
+        EONET, and ISS feeds; added time-filtered layers, shareable map state, and natural-language
+        map commands.
+      </li>
+    </ul>
+    <h3>
+      <a href="https://github.com/GeorgeSuarez/arcgis-migrate">ArcGIS Migrate</a> | TypeScript,
+      Node.js, ts-morph | 2026
+    </h3>
+    <ul>
+      <li>
+        Engineered an AST-based CLI to audit ArcGIS SDK apps for widget-era migration risks; emits
+        source-linked Markdown/JSON findings with CI severity gates and was validated on a 53-file
+        app.
+      </li>
+    </ul>
+    <h3>
+      <a href="https://github.com/GeorgeSuarez/ReFactor">ReFactor</a> | React 19, TypeScript, .NET
+      10, EF Core, SQL Server, Stripe | 2026
+    </h3>
+    <ul>
+      <li>
+        Built a full-stack storefront with catalog search and filters, cart and coupons,
+        authenticated Stripe checkout, order history, and admin inventory; packaged the API and SPA
+        in Docker behind Nginx.
+      </li>
+    </ul>
+    <h3>
+      <a href="https://github.com/GeorgeSuarez/Subby">Subby</a> | React Native, Expo, TypeScript,
+      Supabase, SQLite | 2026
+    </h3>
+    <ul>
+      <li>
+        Built a cross-platform subscription tracker with Supabase account sync and an offline-first
+        SQLite cache/write queue; added 117 Jest tests and GitHub Actions typecheck/test CI.
+      </li>
+    </ul>
+    <h3>
+      <a href="https://github.com/GeorgeSuarez/Rarify">Rarify</a> | React 19, TypeScript, Effect,
+      Cloudflare Workers, D1 | 2026
+    </h3>
+    <ul>
+      <li>
+        Deployed a Steam achievement dashboard with Steam OpenID sign-in, schema-validated Worker
+        APIs, cached Steam data, and daily snapshots for progress trends.
+      </li>
+    </ul>
+    <p>
+      <strong>Additional projects:</strong>
+      <a href="https://github.com/GeorgeSuarez/TrailFinder">TrailFinder</a> (Effect API,
+      React/Leaflet trail search);
+      <a href="https://github.com/GeorgeSuarez/LFGuild">LFGuild</a> (SwiftUI/Firebase guild matching
+      and real-time chat);
+      <a href="https://github.com/GeorgeSuarez/TrickOrRoute">TrickOrRoute</a> (Lua addon with
+      shortest-path routing across ~281 stops);
+      <a href="https://github.com/GeorgeSuarez/RustyVault">Rusty Vault</a> (Rust credential manager
+      using AES-256-GCM and Argon2id).
+    </p>
+    <h2>Experience</h2>
+    <h3>Optimal State | Software Engineer, iOS | November 2019 - January 2022</h3>
+    <ul>
+      <li>
+        Designed and delivered a Swift iOS app for tracking habitual mental and emotional states,
+        structuring the codebase with MVC/MVVM patterns and documenting its architecture.
+      </li>
+      <li>
+        Delivered features from requirements through implementation, testing, debugging, and release
+        in an Agile workflow, triaging issues with stakeholders and the wider team.
+      </li>
+    </ul>
+    <h3>Amazon.com | Fulfillment Associate | May 2022 - December 2025</h3>
+    <ul>
+      <li>
+        Investigated inventory discrepancies in a high-volume, deadline-driven environment,
+        contributing to a 20% reduction in shrinkage and coordinating with supervisors to keep
+        fulfillment on schedule.
+      </li>
+    </ul>
+    <h2>Education</h2>
+    <p>
+      <strong>Bachelor of Science (B.S.), Computer Science</strong> | California State University,
+      San Bernardino | December 2019
+    </p>
   </body>
 </html>

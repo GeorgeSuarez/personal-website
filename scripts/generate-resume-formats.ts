@@ -1,9 +1,9 @@
 /**
- * Regenerates the TXT, Markdown, and HTML resume variants from the DOCX source of truth.
+ * Regenerates the TXT, Markdown, HTML, and PDF resume variants from the DOCX source of truth.
  *
- * The DOCX at public/George_Suarez_Resume.docx is the canonical resume. Run
- * `npm run generate:resume` after replacing it, and `npm run generate:resume:check`
- * to fail when the generated variants no longer match it.
+ * The DOCX at public/George_Suarez_Resume.docx is canonical. It uses the resume's visible
+ * sections (Summary, Skills, Projects, Experience, Education); run `npm run generate:resume`
+ * after replacing it and `npm run generate:resume:check` to validate the derived files.
  */
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
@@ -14,15 +14,14 @@ import { renderWithChrome } from "./chrome-render.ts";
 
 const repositoryRoot = path.join(import.meta.dirname, "..");
 
-const docxPath = path.join(repositoryRoot, "public", "George_Suarez_Resume.docx");
+const publicDirectory = path.join(repositoryRoot, "public");
 
-const outputDirectory = path.join(repositoryRoot, "public");
+const resumeBaseName = "George_Suarez_Resume";
 
-const outputBaseName = "George_Suarez_Resume";
+const resumeDocxPath = path.join(publicDirectory, `${resumeBaseName}.docx`);
 
-const pdfPath = path.join(outputDirectory, `${outputBaseName}.pdf`);
+const resumePdfPath = path.join(publicDirectory, `${resumeBaseName}.pdf`);
 
-/** Every PDF starts with this signature, used to reject non-PDF output. */
 const pdfSignature = "%PDF-";
 
 const pdfHeaderByteLength = 8;
@@ -37,69 +36,113 @@ type SkillGroup = {
   readonly value: string;
 };
 
-type ExperienceEntry = {
-  readonly company: string;
-  readonly role: string;
-  readonly dates: string;
-  readonly bullets: ReadonlyArray<string>;
-};
-
-type ProjectEntry = {
-  readonly name: string;
-  readonly technologies: string;
-  readonly bullets: ReadonlyArray<string>;
-};
-
-type Resume = {
-  readonly name: string;
-  readonly contactLines: ReadonlyArray<ReadonlyArray<ContactPart>>;
-  readonly education: ReadonlyArray<string>;
-  readonly skills: ReadonlyArray<SkillGroup>;
-  readonly experience: ReadonlyArray<ExperienceEntry>;
-  readonly projects: ReadonlyArray<ProjectEntry>;
-};
-
-type RawEntry = {
+type ResumeEntry = {
   readonly heading: string;
   readonly bullets: ReadonlyArray<string>;
 };
 
-type RenderedOutput = {
+type ResumeData = {
+  readonly name: string;
+  readonly headline: string;
+  readonly contactLines: ReadonlyArray<ReadonlyArray<ContactPart>>;
+  readonly summary: string;
+  readonly skills: ReadonlyArray<SkillGroup>;
+  readonly projects: ReadonlyArray<ResumeEntry>;
+  readonly additionalProjects: string;
+  readonly experience: ReadonlyArray<ResumeEntry>;
+  readonly education: string;
+};
+
+type ResumeSections = {
+  readonly header: string[];
+  readonly summary: string[];
+  readonly skills: string[];
+  readonly projects: string[];
+  readonly experience: string[];
+  readonly education: string[];
+};
+
+type RenderedResumeFile = {
   readonly fileName: string;
   readonly content: string;
-  /** Generated Markdown and HTML are formatted with the repository's oxfmt setup. */
   readonly formatWithOxfmt: boolean;
 };
 
 const paragraphPattern = /<w:p(?:\s[^>]*)?>([\s\S]*?)<\/w:p>/g;
 
-const inlineTokenPattern = /<w:t(?:\s[^>]*)?>([^<]*)<\/w:t>|<w:tab\s*\/>|<w:br\s*\/>/g;
+const inlineTokenPattern =
+  /<w:hyperlink\b([^>]*)>([\s\S]*?)<\/w:hyperlink>|<w:t(?:\s[^>]*)?>([^<]*)<\/w:t>|<w:tab\s*\/>|<w:br\s*\/>/g;
+
+const hyperlinkTextPattern = /<w:t(?:\s[^>]*)?>([^<]*)<\/w:t>/g;
+
+const relationshipPattern = /<Relationship\b([^>]*)\/>/g;
 
 const phonePattern = /^[\d\s\-()+]+$/;
 
-/** Extract paragraph text from the WordprocessingML body, preserving tabs and breaks. */
-function readParagraphTexts(documentXml: string): string[] {
+const markdownLinkPattern = /\[([^\]]+)\]\(([^)]+)\)/g;
+
+/** Reads external links from the DOCX relationships so resume links survive format conversion. */
+function readResumeHyperlinkTargets(relationshipsXml: string): Map<string, string> {
+  const targets = new Map<string, string>();
+
+  for (const relationshipMatch of relationshipsXml.matchAll(relationshipPattern)) {
+    const attributes = relationshipMatch[1] ?? "";
+    const relationshipType = /\bType="([^"]+)"/.exec(attributes)?.[1];
+    const relationshipId = /\bId="([^"]+)"/.exec(attributes)?.[1];
+    const target = /\bTarget="([^"]+)"/.exec(attributes)?.[1];
+    const targetMode = /\bTargetMode="([^"]+)"/.exec(attributes)?.[1];
+
+    if (
+      relationshipType?.endsWith("/hyperlink") &&
+      targetMode === "External" &&
+      relationshipId &&
+      target
+    ) {
+      targets.set(relationshipId, decodeXmlEntities(target));
+    }
+  }
+
+  return targets;
+}
+
+/** Reads DOCX paragraphs, preserving line breaks, hyperlinks, and unordered-list bullets. */
+function readResumeDocxParagraphs(
+  documentXml: string,
+  hyperlinkTargets: ReadonlyMap<string, string>,
+): string[] {
   const paragraphs: string[] = [];
 
   for (const paragraphMatch of documentXml.matchAll(paragraphPattern)) {
-    let text = "";
+    const paragraphXml = paragraphMatch[1] ?? "";
+    const isBullet = /<w:numPr(?:\s|>)/.test(paragraphXml);
+    let paragraphText = "";
 
-    for (const tokenMatch of (paragraphMatch[1] ?? "").matchAll(inlineTokenPattern)) {
-      const [token, textContent] = tokenMatch;
+    for (const tokenMatch of paragraphXml.matchAll(inlineTokenPattern)) {
+      const [, hyperlinkAttributes, hyperlinkXml, textContent] = tokenMatch;
 
-      if (textContent !== undefined) {
-        text += decodeXmlEntities(textContent);
-      } else if (token.startsWith("<w:tab")) {
-        text += "\t";
-      } else if (token.startsWith("<w:br")) {
-        text += "\n";
+      if (hyperlinkAttributes !== undefined) {
+        const relationshipId = /\br:id="([^"]+)"/.exec(hyperlinkAttributes)?.[1];
+
+        const linkLabel = Array.from(hyperlinkXml.matchAll(hyperlinkTextPattern), (match) =>
+          decodeXmlEntities(match[1] ?? ""),
+        ).join("");
+
+        const target = relationshipId ? hyperlinkTargets.get(relationshipId) : undefined;
+
+        paragraphText += target ? `[${linkLabel}](${target})` : linkLabel;
+      } else if (textContent !== undefined) {
+        paragraphText += decodeXmlEntities(textContent);
+      } else if (tokenMatch[0].startsWith("<w:tab")) {
+        paragraphText += "\t";
+      } else if (tokenMatch[0].startsWith("<w:br")) {
+        paragraphText += "\n";
       }
     }
 
-    const trimmed = text.trim();
+    for (const line of paragraphText.split("\n")) {
+      const trimmedLine = line.trim();
 
-    if (trimmed) {
-      paragraphs.push(trimmed);
+      if (trimmedLine) paragraphs.push(isBullet ? `- ${trimmedLine}` : trimmedLine);
     }
   }
 
@@ -119,40 +162,48 @@ function decodeXmlEntities(value: string): string {
     .replaceAll("&amp;", "&");
 }
 
-/** Split paragraphs into the header and the four resume sections, keyed by their headings. */
-function splitSections(paragraphs: ReadonlyArray<string>) {
-  const header: string[] = [];
-  const education: string[] = [];
-  const skills: string[] = [];
-  const experience: string[] = [];
-  const projects: string[] = [];
+/** Splits the source document into its resume sections, accepting standard legacy headings too. */
+function splitResumeSections(paragraphs: ReadonlyArray<string>): ResumeSections {
+  const sections: ResumeSections = {
+    header: [],
+    summary: [],
+    skills: [],
+    projects: [],
+    experience: [],
+    education: [],
+  };
 
-  let current = header;
+  let currentSection = sections.header;
 
   for (const paragraph of paragraphs) {
-    switch (paragraph) {
-      case "EDUCATION":
-        current = education;
+    switch (paragraph.toUpperCase()) {
+      case "SUMMARY":
+        currentSection = sections.summary;
         break;
+      case "SKILLS":
       case "TECHNICAL SKILLS":
-        current = skills;
-        break;
-      case "PROFESSIONAL EXPERIENCE":
-        current = experience;
+        currentSection = sections.skills;
         break;
       case "PROJECTS":
-        current = projects;
+        currentSection = sections.projects;
+        break;
+      case "EXPERIENCE":
+      case "PROFESSIONAL EXPERIENCE":
+        currentSection = sections.experience;
+        break;
+      case "EDUCATION":
+        currentSection = sections.education;
         break;
       default:
-        current.push(paragraph);
+        currentSection.push(paragraph);
     }
   }
 
-  return { header, education, skills, experience, projects };
+  return sections;
 }
 
-/** Group a section's lines into entries; lines starting with "- " are bullets. */
-function parseRawEntries(lines: ReadonlyArray<string>): RawEntry[] {
+/** Groups DOCX section lines into headings and dash-prefixed bullets. */
+function parseResumeEntries(lines: ReadonlyArray<string>): ResumeEntry[] {
   const entries: Array<{ heading: string; bullets: string[] }> = [];
 
   for (const line of lines) {
@@ -169,45 +220,55 @@ function parseRawEntries(lines: ReadonlyArray<string>): RawEntry[] {
   return entries;
 }
 
-function parseResume(paragraphs: ReadonlyArray<string>): Resume {
-  const sections = splitSections(paragraphs);
-  const [name = "", ...contactLines] = sections.header;
+/** Converts one contact fragment into its visible text and optional web or mail link. */
+function parseResumeContactPart(part: string): ContactPart {
+  const markdownLink = /^\[([^\]]+)\]\(([^)]+)\)$/.exec(part);
+
+  if (markdownLink) {
+    return { text: markdownLink[1] ?? part, href: markdownLink[2] ?? null };
+  }
+
+  return { text: part, href: resolveContactHref(part) };
+}
+
+/** Parses the canonical DOCX content into the resume's current section order. */
+function parseResumeDocument(paragraphs: ReadonlyArray<string>): ResumeData {
+  const sections = splitResumeSections(paragraphs);
+  const [name = "", headline = "", ...contactParagraphs] = sections.header;
+
+  const additionalProjectsLine = sections.projects.find((line) =>
+    line.toLowerCase().startsWith("additional projects:"),
+  );
+
+  const projectLines = sections.projects.filter((line) => line !== additionalProjectsLine);
+  const skillLines = sections.skills.map((line) => line.replace(/^- /, ""));
 
   return {
     name,
-    contactLines: contactLines.map((line) =>
-      line.split("|").flatMap((part) => {
-        const text = part.trim();
-
-        return text.length > 0 ? [{ text, href: resolveContactHref(text) }] : [];
-      }),
+    headline,
+    contactLines: contactParagraphs.map((line) =>
+      line
+        .split("|")
+        .map((part) => parseResumeContactPart(part.trim()))
+        .filter((part) => part.text),
     ),
-    education: sections.education,
-    skills: sections.skills.map((line) => {
+    summary: sections.summary.join(" "),
+    skills: skillLines.map((line) => {
       const separatorIndex = line.indexOf(": ");
 
       return separatorIndex === -1
         ? { label: line, value: "" }
         : { label: line.slice(0, separatorIndex), value: line.slice(separatorIndex + 2) };
     }),
-    experience: parseRawEntries(sections.experience).map(({ heading, bullets }) => {
-      const [company = heading, role = "", dates = ""] = heading.split(" | ");
-
-      return { company, role, dates, bullets };
-    }),
-    projects: parseRawEntries(sections.projects).map(({ heading, bullets }) => {
-      const [entryName = heading, technologies = ""] = heading.split(" | ");
-
-      return { name: entryName, technologies, bullets };
-    }),
+    projects: parseResumeEntries(projectLines),
+    additionalProjects: additionalProjectsLine?.replace(/^Additional projects:\s*/i, "") ?? "",
+    experience: parseResumeEntries(sections.experience),
+    education: sections.education.join(" "),
   };
 }
 
-/** Resolve a contact fragment into a clickable link for the HTML and Markdown outputs. */
 function resolveContactHref(text: string): string | null {
-  if (text.includes("@")) {
-    return `mailto:${text}`;
-  }
+  if (text.includes("@")) return `mailto:${text}`;
 
   if (phonePattern.test(text)) {
     const digits = text.replace(/\D/g, "");
@@ -215,15 +276,103 @@ function resolveContactHref(text: string): string | null {
     return `tel:+${digits.length === 10 ? `1${digits}` : digits}`;
   }
 
-  if (text.includes(".") && !text.includes(" ")) {
-    return `https://${text}`;
-  }
+  if (text.includes(".") && !text.includes(" ")) return `https://${text}`;
 
   return null;
 }
 
-function titleCase(value: string): string {
-  return value.toLowerCase().replace(/\b\w/g, (letter: string) => letter.toUpperCase());
+function stripMarkdownLinks(value: string): string {
+  return value.replace(markdownLinkPattern, "$1");
+}
+
+function renderResumeText(resume: ResumeData): string {
+  const lines: string[] = [resume.name, resume.headline];
+
+  for (const contactLine of resume.contactLines) {
+    lines.push(contactLine.map((part) => part.text).join(" | "));
+  }
+
+  lines.push("", "SUMMARY", resume.summary, "", "SKILLS");
+  lines.push(...resume.skills.map((skill) => `${skill.label}: ${stripMarkdownLinks(skill.value)}`));
+  lines.push("", "PROJECTS");
+
+  for (const project of resume.projects) {
+    lines.push(stripMarkdownLinks(project.heading));
+    lines.push(...project.bullets.map((bullet) => `- ${stripMarkdownLinks(bullet)}`));
+  }
+
+  if (resume.additionalProjects) {
+    lines.push(`Additional projects: ${stripMarkdownLinks(resume.additionalProjects)}`);
+  }
+
+  lines.push("", "EXPERIENCE");
+
+  for (const role of resume.experience) {
+    lines.push(stripMarkdownLinks(role.heading));
+    lines.push(...role.bullets.map((bullet) => `- ${stripMarkdownLinks(bullet)}`));
+  }
+
+  lines.push("", "EDUCATION", stripMarkdownLinks(resume.education));
+
+  return `${lines.join("\n")}\n`;
+}
+
+function renderResumeMarkdown(resume: ResumeData): string {
+  const lines: string[] = [`# ${resume.name}`, "", `## ${resume.headline}`, ""];
+
+  for (const contactLine of resume.contactLines) {
+    lines.push(
+      contactLine
+        .map((part) => (part.href ? `[${part.text}](${part.href})` : part.text))
+        .join(" | "),
+    );
+  }
+
+  lines.push("", "## Summary", "", resume.summary, "", "## Skills", "");
+  lines.push(...resume.skills.map((skill) => `- **${skill.label}:** ${skill.value}`));
+  lines.push("", "## Projects");
+
+  for (const project of resume.projects) {
+    lines.push("", `### ${project.heading}`, "");
+    lines.push(...project.bullets.map((bullet) => `- ${bullet}`));
+  }
+
+  if (resume.additionalProjects) {
+    lines.push("", `**Additional projects:** ${resume.additionalProjects}`);
+  }
+
+  lines.push("", "## Experience");
+
+  for (const role of resume.experience) {
+    lines.push("", `### ${role.heading}`, "");
+    lines.push(...role.bullets.map((bullet) => `- ${bullet}`));
+  }
+
+  lines.push("", "## Education", "", formatResumeEducationMarkdown(resume.education));
+
+  return `${lines.join("\n")}\n`;
+}
+
+function formatResumeEducationMarkdown(education: string): string {
+  const [degree = "", ...details] = education.split(" | ");
+
+  return details.length > 0 ? `**${degree}** | ${details.join(" | ")}` : `**${degree}**`;
+}
+
+function renderInlineResumeHtml(value: string): string {
+  let html = "";
+  let previousEnd = 0;
+
+  for (const match of value.matchAll(markdownLinkPattern)) {
+    const matchIndex = match.index ?? 0;
+    const label = match[1] ?? "";
+    const href = match[2] ?? "";
+    html += escapeHtml(value.slice(previousEnd, matchIndex));
+    html += `<a href="${escapeHtml(href)}">${escapeHtml(label)}</a>`;
+    previousEnd = matchIndex + match[0].length;
+  }
+
+  return html + escapeHtml(value.slice(previousEnd));
 }
 
 function escapeHtml(value: string): string {
@@ -235,383 +384,140 @@ function escapeHtml(value: string): string {
     .replaceAll("'", "&#39;");
 }
 
-function splitOnFirst(value: string, separator: string): [string, string] {
-  const index = value.indexOf(separator);
-
-  if (index === -1) {
-    return [value, ""];
-  }
-
-  return [value.slice(0, index), value.slice(index + separator.length)];
-}
-
-function renderText(resume: Resume): string {
-  const lines: string[] = [resume.name];
-
-  for (const contactLine of resume.contactLines) {
-    lines.push(contactLine.map((part) => part.text).join(" | "));
-  }
-
-  lines.push("", "EDUCATION", ...resume.education);
-  lines.push("", "TECHNICAL SKILLS");
-  lines.push(...resume.skills.map((skill) => `${skill.label}: ${skill.value}`));
-
-  lines.push("", "PROFESSIONAL EXPERIENCE");
-
-  for (const entry of resume.experience) {
-    lines.push(`${entry.company} | ${entry.role} | ${entry.dates}`);
-    lines.push(...entry.bullets.map((bullet) => `- ${bullet}`));
-  }
-
-  lines.push("", "PROJECTS");
-
-  for (const entry of resume.projects) {
-    lines.push(`${entry.name} | ${entry.technologies}`);
-    lines.push(...entry.bullets.map((bullet) => `- ${bullet}`));
-  }
-
-  return `${lines.join("\n")}\n`;
-}
-
-function renderMarkdown(resume: Resume): string {
-  const lines: string[] = [`# ${titleCase(resume.name)}`, ""];
-
-  for (const contactLine of resume.contactLines) {
-    const parts = contactLine.map((part) =>
-      part.href ? `[${part.text}](${part.href})` : part.text,
-    );
-
-    lines.push(parts.join(" | "));
-  }
-
-  const [institutionLine = "", degreeLine = ""] = resume.education;
-  const [institution, location] = splitOnFirst(institutionLine, ", ");
-  lines.push("", "## Education", "", `### ${institution}`);
-
-  if (location) {
-    lines.push("", location);
-  }
-
-  if (degreeLine) {
-    lines.push("", degreeLine);
-  }
-
-  lines.push("", "## Technical Skills", "");
-  lines.push(...resume.skills.map((skill) => `- **${skill.label}:** ${skill.value}`));
-
-  lines.push("", "## Professional Experience");
-
-  for (const entry of resume.experience) {
-    lines.push("", `### ${entry.company} | ${entry.role}`);
-
-    if (entry.dates) {
-      lines.push("", `*${entry.dates}*`);
-    }
-
-    lines.push("");
-    lines.push(...entry.bullets.map((bullet) => `- ${bullet}`));
-  }
-
-  lines.push("", "## Projects");
-
-  for (const entry of resume.projects) {
-    lines.push("", `### ${entry.name} | ${entry.technologies}`, "");
-    lines.push(...entry.bullets.map((bullet) => `- ${bullet}`));
-  }
-
-  return `${lines.join("\n")}\n`;
-}
-
-const htmlStyle = `\
-:root {
-  color-scheme: light dark;
-  --bg: #ffffff;
-  --fg: #1f2328;
-  --muted: #57606a;
-  --accent: #0969da;
-  --rule: #d0d7de;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #0d1117;
-    --fg: #e6edf3;
-    --muted: #9198a1;
-    --accent: #4493f8;
-    --rule: #30363d;
-  }
-}
-
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  background: var(--bg);
-  color: var(--fg);
-  font:
-    16px/1.55 -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    Helvetica,
-    Arial,
-    sans-serif;
-}
-
-main {
-  max-width: 52rem;
-  margin: 0 auto;
-  padding: 3rem 1.5rem 4rem;
-}
-
-header {
-  margin-bottom: 2.25rem;
-  text-align: center;
-}
-
-h1 {
-  margin: 0 0 0.75rem;
-  font-size: 2rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-h2 {
-  margin: 2.25rem 0 1rem;
-  padding-bottom: 0.35rem;
-  border-bottom: 1px solid var(--rule);
-  font-size: 0.95rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
-
-h3 {
-  margin: 1.25rem 0 0.35rem;
-  font-size: 1.05rem;
-}
-
-p {
-  margin: 0.35rem 0;
-}
-
-.contact {
-  margin: 0.25rem 0;
-  color: var(--muted);
-  font-size: 0.95rem;
-}
-
-.contact a {
-  color: inherit;
-}
-
-.entry-meta {
-  color: var(--muted);
-  font-size: 0.9rem;
-}
-
-ul {
-  margin: 0.4rem 0 0;
-  padding-left: 1.25rem;
-}
-
-li {
-  margin: 0.3rem 0;
-}
-
-a {
-  color: var(--accent);
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
-}
-
-.entry {
-  break-inside: avoid;
-}
-
-/*
- * Print styling for the committed PDF, which generate:resume renders from this
- * file with headless Chrome. It is a resume, so print forces the light palette
- * regardless of the reader's colour scheme, sets Letter margins, and keeps block
- * spacing minimal: the original Word export fit the same content on one page with
- * essentially no paragraph margins, so anything more overflows to a second page.
- */
-@media print {
-  @page {
-    size: Letter;
-    margin: 0.6in;
-  }
-
-  :root {
-    color-scheme: light;
-    --bg: #ffffff;
-    --fg: #000000;
-    --muted: #1a1a1a;
-    --accent: #1a4d8f;
-    --rule: #000000;
-  }
-
+const resumeHtmlStyle = `
+  @page { size: Letter; margin: 0.42in 0.58in 0.42in 0.58in; }
+  html { font-size: 10pt; }
   body {
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 10pt;
-    line-height: 1.22;
+    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+    color: #1a1a1a; font-size: 9.8pt; line-height: 1.265;
+    margin: 0; padding: 0;
+    -webkit-font-smoothing: antialiased;
   }
-
-  main {
-    max-width: none;
-    padding: 0;
-  }
-
-  header {
-    margin-bottom: 0.25rem;
-  }
-
   h1 {
-    margin-bottom: 0.25rem;
-    font-size: 18pt;
-    letter-spacing: 0.06em;
+    font-size: 18.5pt; line-height: 1.1; margin: 0 0 2pt 0;
+    color: #0d2b57; letter-spacing: -0.3pt;
   }
-
-  .contact {
-    margin: 0.04rem 0;
-    font-size: 9pt;
-  }
-
+  h1 + p { margin: 0; font-size: 9.2pt; line-height: 1.45; color: #333; }
   h2 {
-    margin: 0.5rem 0 0.2rem;
-    padding-bottom: 0.05rem;
-    border-bottom: 1pt solid var(--rule);
-    font-size: 11pt;
+    font-size: 9.4pt; text-transform: uppercase; letter-spacing: 0.8pt;
+    color: #0d2b57; margin: 8.5pt 0 3.5pt 0; padding-bottom: 1.4pt;
+    border-bottom: 0.8pt solid #0d2b57; page-break-after: avoid;
   }
-
   h3 {
-    margin: 0.28rem 0 0.06rem;
-    font-size: 10pt;
+    font-size: 9.9pt; margin: 6pt 0 0.5pt 0; color: #111;
+    page-break-after: avoid;
   }
-
-  .entry-meta {
-    margin: 0.04rem 0;
-    font-size: 9pt;
-  }
-
-  ul {
-    margin: 0.08rem 0 0;
-    padding-left: 1rem;
-  }
-
-  li {
-    margin: 0.04rem 0;
-  }
-}
+  h3 + p { margin-top: 0; }
+  p { margin: 0 0 2.6pt 0; }
+  ul { margin: 1.5pt 0 3.5pt 0; padding-left: 13pt; }
+  li { margin: 0 0 1.5pt 0; padding-left: 1pt; }
+  li > p { margin: 0; }
+  a { color: inherit; text-decoration: none; }
+  code { white-space: nowrap; }
+  strong { color: #111; }
+  hr { border: 0; border-top: 0.8pt solid #0d2b57; margin: 10pt 0; }
 `;
 
-function renderHtml(resume: Resume): string {
-  const displayName = titleCase(resume.name);
-
+/** Renders the complete resume HTML in the same compact navy-and-Arial layout as the PDF. */
+function renderResumeHtml(resume: ResumeData): string {
   const lines: string[] = [
-    "<!doctype html>",
+    "<!DOCTYPE html>",
     '<html lang="en">',
     "<head>",
-    '<meta charset="utf-8" />',
-    '<meta name="viewport" content="width=device-width, initial-scale=1" />',
-    `<title>${escapeHtml(displayName)} — Resume</title>`,
-    "<style>",
-    htmlStyle.trimEnd(),
-    "</style>",
+    '  <meta charset="utf-8" />',
+    `  <title>${escapeHtml(resume.name)} Resume</title>`,
+    "  <style>",
+    resumeHtmlStyle.trimEnd(),
+    "  </style>",
     "</head>",
-    "<body>",
-    "<main>",
-    "<header>",
-    `<h1>${escapeHtml(displayName)}</h1>`,
+    '<body class="resume">',
+    `<h1>${escapeHtml(resume.name)}</h1>`,
+    `<h2>${renderInlineResumeHtml(resume.headline)}</h2>`,
+    `<p>${resume.contactLines
+      .map((line) =>
+        line
+          .map((part) =>
+            part.href
+              ? `<a href="${escapeHtml(part.href)}">${escapeHtml(part.text)}</a>`
+              : escapeHtml(part.text),
+          )
+          .join(" | "),
+      )
+      .join("<br />\n")}</p>`,
+    "<h2>Summary</h2>",
+    `<p>${renderInlineResumeHtml(resume.summary)}</p>`,
+    "<h2>Skills</h2>",
+    "<ul>",
+    ...resume.skills.map(
+      (skill) =>
+        `<li><strong>${escapeHtml(skill.label)}:</strong> ${renderInlineResumeHtml(skill.value)}</li>`,
+    ),
+    "</ul>",
+    "<h2>Projects</h2>",
   ];
 
-  for (const contactLine of resume.contactLines) {
-    const parts = contactLine.map((part) =>
-      part.href
-        ? `<a href="${escapeHtml(part.href)}">${escapeHtml(part.text)}</a>`
-        : escapeHtml(part.text),
+  for (const project of resume.projects) {
+    lines.push(`<h3>${renderInlineResumeHtml(project.heading)}</h3>`, "<ul>");
+    lines.push(...project.bullets.map((bullet) => `<li>${renderInlineResumeHtml(bullet)}</li>`));
+    lines.push("</ul>");
+  }
+
+  if (resume.additionalProjects) {
+    lines.push(
+      `<p><strong>Additional projects:</strong> ${renderInlineResumeHtml(resume.additionalProjects)}</p>`,
     );
-
-    lines.push(`<p class="contact">${parts.join(" · ")}</p>`);
   }
 
-  const [institutionLine = "", degreeLine = ""] = resume.education;
-  const [institution, location] = splitOnFirst(institutionLine, ", ");
-  lines.push("</header>", "<section>", "<h2>Education</h2>", '<div class="entry">');
-  lines.push(`<h3>${escapeHtml(institution)}</h3>`);
+  lines.push("<h2>Experience</h2>");
 
-  if (location) {
-    lines.push(`<p class="entry-meta">${escapeHtml(location)}</p>`);
+  for (const role of resume.experience) {
+    lines.push(`<h3>${renderInlineResumeHtml(role.heading)}</h3>`, "<ul>");
+    lines.push(...role.bullets.map((bullet) => `<li>${renderInlineResumeHtml(bullet)}</li>`));
+    lines.push("</ul>");
   }
 
-  if (degreeLine) {
-    lines.push(`<p>${escapeHtml(degreeLine)}</p>`);
-  }
-
-  lines.push("</div>", "</section>", "<section>", "<h2>Technical Skills</h2>", "<ul>");
-
-  for (const skill of resume.skills) {
-    lines.push(`<li><strong>${escapeHtml(skill.label)}:</strong> ${escapeHtml(skill.value)}</li>`);
-  }
-
-  lines.push("</ul>", "</section>", "<section>", "<h2>Professional Experience</h2>");
-
-  for (const entry of resume.experience) {
-    lines.push('<div class="entry">');
-    lines.push(`<h3>${escapeHtml(entry.company)}</h3>`);
-    lines.push(`<p class="entry-meta">${escapeHtml(entry.role)} · ${escapeHtml(entry.dates)}</p>`);
-    lines.push("<ul>");
-    lines.push(...entry.bullets.map((bullet) => `<li>${escapeHtml(bullet)}</li>`));
-    lines.push("</ul>", "</div>");
-  }
-
-  lines.push("</section>", "<section>", "<h2>Projects</h2>");
-
-  for (const entry of resume.projects) {
-    lines.push('<div class="entry">');
-    lines.push(`<h3>${escapeHtml(`${entry.name} | ${entry.technologies}`)}</h3>`);
-    lines.push("<ul>");
-    lines.push(...entry.bullets.map((bullet) => `<li>${escapeHtml(bullet)}</li>`));
-    lines.push("</ul>", "</div>");
-  }
-
-  lines.push("</section>", "</main>", "</body>", "</html>");
+  lines.push(
+    "<h2>Education</h2>",
+    `<p>${renderResumeEducationHtml(resume.education)}</p>`,
+    "</body>",
+    "</html>",
+  );
 
   return `${lines.join("\n")}\n`;
 }
 
-async function formatWithOxfmt(fileName: string, source: string): Promise<string> {
+function renderResumeEducationHtml(education: string): string {
+  const [degree = "", ...details] = education.split(" | ");
+  const renderedDegree = `<strong>${escapeHtml(degree)}</strong>`;
+
+  return details.length > 0
+    ? `${renderedDegree} | ${details.map(escapeHtml).join(" | ")}`
+    : renderedDegree;
+}
+
+async function formatResumeGeneratedFile(fileName: string, source: string): Promise<string> {
   const result = await format(fileName, source);
   const firstError = result.errors[0];
 
   if (firstError) {
-    throw new Error(`oxfmt could not format ${fileName}: ${firstError.message}`);
+    throw new Error(`Resume format error for ${fileName}: ${firstError.message}`);
   }
 
   return result.code;
 }
 
-/**
- * Validates the committed PDF. Chrome's PDF output is not byte-stable across
- * browser versions, so this checks structure rather than content; regenerate
- * with generate:resume whenever the DOCX changes.
- */
-function checkPdf(): boolean {
-  if (!existsSync(pdfPath)) {
-    console.error(
-      `Missing ${path.relative(repositoryRoot, pdfPath)}. Run: npm run generate:resume`,
-    );
+/** Checks that the committed resume PDF is present and has a PDF signature. */
+function isResumePdfValid(): boolean {
+  if (!existsSync(resumePdfPath)) {
+    console.error(`Missing public/${resumeBaseName}.pdf. Run: npm run generate:resume`);
 
     return false;
   }
 
-  const header = readFileSync(pdfPath).subarray(0, pdfHeaderByteLength).toString("latin1");
+  const header = readFileSync(resumePdfPath).subarray(0, pdfHeaderByteLength).toString("latin1");
 
   if (!header.startsWith(pdfSignature)) {
-    console.error(`${path.relative(repositoryRoot, pdfPath)} is not a valid PDF.`);
+    console.error(`Invalid resume PDF at public/${resumeBaseName}.pdf.`);
 
     return false;
   }
@@ -620,64 +526,78 @@ function checkPdf(): boolean {
 }
 
 async function main(): Promise<void> {
-  const archive = unzipSync(new Uint8Array(readFileSync(docxPath)));
+  const archive = unzipSync(new Uint8Array(readFileSync(resumeDocxPath)));
   const documentXml = archive["word/document.xml"];
+  const relationshipsXml = archive["word/_rels/document.xml.rels"];
 
-  if (!documentXml) {
-    throw new Error(`Resume DOCX is missing word/document.xml: ${docxPath}`);
+  if (!documentXml || !relationshipsXml) {
+    throw new Error(`Resume source DOCX is missing document content or links: ${resumeDocxPath}`);
   }
 
-  const resume = parseResume(readParagraphTexts(strFromU8(documentXml)));
+  const hyperlinkTargets = readResumeHyperlinkTargets(strFromU8(relationshipsXml));
+  const paragraphs = readResumeDocxParagraphs(strFromU8(documentXml), hyperlinkTargets);
+  const resume = parseResumeDocument(paragraphs);
   const isCheckMode = process.argv.includes("--check");
 
-  const outputs: ReadonlyArray<RenderedOutput> = [
-    { fileName: `${outputBaseName}.txt`, content: renderText(resume), formatWithOxfmt: false },
-    { fileName: `${outputBaseName}.md`, content: renderMarkdown(resume), formatWithOxfmt: true },
-    { fileName: `${outputBaseName}.html`, content: renderHtml(resume), formatWithOxfmt: true },
+  const generatedFiles: ReadonlyArray<RenderedResumeFile> = [
+    {
+      fileName: `${resumeBaseName}.txt`,
+      content: renderResumeText(resume),
+      formatWithOxfmt: false,
+    },
+    {
+      fileName: `${resumeBaseName}.md`,
+      content: renderResumeMarkdown(resume),
+      formatWithOxfmt: true,
+    },
+    {
+      fileName: `${resumeBaseName}.html`,
+      content: renderResumeHtml(resume),
+      formatWithOxfmt: true,
+    },
   ];
 
-  let hasStaleOutput = false;
-
-  const renderedOutputs = await Promise.all(
-    outputs.map(async (output) => ({
-      output,
-      content: output.formatWithOxfmt
-        ? await formatWithOxfmt(output.fileName, output.content)
-        : output.content,
+  const formattedFiles = await Promise.all(
+    generatedFiles.map(async (generatedFile) => ({
+      generatedFile,
+      content: generatedFile.formatWithOxfmt
+        ? await formatResumeGeneratedFile(generatedFile.fileName, generatedFile.content)
+        : generatedFile.content,
     })),
   );
 
-  for (const { output, content } of renderedOutputs) {
-    const targetPath = path.join(outputDirectory, output.fileName);
-    const relativePath = path.relative(repositoryRoot, targetPath);
+  let hasStaleResumeFile = false;
+
+  for (const { generatedFile, content } of formattedFiles) {
+    const targetPath = path.join(publicDirectory, generatedFile.fileName);
 
     if (isCheckMode) {
-      let existing = "";
+      let existingContent = "";
 
       try {
-        existing = readFileSync(targetPath, "utf8");
+        existingContent = readFileSync(targetPath, "utf8");
       } catch {
-        // A missing generated file counts as stale.
+        // A missing generated resume file counts as stale.
       }
 
-      if (existing !== content) {
-        hasStaleOutput = true;
-        console.error(`out of date: ${relativePath}`);
+      if (existingContent !== content) {
+        hasStaleResumeFile = true;
+        console.error(`Out-of-date resume file: public/${generatedFile.fileName}`);
       }
 
       continue;
     }
 
     writeFileSync(targetPath, content);
-    console.log(`wrote ${relativePath}`);
+    console.log(`Wrote public/${generatedFile.fileName}`);
   }
 
   if (isCheckMode) {
-    if (!checkPdf()) hasStaleOutput = true;
+    if (!isResumePdfValid()) hasStaleResumeFile = true;
 
-    if (hasStaleOutput) {
+    if (hasStaleResumeFile) {
       console.error(
-        "Resume formats are out of date. Run `npm run generate:resume` and commit the generated files.",
+        "Resume formats are stale. Run `npm run generate:resume` and commit the generated files.",
       );
       process.exitCode = 1;
 
@@ -689,21 +609,20 @@ async function main(): Promise<void> {
     return;
   }
 
-  // Render the PDF from the HTML just written, so it always matches the DOCX.
   const pdfRendered = await renderWithChrome({
-    label: path.basename(pdfPath),
-    outputPath: pdfPath,
-    target: pathToFileURL(path.join(outputDirectory, `${outputBaseName}.html`)).href,
-    chromeArgs: ["--no-pdf-header-footer", `--print-to-pdf=${pdfPath}`],
+    label: `${resumeBaseName}.pdf`,
+    outputPath: resumePdfPath,
+    target: pathToFileURL(path.join(publicDirectory, `${resumeBaseName}.html`)).href,
+    chromeArgs: ["--no-pdf-header-footer", `--print-to-pdf=${resumePdfPath}`],
   });
 
-  if (!pdfRendered) {
+  if (!pdfRendered || !isResumePdfValid()) {
     process.exitCode = 1;
 
     return;
   }
 
-  console.log(`wrote ${path.relative(repositoryRoot, pdfPath)}`);
+  console.log(`Wrote public/${resumeBaseName}.pdf`);
 }
 
 await main();
