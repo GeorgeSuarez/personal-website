@@ -51,7 +51,7 @@ export const PROJECTS: Project[] = [
     demoUrl: "https://vigil.georgesuarezdev.workers.dev",
     media: {
       src: "/projects/vigil.webp",
-      alt: "Vigil's live hazard map showing earthquakes, wildfires, storms, and the ISS layer over North America.",
+      alt: "Vigil's live hazard map over North America with earthquake and storm markers and its layers panel open to USGS earthquakes, NHC forecast cones, GDACS tropical cyclones, NASA natural events, and the ISS.",
     },
   },
   {
